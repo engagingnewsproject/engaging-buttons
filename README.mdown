@@ -1,0 +1,5 @@
+The Respect Button is made by the [Engaging News Project](http://engagingnewsproject.org).
+
+The Engaging News Project provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+
+This plugin, clearly, is just starting development.
