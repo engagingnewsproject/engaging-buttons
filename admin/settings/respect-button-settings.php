@@ -84,6 +84,9 @@ function enp_respect_button_page() { ?>
         <?php }
 
 
+        $enp_btn = new Enp_Button;
+        var_dump($enp_btn);
+
         $enp_respect = new enpRespectButton;
         // var_dump($enp_respect);
         // which button(s) to use? respect? recommend? important?

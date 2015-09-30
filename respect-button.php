@@ -16,7 +16,8 @@ if ( ! defined( 'WPINC' ) ) {
 //Automatically Load all the PHP files we need
 $classesDir = array (
     plugin_dir_path( __FILE__ ) .'admin/functions/',
-    plugin_dir_path( __FILE__ ) .'admin/options/',
+    plugin_dir_path( __FILE__ ) .'admin/settings/',
+    plugin_dir_path( __FILE__ ) .'inc/',
 );
 
 foreach ($classesDir as $directory) {
