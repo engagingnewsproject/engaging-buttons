@@ -9,47 +9,6 @@ function enp_create_menu() {
 
 
 // Add filters for any fields that need extra work before saving
-add_filter( 'pre_update_option_enp_button_type', 'set_enp_button_type_values', 10, 2 );
-function set_enp_button_type_values($value) {
-    $enp_respect = new enpRespectButton;
-    $btn_type_options = $enp_respect->btn_type_options;
-
-    // we want to set each value so nothing is left empty or unset
-    foreach($btn_type_options as $option) {
-
-        if(!empty($value[$option]) && $value[$option] === 'true') {
-            // have to return it instaed of save it right there
-            $value[$option] = true;
-
-        } else {
-            $value[$option] = false;
-        }
-    }
-
-    return $value;
-}
-
-
-add_filter( 'pre_update_option_enp_button_content_type', 'set_enp_button_content_type_values', 10, 2 );
-function set_enp_button_content_type_values($value) {
-    // get all active post types in an array
-    $registered_content_types = enp_registeredContentTypes();
-
-    // we want to set each value so nothing is left empty or unset
-    foreach($registered_content_types as $option) {
-
-        if(!empty($value[$option['slug']]) && $value[$option['slug']] === 'true') {
-            // have to return it instaed of save it right there
-            $value[$option['slug']] = true;
-
-        } else {
-            $value[$option['slug']] = false;
-        }
-    }
-
-    return $value;
-}
-
 
 // We can't register dynamically named variables, so we're going to
 // create everything under enp_buttons and parse from there
@@ -113,7 +72,7 @@ function enp_respect_button_data() {
     // button type
     register_setting( 'enp_respect_button_settings', 'enp_buttons' );
 
-    // other settings
+    // global enp_button settings
     register_setting( 'enp_respect_button_settings', 'enp_button_must_be_logged_in' );
     register_setting( 'enp_respect_button_settings', 'enp_button_allow_data_tracking' );
     register_setting( 'enp_respect_button_settings', 'enp_button_promote_enp' );
@@ -190,23 +149,14 @@ function enp_respect_button_page() { ?>
 
 
         $enp_btn = new Enp_Button;
-        var_dump($enp_btn);
 
-        $enp_respect = new enpRespectButton;
-        // var_dump($enp_respect);
-        // which button(s) to use? respect? recommend? important?
-        $btn_types = $enp_respect->btn_types;
-        // which content types to attach buttons to? comments? posts? pages?
-        $btn_content_types = $enp_respect->btn_content_types;
         $btn_must_be_logged_in = get_option('enp_button_must_be_logged_in');
         $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
         $btn_promote_enp = get_option('enp_button_promote_enp');
 
-
-
+        // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');
-        echo '<br/><br/>';
-        var_dump($enp_buttons);
+
 
         ?>
 
