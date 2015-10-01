@@ -15,57 +15,18 @@ function enp_create_menu() {
 add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 function set_enp_buttons_values($values) {
 
-    // Add a name in there too in there too
-        $i = 0;
-        foreach($values as $value) {
-            $values[$i]['btn_name'] = ucfirst($values[$i]['btn_slug']);
-            $i++;
-        }
-
-
     // Save slugs enp_button_slugs = array('respect', 'important', 'recommend');
-        $enp_button_slugs = array();
-        foreach($values as $value) {
-            $enp_button_slugs[] = $value['btn_slug'];
-        }
-        // TODO: Check to see if a slug has a enp_button_$slug entry.
-        //       We may not want to overwrite this entirely otherwise
-        update_option('enp_button_slugs', $enp_button_slugs);
+    update_enp_button_slugs($values);
 
-    // TODO: Set Old Buttons Slugs to active = 0 if it's no longer in use
+    // set all the btn_type values to false
+    // if they weren't submitted by being checked true by the user
+    $values = set_unset_btn_type_values($values);
+
+    // Add a btn_name in there too in there too
+    $values = add_enp_button_names($values);
 
     // Save/Create enp_button_$slug
-
-        // Set all btn_type options
-        $enp_btn = new Enp_Button();
-        $registered_content_types = registeredContentTypes();
-        $i = 0;
-        foreach($values as $value) {
-
-            // Set all btn_type options so they're false if they weren't checked
-            foreach($registered_content_types as $type) {
-                // set it to false if it wasn't set
-                if(empty($value['btn_type'][$type['slug']])) {
-                    $value['btn_type'][$type['slug']] = false;
-                    // update the oringal $values too
-                    $values[$i]['btn_type'][$type['slug']] = false;
-                }
-            }
-            // dynamically named enp_button_$slug so we can access just one
-            // field on the front end or for objects, as needed
-            ${'enp_button_'.$value['btn_slug']} = array(
-                                                        'btn_slug' => $value['btn_slug'],
-                                                        'btn_name' => $value['btn_name'],
-                                                        'btn_type' => $value['btn_type'],
-                                                        'locked' => false, // TODO: Set to true if count is more than 0 (has clicks)
-                                                  );
-
-
-            // update the database entry
-            update_option('enp_button_'.$value['btn_slug'], ${'enp_button_'.$value['btn_slug']});
-
-            $i++;
-        }
+    update_enp_button_slug_entry($values);
 
     // Save the entire enp_buttons as is so we have everything in one place if we need it
     return $values;
@@ -184,13 +145,17 @@ function enp_respect_button_page() { ?>
         var_dump($enp_btn->get_btn_slug());
 
 
+
+        echo '<br/><strong>Registered Content Types</strong><br/>';
+        var_dump(registeredContentTypes());
+
+
         $btn_must_be_logged_in = get_option('enp_button_must_be_logged_in');
         $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
         $btn_promote_enp = get_option('enp_button_promote_enp');
 
         // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');
-
 
         $i = 0;
         foreach($enp_buttons as $enp_button) {
