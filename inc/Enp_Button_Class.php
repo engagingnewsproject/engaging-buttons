@@ -12,6 +12,7 @@ class Enp_Button {
     public $btn_slug;
     public $btn_name;
     public $btn_type;
+    public $btn_count;
     // if has more than one click
     public $locked;
 
@@ -20,13 +21,13 @@ class Enp_Button {
 
         if(empty($slug)) {
             // return all buttons if they didn't specify which one
+            // USAGE: $enp_btns = new Enp_Button();
             $this->get_btns();
         } else {
             // get the one they asked for
+            // USAGE: $enp_btn = new Enp_Button('respect');
             $enp_btn = $this->set_btn($slug);
         }
-
-
 
     }
 
@@ -43,7 +44,8 @@ class Enp_Button {
         // set all the attributes
         $this->btn_slug = $this->set_btn_slug($enp_btn);
         $this->btn_name = $this->set_btn_name($enp_btn);
-        $this->btn_type = 'button type!';
+        $this->btn_type = $this->set_btn_type($enp_btn);
+        $this->btn_count = 0;
         $this->locked   = false;
 
     }
@@ -61,7 +63,9 @@ class Enp_Button {
     }
 
     /*
+    *
     *   set the button name for the Enp_Button object
+    *
     */
     private function set_btn_name($enp_btn) {
         $name = false;
@@ -72,24 +76,50 @@ class Enp_Button {
         return $name;
     }
 
-    private function set_btn_type($enp_btn) {
-        // loop through all the registered post types (and comments)
-        $registered_content_types = $this->registeredContentTypes();
 
-        foreach($registered_content_types as $type) {
-            // set it to false
-            $btn_type[$type['slug']] =  false;
+    /*
+    *
+    *   set the button type for the current Enp_Button object
+    *   as an array of types - ie - ['btn_type'] => array('comments' => false, 'posts' => true)
+    *
+    */
+    private function set_btn_type($enp_btn) {
+        $btn_type = false;
+
+        if(isset($enp_btn['btn_type'])) {
+            $btn_type = $enp_btn['btn_type'];
         }
+
+        // TODO?
+        // If a custom post type gets added, this will throw a PHP notice
+        // that $btn_type['custom_post'] is not set
+        // The way to set it would be loop through ALL active post types
+        // with registeredContentTypes() and set any post types that aren't
+        // set as false. It's an extra check for something that's not a big
+        // deal though, so I'm not sure if it's worth the resources or not
 
         return $btn_type;
     }
 
 
+    /*
+    *
+    *   returns the button slug for the current Enp_Button object
+    *   USAGE: $enp_btn = new Enp_Button('respect');
+    *          $enp_btn->get_btn_slug; // 'respect'
+    *
+    */
     public function get_btn_slug() {
         return $this->btn_slug;
     }
 
-
+    /*
+    *
+    *   returns the button name for the current Enp_Button object
+    *   USAGE: $enp_btn = new Enp_Button('respect');
+    *          $enp_btn->get_btn_name; // 'Respect'
+    *
+    */
     public function get_btn_name() {
         return $this->btn_name;
     }
@@ -99,7 +129,10 @@ class Enp_Button {
     }
 
     /*
-    * get an individual button type
+    *
+    *   get an individual button type
+    *   returns array of types - ie - array('comments' => false, 'posts' => true)
+    *
     */
     public function get_btn_type($type = false) {
         $btn_type = $this->btn_type;
@@ -114,7 +147,9 @@ class Enp_Button {
 
 
     /*
-    * Return all button slugs from enp_button_slugs
+    *
+    *   Return all button slugs from enp_button_slugs in an array
+    *   Used by function get_btns()
     *
     */
     public function get_btn_slugs() {
@@ -124,10 +159,18 @@ class Enp_Button {
     }
 
     /*
-    / Return all buttons as an array of individual objects
-    / (ie- $this->get_btns() = array([0]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''},
-    /            [1]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''});
-    /
+    *   Return all buttons as an array of individual objects
+    *   (ie- $this->get_btns() = array([0]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''},
+    *            [1]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''});
+    *
+    *   USAGE
+    *   $enp_btns = new Enp_Button();
+    *   $enp_btns = $enp_btns->get_btns();
+    *   foreach($enp_btns as $enp_btn) {
+    *       echo '<h1>'.$enp_btn->get_btn_name().'</h1>';
+    *       // Outputs button name (ie- Recommend, Respect, Important, ...)
+    *   }
+    *
     */
     public function get_btns() {
         $enp_btns = $this->get_btn_slugs();
@@ -139,45 +182,8 @@ class Enp_Button {
         return $enp_btns_obj;
     }
 
-
-
-    /*
-    * gets all registered content types (posts, pages, custom posts)
-    * Needed to set the btn_type variable initially
-    */
-    public function registeredContentTypes() {
-        // only get public post types
-        $post_type_args = array('public' => 'true');
-        // this will get us all post type objects
-        $post_types = get_post_types( $post_type_args, 'objects' );
-        // set our empty array value
-        $registered_content_types = array();
-
-        // add in the comments array
-        $registered_content_types[] = array(
-                            'slug'=>'comments',
-                            'label_name'=>'Comments'
-                        );
-
-        // Loop through all active post types
-        foreach ( $post_types as $post_type ) {
-
-            // we don't need the attachment (media) post type
-            if($post_type->name != 'attachment') {
-
-                // build our array to return the slug and singular name of each active post type
-                $registered_content_types[] = array(
-                                        "slug" => $post_type->name,
-                                        "label_name" => $post_type->labels->name,
-                                    );
-            }
-
-        }
-
-        return $registered_content_types;
-    }
-
-
 }
+
+
 
 ?>

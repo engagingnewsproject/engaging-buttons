@@ -38,7 +38,7 @@ function set_enp_buttons_values($values) {
 
         // Set all btn_type options
         $enp_btn = new Enp_Button();
-        $registered_content_types = $enp_btn->registeredContentTypes();
+        $registered_content_types = registeredContentTypes();
         $i = 0;
         foreach($values as $value) {
 
@@ -118,7 +118,7 @@ function buttonCreateHTML($i, $enp_buttons, $enp_btn) {?>
                         </th>
                         <td>
                             <fieldset>
-                                <?  $registered_content_types = $enp_btn->registeredContentTypes();
+                                <?  $registered_content_types = registeredContentTypes();
                                     $checklist_html = '';
 
                                     foreach($registered_content_types as $content_type) {
@@ -163,6 +163,7 @@ function enp_respect_button_page() { ?>
         foreach($enp_btns as $enp_btn) {
             echo '<h1>'.$enp_btn->get_btn_name().'</h1>';
         }
+
         $enp_btn = new Enp_Button('respect');
         // RIGHT NOW, this is an array. We want it to be an object.
         echo '<br/><strong>Enp_Button object</strong><br/>';
@@ -191,9 +192,6 @@ function enp_respect_button_page() { ?>
         $enp_buttons = get_option('enp_buttons');
 
 
-        ?>
-
-        <?
         $i = 0;
         foreach($enp_buttons as $enp_button) {
             buttonCreateHTML($i, $enp_buttons, $enp_btn);
