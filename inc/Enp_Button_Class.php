@@ -13,8 +13,7 @@ class Enp_Button {
     public $btn_name;
     public $btn_type;
     public $btn_count;
-    // if has more than one click
-    public $locked;
+    public $btn_lock;
 
 
     public function __construct($slug = false) {
@@ -42,18 +41,17 @@ class Enp_Button {
         $enp_btn = get_option('enp_button_'.$slug);
 
         // set all the attributes
-        $this->btn_slug = $this->set_btn_slug($enp_btn);
-        $this->btn_name = $this->set_btn_name($enp_btn);
-        $this->btn_type = $this->set_btn_type($enp_btn);
-        $this->btn_count = 0;
-        $this->locked   = false;
-
+        $this->btn_slug  =  $this->set_btn_slug($enp_btn);
+        $this->btn_name  =  $this->set_btn_name($enp_btn);
+        $this->btn_type  =  $this->set_btn_type($enp_btn);
+        $this->btn_count =  $this->set_btn_count($enp_btn);
+        $this->btn_lock  =  $this->set_btn_lock();
     }
 
     /*
     *   set the button slug for the Enp_Button object
     */
-    private function set_btn_slug($enp_btn) {
+    protected function set_btn_slug($enp_btn) {
         $slug = false;
         if(isset($enp_btn['btn_slug'])) {
             $slug = $enp_btn['btn_slug'];
@@ -67,7 +65,7 @@ class Enp_Button {
     *   set the button name for the Enp_Button object
     *
     */
-    private function set_btn_name($enp_btn) {
+    protected function set_btn_name($enp_btn) {
         $name = false;
         if(isset($enp_btn['btn_name'])) {
             $name = $enp_btn['btn_name'];
@@ -83,7 +81,7 @@ class Enp_Button {
     *   as an array of types - ie - ['btn_type'] => array('comments' => false, 'posts' => true)
     *
     */
-    private function set_btn_type($enp_btn) {
+    protected function set_btn_type($enp_btn) {
         $btn_type = false;
 
         if(isset($enp_btn['btn_type'])) {
@@ -99,6 +97,38 @@ class Enp_Button {
         // deal though, so I'm not sure if it's worth the resources or not
 
         return $btn_type;
+    }
+
+
+    /*
+    *
+    *   Set the btn count value
+    *
+    */
+    protected function set_btn_count($enp_btn) {
+        $count = 0;
+        $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug'].'_count');
+
+        if(!empty($enp_btn_count)) {
+            $count = (int) $enp_btn_count;
+        }
+
+        return $count;
+    }
+
+    /*
+    *
+    *   Set the btn lock value
+    *
+    */
+    protected function set_btn_lock() {
+        $lock = false;
+        // if btn_count is greater than 0, lock it
+        if($this->btn_count > 0) {
+            $lock = true;
+        }
+
+        return $lock;
     }
 
 
@@ -126,6 +156,14 @@ class Enp_Button {
 
     public function get_btn_types() {
         return $this->btn_type;
+    }
+
+    public function get_btn_count() {
+        return $this->btn_count;
+    }
+
+    public function get_btn_lock() {
+        return $this->btn_lock;
     }
 
     /*
