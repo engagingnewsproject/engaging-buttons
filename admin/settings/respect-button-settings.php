@@ -51,58 +51,6 @@ function enp_respect_button_data() {
     register_setting( 'enp_respect_button_settings', 'enp_button_promote_enp' );
 }
 
-function buttonCreateHTML($i, $enp_buttons, $enp_btn) {?>
-        <table class="form-table">
-            <tbody>
-                <tr>
-                        <th scope="row">
-                            <label for="enp-button-type">Button</label>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <label>
-                                    <input type="radio" name="enp_buttons[<?php echo $i;?>][btn_slug]" aria-describedby="enp-button-slug-description" value="respect" <?php checked('respect', $enp_buttons[$i]["btn_slug"]);?> /> Respect
-                                </label>
-                                <br/>
-                                <label>
-                                    <input type="radio" name="enp_buttons[<?php echo $i;?>][btn_slug]" aria-describedby="enp-button-slug-description" value="recommend" <?php checked('recommend', $enp_buttons[$i]["btn_slug"]);?> /> Recommend
-                                </label>
-                                <br/>
-                                <label>
-                                    <input type="radio" name="enp_buttons[<?php echo $i;?>][btn_slug]" aria-describedby="enp-button-slug-description" value="important" <?php checked('important', $enp_buttons[$i]["btn_slug"]);?>/> Important
-                                </label>
-
-                                <p id="enp-button-slug-description"class="description">Which button do you want to use on your site?</p>
-
-                                <p class="description">Have an idea for other button text options? Let us know! ____@engagingnewsproject.org
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="enp-button-content-type">How to Use this Button</label>
-                        </th>
-                        <td>
-                            <fieldset>
-                                <?  $registered_content_types = registeredContentTypes();
-                                    $checklist_html = '';
-
-                                    foreach($registered_content_types as $content_type) {
-                                        $checklist_html .= '<label>
-                                                                <input type="checkbox" name="enp_buttons['.$i.'][btn_type]['.$content_type['slug'].']" value="1" '.checked(true, $enp_buttons[$i]['btn_type'][$content_type['slug']], false).' aria-describedby="enp-button-content-type-description"/> '.$content_type['label_name'].'
-                                                            </label>
-                                                            <br/>';
-                                    }
-
-                                    echo $checklist_html;?>
-                            </fieldset>
-                            <p id="enp-button-content-type-description" class="description">Which kinds of content do you want the button(s) to display for?</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr>
-<? }
 
 /**
 * Step 3: Create the markup for the options page
@@ -120,7 +68,7 @@ function enp_respect_button_page() { ?>
         </div>
         <?php }
 
-
+        /*
         $enp_btns = new Enp_Button();
         $enp_btns = $enp_btns->get_btns();
         echo '<strong>Enp_Buttons object</strong><br/>';
@@ -153,25 +101,23 @@ function enp_respect_button_page() { ?>
 
         echo '<br/><strong>Registered Content Types</strong><br/>';
         var_dump(registeredContentTypes());
+        */
 
-
-        $btn_must_be_logged_in = get_option('enp_button_must_be_logged_in');
-        $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
-        $btn_promote_enp = get_option('enp_button_promote_enp');
 
         // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');
 
-        $i = 0;
-        foreach($enp_buttons as $enp_button) {
-            buttonCreateHTML($i, $enp_buttons, $enp_btn);
-            $i++;
-        }
-        // if $i still equals 0, then we don't have ANY buttons, and we still need to
-        // create one
-        if($i === 0) {
-            buttonCreateHTML($i, $enp_buttons, $enp_btn);
-        }
+        // general settings
+        $btn_must_be_logged_in = get_option('enp_button_must_be_logged_in');
+        $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
+        $btn_promote_enp = get_option('enp_button_promote_enp');
+
+        // build the buttons form
+        $registered_content_types = registeredContentTypes();
+        buttonCreateForm($enp_buttons, $registered_content_types);
+
+
+        // add the general settings
         ?>
         <table class="form-table">
             <tbody>

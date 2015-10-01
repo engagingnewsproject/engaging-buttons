@@ -118,7 +118,7 @@ class Enp_Button {
 
     /*
     *
-    *   Set the btn lock value
+    *   Set the btn lock value. if count is 0 or greater, lock it
     *
     */
     protected function set_btn_lock() {
