@@ -13,11 +13,12 @@ if ( ! defined( 'WPINC' ) ) {
     die;
 }
 
+include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
+
 //Automatically Load all the PHP files we need
 $classesDir = array (
-    plugin_dir_path( __FILE__ ) .'admin/functions/',
+    // plugin_dir_path( __FILE__ ) .'admin/functions/',
     plugin_dir_path( __FILE__ ) .'admin/settings/',
-    plugin_dir_path( __FILE__ ) .'inc/',
 );
 
 foreach ($classesDir as $directory) {

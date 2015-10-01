@@ -1,13 +1,14 @@
 <?
 /*
 * Enp_Button Class
-* Creates and allows access to the enp_button object for use by
+* Creates and allows access to the Enp_Button object for use by
 * WordPress admin and front-end
 *
 * since v 0.0.1
 */
 
 class Enp_Button {
+    // TODO: Move save code from respect-button-settings.php into this class
     public $btn_slug;
     public $btn_name;
     public $btn_type;
@@ -15,15 +16,63 @@ class Enp_Button {
     public $locked;
 
 
-    public function __construct() {
-        $this->btn_slug = $this->set_btn_slug();
-        $this->btn_name = $this->set_btn_name();
-        $this->btn_type = $this->set_btn_type();
-        $this->locked = false;
+    public function __construct($slug = false) {
+
+        if(empty($slug)) {
+            // return all buttons if they didn't specify which one
+            $this->get_btns();
+        } else {
+            // get the one they asked for
+            $enp_btn = $this->set_btn($slug);
+        }
+
+
+
+    }
+
+    public function get_btn($slug) {
+        $enp_btn_values = get_option('enp_buttons_'.$slug);
+        return $this->set_btn($enp_btn_values);
     }
 
 
-    private function set_btn_type() {
+    protected function set_btn($slug) {
+        // get the data from wp_options
+        $enp_btn = get_option('enp_button_'.$slug);
+
+        // set all the attributes
+        $this->btn_slug = $this->set_btn_slug($enp_btn);
+        $this->btn_name = $this->set_btn_name($enp_btn);
+        $this->btn_type = 'button type!';
+        $this->locked   = false;
+
+    }
+
+    /*
+    *   set the button slug for the Enp_Button object
+    */
+    private function set_btn_slug($enp_btn) {
+        $slug = false;
+        if(isset($enp_btn['btn_slug'])) {
+            $slug = $enp_btn['btn_slug'];
+        }
+        //var_dump($slug);
+        return $slug;
+    }
+
+    /*
+    *   set the button name for the Enp_Button object
+    */
+    private function set_btn_name($enp_btn) {
+        $name = false;
+        if(isset($enp_btn['btn_name'])) {
+            $name = $enp_btn['btn_name'];
+        }
+
+        return $name;
+    }
+
+    private function set_btn_type($enp_btn) {
         // loop through all the registered post types (and comments)
         $registered_content_types = $this->registeredContentTypes();
 
@@ -35,14 +84,9 @@ class Enp_Button {
         return $btn_type;
     }
 
-    private function set_btn_slug() {
-        $name = '';
-        return $name;
-    }
 
-    private function set_btn_name() {
-        $name = '';
-        return $name;
+    public function get_btn_slug() {
+        return $this->btn_slug;
     }
 
 
@@ -51,10 +95,12 @@ class Enp_Button {
     }
 
     public function get_btn_types() {
-
         return $this->btn_type;
     }
 
+    /*
+    * get an individual button type
+    */
     public function get_btn_type($type = false) {
         $btn_type = $this->btn_type;
         $get_btn_type = false;
@@ -64,6 +110,33 @@ class Enp_Button {
         }
 
         return $get_btn_type;
+    }
+
+
+    /*
+    * Return all button slugs from enp_button_slugs
+    *
+    */
+    public function get_btn_slugs() {
+        $enp_button_slugs = get_option('enp_button_slugs');
+
+        return $enp_button_slugs;
+    }
+
+    /*
+    / Return all buttons as an array of individual objects
+    / (ie- $this->get_btns() = array([0]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''},
+    /            [1]=> object(Enp_Button){[btn_slug]=>'', [btn_name]=>''});
+    /
+    */
+    public function get_btns() {
+        $enp_btns = $this->get_btn_slugs();
+        foreach($enp_btns as $slug) {
+
+            $enp_btns_obj[] = new Enp_Button($slug);
+        }
+
+        return $enp_btns_obj;
     }
 
 

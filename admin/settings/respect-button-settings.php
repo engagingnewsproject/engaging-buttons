@@ -15,6 +15,13 @@ function enp_create_menu() {
 add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 function set_enp_buttons_values($values) {
 
+    // Add a name in there too in there too
+        $i = 0;
+        foreach($values as $value) {
+            $values[$i]['btn_name'] = ucfirst($values[$i]['btn_slug']);
+            $i++;
+        }
+
 
     // Save slugs enp_button_slugs = array('respect', 'important', 'recommend');
         $enp_button_slugs = array();
@@ -47,8 +54,8 @@ function set_enp_buttons_values($values) {
             // dynamically named enp_button_$slug so we can access just one
             // field on the front end or for objects, as needed
             ${'enp_button_'.$value['btn_slug']} = array(
-                                                        'slug' => $value['btn_slug'],
-                                                        'name' => ucfirst($value['btn_slug']),
+                                                        'btn_slug' => $value['btn_slug'],
+                                                        'btn_name' => $value['btn_name'],
                                                         'btn_type' => $value['btn_type'],
                                                         'locked' => false, // TODO: Set to true if count is more than 0 (has clicks)
                                                   );
@@ -148,7 +155,33 @@ function enp_respect_button_page() { ?>
         <?php }
 
 
-        $enp_btn = new Enp_Button;
+        $enp_btns = new Enp_Button();
+        $enp_btns = $enp_btns->get_btns();
+        echo '<strong>Enp_Buttons object</strong><br/>';
+        var_dump($enp_btns);
+        echo '<br/><br/>';
+        foreach($enp_btns as $enp_btn) {
+            echo '<h1>'.$enp_btn->get_btn_name().'</h1>';
+        }
+        $enp_btn = new Enp_Button('respect');
+        // RIGHT NOW, this is an array. We want it to be an object.
+        echo '<br/><strong>Enp_Button object</strong><br/>';
+        var_dump($enp_btn);
+
+
+        echo '<br/><strong>Enp_Button Name</strong><br/>';
+        var_dump($enp_btn->get_btn_name());
+
+
+        $enp_btn = new Enp_Button('recommend');
+        // RIGHT NOW, this is an array. We want it to be an object.
+        echo '<br/><strong>Enp_Button object</strong><br/>';
+        var_dump($enp_btn);
+
+
+        echo '<br/><strong>Enp_Button Slug</strong><br/>';
+        var_dump($enp_btn->get_btn_slug());
+
 
         $btn_must_be_logged_in = get_option('enp_button_must_be_logged_in');
         $btn_allow_data_tracking = get_option('enp_button_allow_data_tracking');
