@@ -29,11 +29,15 @@ function update_enp_button_slugs($values) {
 }
 
 
+/*
+*
+*   Save enp_button_$slug to wp_options for use by Enp_Button class to create button object
+*
+*/
 function update_enp_button_slug_entry($values) {
 
         // loop through each submitted button
         foreach($values as $value) {
-
 
             // dynamically named enp_button_$slug so we can access just one
             // field on the front end or for objects, as needed
@@ -41,7 +45,7 @@ function update_enp_button_slug_entry($values) {
                                                         'btn_slug' => $value['btn_slug'],
                                                         'btn_name' => $value['btn_name'],
                                                         'btn_type' => $value['btn_type'],
-                                                        'locked' => false, // TODO: Set to true if count is more than 0 (has clicks)
+                                                        // 'locked' => false, // TODO: Set to true if count is more than 0 (has clicks)
                                                   );
 
 

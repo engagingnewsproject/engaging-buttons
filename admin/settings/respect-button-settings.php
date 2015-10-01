@@ -14,6 +14,11 @@ function enp_create_menu() {
 // create everything under enp_buttons and parse from there
 add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 function set_enp_buttons_values($values) {
+    /*
+    * TODO: Refactor into one foreach loop
+    *       update_enp_button_slugs, set_unset_btn_type_values($values), add_enp_button_names($values), and update_enp_button_slug_entry($values)
+    *       each use a foreach($values as $value) loop.
+    */
 
     // Save slugs enp_button_slugs = array('respect', 'important', 'recommend');
     update_enp_button_slugs($values);
