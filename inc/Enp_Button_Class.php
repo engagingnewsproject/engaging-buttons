@@ -14,13 +14,14 @@ class Enp_Button {
     public $btn_count;
     public $btn_lock;
 
-
     public function __construct($slug = false) {
 
-        if(empty($slug)) {
+        if($slug === false) {
             // return all buttons if they didn't specify which one
             // USAGE: $enp_btns = new Enp_Button();
+            //        $enp_btns = $enp_btns->get_btns();
             $this->get_btns();
+
         } else {
             // get the one they asked for
             // USAGE: $enp_btn = new Enp_Button('respect');

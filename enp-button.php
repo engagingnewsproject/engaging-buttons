@@ -14,6 +14,7 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
+include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Loader.php');
 
 //Automatically Load all the PHP files we need
 $classesDir = array (
@@ -27,5 +28,6 @@ foreach ($classesDir as $directory) {
         include $filename;
     }
 }
+
 
 ?>

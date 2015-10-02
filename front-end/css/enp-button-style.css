@@ -1,0 +1,38 @@
+/*
+*   Button display styles
+*
+*/
+
+.enp-btn {
+    display: inline-block;
+    margin-right: .8em;
+}
+
+.enp-btn:last-child {
+    margin-right: 0;
+}
+
+.enp-btn--btn {
+    background: #C81C2D;
+    padding: .5em 1em;
+    font-size: 1em;
+    line-height: 1.1;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    /* Improves usability and consistency of cursor style between image-type 'input' and others */
+    -webkit-appearance: none;
+    /* Corrects inability to style clickable 'input' types in iOS */
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
+.enp-btn--btn:hover {
+    background: #7B0511;
+    border-bottom: 3px solid #4a030a;
+    color: #fff;
+}
+
+.enp-btn--btn:active {
+    background: #ffc636;
+}
