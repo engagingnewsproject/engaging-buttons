@@ -252,13 +252,13 @@ function buttonCreateBtnType($enp_buttons, $i, $registered_content_types) {
     $checklist_html = '';
 
     foreach($registered_content_types as $content_type) {
-        $checklist_html .= buttonCreateBtnTypeHTML($enp_buttons, $i = 0, $content_type);
+        $checklist_html .= buttonCreateBtnTypeHTML($enp_buttons, $i, $content_type);
     }
 
     return $checklist_html;
 }
 
-function buttonCreateBtnTypeHTML($enp_buttons, $i = 0, $content_type) {
+function buttonCreateBtnTypeHTML($enp_buttons, $i, $content_type) {
     $checklist_html ='';
 
     $checklist_html .= '<label>
