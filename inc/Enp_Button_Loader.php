@@ -13,15 +13,19 @@ class Enp_Button_Loader {
 
     /*
     *
-    *   Register and enqueue style sheet.
+    *   Register and enqueue style sheet & scripts.
     *
     */
     public function enp_btn_register_scripts() {
         wp_register_style( 'enp-button-style', plugins_url( 'enp-button/front-end/css/enp-button-style.css' ));
         wp_enqueue_style( 'enp-button-style' );
+
+        wp_register_script( 'enp-button-scripts', plugins_url( 'enp-button/front-end/js/scripts.js' ));
+        wp_enqueue_script( 'enp-button-scripts' );
     }
 }
 
+// fire up our styles and scripts
 $init = new Enp_Button_Loader();
 
 ?>
