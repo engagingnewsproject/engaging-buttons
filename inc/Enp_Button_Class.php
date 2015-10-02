@@ -8,7 +8,6 @@
 */
 
 class Enp_Button {
-    // TODO: Move save code from respect-button-settings.php into this class
     public $btn_slug;
     public $btn_name;
     public $btn_type;

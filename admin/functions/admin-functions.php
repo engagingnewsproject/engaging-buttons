@@ -2,7 +2,8 @@
 /*
 *   admin-functions.php
 *   General functions for use with the admin side
-*
+*   Functions for saving the settings
+*   Functions for displaying the form
 */
 
 
@@ -166,6 +167,7 @@ function buttonCreateForm($enp_buttons, $registered_content_types) {
         }
 
         // if we want to add buttons later, we'd add more after this loop
+        // $formHTML .= buttonCreateFormHTML($enp_buttons, $registered_content_types, $i, $enp_btn_obj);
 
     }
 

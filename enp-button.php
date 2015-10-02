@@ -1,6 +1,6 @@
 <?php
    /*
-   Plugin Name: Respect Button
+   Plugin Name: Engaging Button
    Description: A plugin for giving respect to posts, pages, and comments.
    Version: 0.0.1
    Author: Engaging News Project
@@ -19,6 +19,7 @@ include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
 $classesDir = array (
     plugin_dir_path( __FILE__ ) .'admin/functions/',
     plugin_dir_path( __FILE__ ) .'admin/settings/',
+    plugin_dir_path( __FILE__ ) .'front-end/functions/',
 );
 
 foreach ($classesDir as $directory) {

@@ -4,7 +4,7 @@
 add_action('admin_menu', 'enp_create_menu');
 function enp_create_menu() {
     //create new top-level menu
-    add_menu_page('Respect Button', 'Respect Button', 'manage_options', 'enp_respect_button', 'enp_respect_button_page', 'dashicons-megaphone', 100);
+    add_menu_page('Engaging Button', 'Engaging Button', 'manage_options', 'enp_button_page', 'enp_button_page', 'dashicons-megaphone', 100);
 }
 
 
@@ -39,23 +39,23 @@ function set_enp_buttons_values($values) {
 
 
 // Create settings fields.
-add_action( 'admin_init', 'enp_respect_button_data' );
-function enp_respect_button_data() {
+add_action( 'admin_init', 'enp_button_data' );
+function enp_button_data() {
 
     // button type
-    register_setting( 'enp_respect_button_settings', 'enp_buttons' );
+    register_setting( 'enp_button_settings', 'enp_buttons' );
 
     // global enp_button settings
-    register_setting( 'enp_respect_button_settings', 'enp_button_must_be_logged_in' );
-    register_setting( 'enp_respect_button_settings', 'enp_button_allow_data_tracking' );
-    register_setting( 'enp_respect_button_settings', 'enp_button_promote_enp' );
+    register_setting( 'enp_button_settings', 'enp_button_must_be_logged_in' );
+    register_setting( 'enp_button_settings', 'enp_button_allow_data_tracking' );
+    register_setting( 'enp_button_settings', 'enp_button_promote_enp' );
 }
 
 
 /**
 * Step 3: Create the markup for the options page
 */
-function enp_respect_button_page() { ?>
+function enp_button_page() { ?>
 
 <div class="wrap enp-respect-button-options">
 
@@ -123,7 +123,7 @@ function enp_respect_button_page() { ?>
             <tbody>
                 <tr>
                     <th scope="row">
-                        Respect Button Plugin Setting
+                        Engaging Button Plugin Setting
                     </th>
                     <td>
                         <fieldset>
@@ -143,8 +143,8 @@ function enp_respect_button_page() { ?>
                 </tr>
             </tbody>
         </table>
-        <?php settings_fields( 'enp_respect_button_settings' ); ?>
-        <?php do_settings_sections( 'enp_respect_button_settings' ); ?>
+        <?php settings_fields( 'enp_button_settings' ); ?>
+        <?php do_settings_sections( 'enp_button_settings' ); ?>
         <?php submit_button(); ?>
     </form>
 
