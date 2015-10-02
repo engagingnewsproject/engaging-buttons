@@ -20,7 +20,8 @@ class Enp_Button_Loader {
         wp_register_style( 'enp-button-style', plugins_url( 'enp-button/front-end/css/enp-button-style.css' ));
         wp_enqueue_style( 'enp-button-style' );
 
-        wp_register_script( 'enp-button-scripts', plugins_url( 'enp-button/front-end/js/scripts.js' ));
+
+        wp_register_script( 'enp-button-scripts', plugins_url( 'enp-button/front-end/js/scripts.js' ), array( 'jquery' ), false, true);
         wp_enqueue_script( 'enp-button-scripts' );
     }
 }

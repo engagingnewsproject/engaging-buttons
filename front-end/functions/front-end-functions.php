@@ -70,12 +70,12 @@ add_filter( 'the_content', 'enp_btn_append_btns' );
 *
 */
 function enp_btn_append_btn_HTML($enp_btn) {
-    $enp_btn_HTML = '<li class="enp-btn enp-btn-'.$enp_btn->get_btn_slug().'">
-                                <a href="#" class="enp-btn--btn enp-btn--'.$enp_btn->get_btn_slug().'">
-                                    <span class="enp-btn--name enp-btn--'.$enp_btn->get_btn_slug().'-name">'
+    $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">
+                                <a href="#" id="'.$enp_btn->get_btn_slug().'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'">
+                                    <span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
                                     '</span> '
-                                    .( $enp_btn->get_btn_count() > 0 ? '<span class="enp-btn--count enp--btn-'.$enp_btn->get_btn_count().'-count">'
+                                    .( $enp_btn->get_btn_count() > 0 ? '<span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_count().'">'
                                                                          .$enp_btn->get_btn_count().
                                                                       '</span>'
                                                                       : '').

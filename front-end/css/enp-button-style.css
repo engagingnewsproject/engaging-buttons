@@ -3,16 +3,16 @@
 *
 */
 
-.enp-btn {
+.enp-btns .enp-btn-wrap {
     display: inline-block;
     margin-right: .8em;
 }
 
-.enp-btn:last-child {
+.enp-btns .enp-btn-wrap:last-child {
     margin-right: 0;
 }
 
-.enp-btn--btn {
+.enp-btns .enp-btn {
     background: #C81C2D;
     padding: .5em 1em;
     font-size: 1em;
@@ -27,12 +27,11 @@
     transition: all .2s;
 }
 
-.enp-btn--btn:hover {
+.enp-btns .enp-btn:hover {
     background: #7B0511;
-    border-bottom: 3px solid #4a030a;
     color: #fff;
 }
 
-.enp-btn--btn:active {
+.enp-btns .enp-btn:active {
     background: #ffc636;
 }
