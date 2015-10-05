@@ -70,8 +70,15 @@ add_filter( 'the_content', 'enp_btn_append_btns' );
 *
 */
 function enp_btn_append_btn_HTML($enp_btn) {
+    global $post;
+    // Create a nonce for this action
+    $nonce = wp_create_nonce( 'enp_button_'.$enp_btn->get_btn_slug().'_' . $post->ID );
+    // Get link to admin page to trash the post and add nonces to it
+    $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&pid='. $post->ID .'&nonce=' .$nonce .'"
+            id="'.$enp_btn->get_btn_slug().'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'" data-nonce="'. $nonce .'" data-id="'. $post->ID .'">';
+
     $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">
-                                <a href="#" id="'.$enp_btn->get_btn_slug().'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'">
+                                '.$link_data.'
                                     <span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
                                     '</span> '
@@ -84,5 +91,68 @@ function enp_btn_append_btn_HTML($enp_btn) {
 
     return $enp_btn_HTML;
 }
+
+
+/*
+*
+*   Ajax increase button count on click
+*
+*/
+
+add_action( 'wp_ajax_enp_update_button_count', 'enp_update_button_count' );
+add_action( 'wp_ajax_nopriv_enp_update_button_count', 'enp_update_button_count' );
+
+function enp_update_button_count() {
+    // Get the Post ID from the URL
+    $pid = $_REQUEST['pid'];
+    $btn_slug = $_REQUEST['slug'];
+
+    // Instantiate WP_Ajax_Response
+    $response = new WP_Ajax_Response;
+
+    // Verify Nonces
+    if(wp_verify_nonce( $_REQUEST['nonce'], 'enp_button_'.$btn_slug.'_' . $pid )) {
+        global $wpdb;
+
+        $prev_clicks = get_post_meta( $pid, 'enp_button_'.$btn_slug.'_'.$pid, true);
+
+        $prev_clicks = (int)$prev_clicks;
+        if($prev_clicks !== false) {
+            $new_clicks = $prev_clicks + 1;
+        } else {
+            $new_clicks = 1;
+        }
+
+        // update the meta
+        update_post_meta( $pid, 'enp_button_'.$btn_slug.'_'.$pid, $new_clicks );
+
+        $response->add( array(
+            'data'  => 'success',
+            'supplemental' => array(
+                'pid' => $pid,
+                'slug' => $btn_slug,
+                'message' => 'The click on '.$pid.' has been registered!',
+                'count' => $new_clicks
+                ),
+            )
+        );
+    } else {
+        $response->add( array(
+            'data'  => 'error',
+            'supplemental' => array(
+                'pid' => $pid,
+                'slug' => $btn_slug,
+                'message' => 'Error increasing post count ('. $pid .')',
+                ),
+            )
+        );
+    }
+    // Send the response back
+    $response->send();
+
+    // Always end with an exit on ajax
+    exit();
+}
+
 
 ?>
