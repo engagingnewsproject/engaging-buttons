@@ -39,6 +39,11 @@ jQuery( document ).ready( function( $ ) {
                 // update the number
                 $('#'+btn_slug+'_'+id+' .enp-btn__count').text(count);
 
+                // if the count is now == 1 (meaning, it WAS 0), then remove the class that hides the number
+                if(count == 1) {
+                    $('#'+btn_slug+'_'+id+' .enp-btn__count').removeClass('enp-btn__count--zero');
+                }
+
             },
             error: function(xml) {
                 // An error occurred, alert an error message
