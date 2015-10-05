@@ -71,11 +71,12 @@ add_filter( 'the_content', 'enp_btn_append_btns' );
 */
 function enp_btn_append_btn_HTML($enp_btn) {
     global $post;
+    var_dump($enp_btn);
     // Create a nonce for this action
     $nonce = wp_create_nonce( 'enp_button_'.$enp_btn->get_btn_slug().'_' . $post->ID );
     // Get link to admin page to trash the post and add nonces to it
     $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&pid='. $post->ID .'&nonce=' .$nonce .'"
-            id="'.$enp_btn->get_btn_slug().'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'" data-nonce="'. $nonce .'" data-id="'. $post->ID .'">';
+            id="'.$enp_btn->get_btn_slug().'_'. $post->ID.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'" data-nonce="'. $nonce .'" data-pid="'. $post->ID .'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
 
     $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">
                                 '.$link_data.'
@@ -132,7 +133,8 @@ function enp_update_button_count() {
                 'pid' => $pid,
                 'slug' => $btn_slug,
                 'message' => 'The click on '.$pid.' has been registered!',
-                'count' => $new_clicks
+                'count' => $new_clicks,
+                'old_count' => $prev_clicks
                 ),
             )
         );

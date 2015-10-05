@@ -15,9 +15,9 @@ jQuery( document ).ready( function( $ ) {
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
 
         var link = this;
-        var id   = $( link ).attr( 'data-id' );
+        var id   = $( link ).attr( 'data-pid' );
         var nonce = $( link ).attr( 'data-nonce' );
-        var btn_slug = $( link ).attr( 'id' );
+        var btn_slug = $( link ).attr( 'data-btn-slug' );
         var url = enp_button_params.ajax_url;
 
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
@@ -34,12 +34,13 @@ jQuery( document ).ready( function( $ ) {
             dataType: 'xml',
             success:function(xml) {
                 var count = $(xml).find('count').text();
+                var old_count = $(xml).find('old_count').text();
                 // message = $(xml).find('message').text();
 
-                if(count > 0) {
-                    console.log('count is greater than 0: ' +count);
+                if(old_count !== 0) {
+                    console.log('old count is greater than 0: ' +count);
                 } else {
-                    console.log('count is less than 0: ' +count);
+                    console.log('old count is 0: ' +count);
                 }
 
             },
@@ -51,8 +52,7 @@ jQuery( document ).ready( function( $ ) {
 
         });
 
-        // output the new html for the count
-        console.log(btn_id);
+
     })
 
 });

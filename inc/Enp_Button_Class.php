@@ -37,6 +37,7 @@ class Enp_Button {
 
 
     protected function set_btn($slug) {
+
         // get the data from wp_options
         $enp_btn = get_option('enp_button_'.$slug);
 
@@ -106,8 +107,18 @@ class Enp_Button {
     *
     */
     protected function set_btn_count($enp_btn) {
+        global $post;
+        $post_id = $post->ID;
+
         $count = 0;
-        $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug'].'_count');
+
+        if($post_id !== false) {
+            // individual post button
+            $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$post_id, true);
+        } else {
+            // global post button
+            $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
+        }
 
         if(!empty($enp_btn_count)) {
             $count = (int) $enp_btn_count;
