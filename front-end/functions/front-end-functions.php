@@ -71,7 +71,6 @@ add_filter( 'the_content', 'enp_btn_append_btns' );
 */
 function enp_btn_append_btn_HTML($enp_btn) {
     global $post;
-    var_dump($enp_btn);
     // Create a nonce for this action
     $nonce = wp_create_nonce( 'enp_button_'.$enp_btn->get_btn_slug().'_' . $post->ID );
     // Get link to admin page to trash the post and add nonces to it

@@ -12,8 +12,8 @@ jQuery( document ).ready( function( $ ) {
         e.preventDefault();
         // get which button was clicked
         var btn_id = $(this).attr('id');
-        // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
 
+        // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
         var link = this;
         var id   = $( link ).attr( 'data-pid' );
         var nonce = $( link ).attr( 'data-nonce' );

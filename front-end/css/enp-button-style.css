@@ -13,8 +13,10 @@
 }
 
 .enp-btns .enp-btn {
+    overflow: hidden;
     background: #C81C2D;
-    padding: .5em 1em;
+    padding: .5em .8em .5em .8em;
+    border-radius: 3px;
     font-size: 1em;
     line-height: 1.1;
     color: #fff;
@@ -34,6 +36,17 @@
 
 .enp-btns .enp-btn:active {
     background: #ffc636;
+}
+
+.enp-btns .enp-btn__count {
+    background: rgba(0,0,0,.15);
+    padding: .5em .6em .5em .8em;
+    border-radius: 3px;
+    border-bottom-left-radius: 50%;
+    border-top-left-radius: 50%;
+    position: relative;
+    left: .8em;
+    margin-left: -.2em;
 }
 
 .enp-btns .enp-btn__count--zero {
