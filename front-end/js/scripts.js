@@ -33,15 +33,11 @@ jQuery( document ).ready( function( $ ) {
                 },
             dataType: 'xml',
             success:function(xml) {
+                // get the new count from the xml doc
                 var count = $(xml).find('count').text();
-                var old_count = $(xml).find('old_count').text();
-                // message = $(xml).find('message').text();
 
-                if(old_count !== 0) {
-                    console.log('old count is greater than 0: ' +count);
-                } else {
-                    console.log('old count is 0: ' +count);
-                }
+                // update the number
+                $('#'+btn_slug+'_'+id+' .enp-btn__count').text(count);
 
             },
             error: function(xml) {
@@ -51,6 +47,8 @@ jQuery( document ).ready( function( $ ) {
 
 
         });
+
+
 
 
     })

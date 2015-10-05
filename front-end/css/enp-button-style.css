@@ -35,3 +35,7 @@
 .enp-btns .enp-btn:active {
     background: #ffc636;
 }
+
+.enp-btns .enp-btn__count--zero {
+    display: none;
+}

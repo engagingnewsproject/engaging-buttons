@@ -82,12 +82,11 @@ function enp_btn_append_btn_HTML($enp_btn) {
                                 '.$link_data.'
                                     <span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
-                                    '</span> '
-                                    .( $enp_btn->get_btn_count() > 0 ? '<span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_count().'">'
-                                                                         .$enp_btn->get_btn_count().
-                                                                      '</span>'
-                                                                      : '').
-                                '</a>
+                                    '</span>
+                                    <span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_slug().($enp_btn->get_btn_count() > 0 ? '' : ' enp-btn__count--zero').'">'
+                                        .$enp_btn->get_btn_count().
+                                    '</span>
+                                </a>
                             </li>';
 
     return $enp_btn_HTML;
