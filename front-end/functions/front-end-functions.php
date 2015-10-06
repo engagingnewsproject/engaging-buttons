@@ -43,14 +43,16 @@ function enp_get_btn($slug) {
 *
 */
 function enp_btn_append_btns( $content ) {
+    global $post;
+    $post_id = $post->ID;
     // don't specify a button slug so we can get all buttons
     $enp_btns = enp_get_all_btns();
 
     if(!empty($enp_btns[0])) {
-        $enp_btn_HTML = '<ul class="enp-btns">';
+        $enp_btn_HTML = '<ul class="enp-btns enp-btns-'.$post_id.'">';
 
         foreach($enp_btns as $enp_btn) {
-            $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn);
+            $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $post_id);
         }
 
         $enp_btn_HTML .= '</ul>';
@@ -69,13 +71,12 @@ add_filter( 'the_content', 'enp_btn_append_btns' );
 *   ENP Btn HTML for displaying on front-end
 *
 */
-function enp_btn_append_btn_HTML($enp_btn) {
-    global $post;
+function enp_btn_append_btn_HTML($enp_btn, $post_id) {
     // Create a nonce for this action
-    $nonce = wp_create_nonce( 'enp_button_'.$enp_btn->get_btn_slug().'_' . $post->ID );
+    $nonce = wp_create_nonce( 'enp_button_'.$enp_btn->get_btn_slug().'_' . $post_id );
     // Get link to admin page to trash the post and add nonces to it
-    $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&pid='. $post->ID .'&nonce=' .$nonce .'"
-            id="'.$enp_btn->get_btn_slug().'_'. $post->ID.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'" data-nonce="'. $nonce .'" data-pid="'. $post->ID .'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
+    $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&pid='. $post_id .'&nonce=' .$nonce .'"
+            id="'.$enp_btn->get_btn_slug().'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
 
     $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">
                                 '.$link_data.'
@@ -142,7 +143,7 @@ function enp_update_button_count() {
             'supplemental' => array(
                 'pid' => $pid,
                 'slug' => $btn_slug,
-                'message' => 'Error increasing post count ('. $pid .')',
+                'message' => 'We couldn\'t update the '.ucfirst($btn_slug).' button count. Reload this page and try again.',
                 ),
             )
         );

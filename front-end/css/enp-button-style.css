@@ -5,7 +5,7 @@
 
 .enp-btns .enp-btn-wrap {
     display: inline-block;
-    margin-right: .8em;
+    margin: 0 .8em 1.5em 0;
 }
 
 .enp-btns .enp-btn-wrap:last-child {
@@ -51,4 +51,11 @@
 
 .enp-btns .enp-btn__count--zero {
     display: none;
+}
+
+.enp-btn-error-message {
+    font-size: .8em;
+    padding: .8em;
+    color: #7B0511;
+    background: #FFCDCF;
 }
