@@ -29,6 +29,7 @@ jQuery( document ).ready( function( $ ) {
         var id       = $(this).attr( 'data-pid' );
         var nonce    = $(this).attr( 'data-nonce' );
         var btn_slug = $(this).attr( 'data-btn-slug' );
+        var btn_type = $(this).attr( 'data-btn-type' );
         var url      = enp_button_params.ajax_url;
 
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
@@ -40,6 +41,7 @@ jQuery( document ).ready( function( $ ) {
                     'action': 'enp_update_button_count',
                     'pid': id,
                     'slug': btn_slug,
+                    'type': btn_type,
                     'nonce': nonce
                 },
             dataType: 'xml',
@@ -53,10 +55,10 @@ jQuery( document ).ready( function( $ ) {
 
                 // here's how to get the new count from the returned xml doc though
                 // var count = $(xml).find('count').text();
-
+                var btn_type = $(xml).find('type').text();
                 var pid = $(xml).find('pid').text();
                 var btn_slug = $(xml).find('slug').text();
-                var btn = $('#'+btn_slug+'_'+pid);
+                var btn = $('#'+btn_slug+'_'+btn_type+'_'+pid);
                 var response = $(xml).find('response_data').text(); // will === 'success' or 'error'
 
                 if(response === 'error') {
@@ -82,7 +84,8 @@ jQuery( document ).ready( function( $ ) {
             error:function(xml) {
                 // An error occurred when trying to post, alert an error message
                 var message = $(xml).find('message').text();
-                console.log(message);
+                // logs the error in console
+                console.log(xml.responseText);
             }
 
 
