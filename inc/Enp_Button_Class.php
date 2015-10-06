@@ -16,6 +16,7 @@ class Enp_Button {
     public $is_comment;
 
     public function __construct($slug = false, $is_comment = false) {
+        // set our comment flag
         $this->is_comment = $is_comment;
 
         if($slug === false) {
@@ -112,14 +113,14 @@ class Enp_Button {
         if($this->is_comment === true) {
             global $comment;
             $comment_id = $comment->comment_ID;
-            $enp_btn_count = get_comment_meta($comment_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$comment_id, true);
+            $enp_btn_count = get_comment_meta($comment_id, 'enp_button_'.$enp_btn['btn_slug'], true);
         } else {
             global $post;
             $post_id = $post->ID;
 
             if($post_id !== false) {
                 // individual post button
-                $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$post_id, true);
+                $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'], true);
             } else {
                 // global post button
                 $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);

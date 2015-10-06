@@ -156,18 +156,36 @@ function enp_update_button_count() {
     if(wp_verify_nonce( $_REQUEST['nonce'], 'enp_button_'.$btn_type.'_'.$btn_slug.'_' . $pid )) {
         global $wpdb;
 
-        // for posts/pages/cpt: get post meta and update it
-        $prev_clicks = get_post_meta( $pid, 'enp_button_'.$btn_slug.'_'.$pid, true);
+        if($btn_type === 'post') {
+            // for posts/pages/cpt: get post meta and update it
+            $prev_clicks = get_post_meta( $pid, 'enp_button_'.$btn_slug, true);
 
-        $prev_clicks = (int)$prev_clicks;
-        if($prev_clicks !== false) {
-            $new_clicks = $prev_clicks + 1;
+            $prev_clicks = (int)$prev_clicks;
+            if($prev_clicks !== false) {
+                $new_clicks = $prev_clicks + 1;
+            } else {
+                $new_clicks = 1;
+            }
+
+            // update the meta
+            update_post_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
+        } elseif($btn_type === 'comment') {
+            // for posts/pages/cpt: get post meta and update it
+            $prev_clicks = get_comment_meta( $pid, 'enp_button_'.$btn_slug, true);
+
+            $prev_clicks = (int)$prev_clicks;
+            if($prev_clicks !== false) {
+                $new_clicks = $prev_clicks + 1;
+            } else {
+                $new_clicks = 1;
+            }
+
+            // update the meta
+            update_comment_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
         } else {
-            $new_clicks = 1;
+            // wait, what kind of post is it then?
         }
 
-        // update the meta
-        update_post_meta( $pid, 'enp_button_'.$btn_slug.'_'.$pid, $new_clicks );
 
         $response->add( array(
             'data'  => 'success',
