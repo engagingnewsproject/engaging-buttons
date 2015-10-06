@@ -10,11 +10,20 @@ jQuery( document ).ready( function( $ ) {
 
     $('.enp-btn').click(function(e) {
         e.preventDefault();
+        if( $(this).hasClass('enp-btn__clicked')||
+            $(this).hasClass('enp-btn__success')||
+            $(this).hasClass('enp-btn__error')  ||
+            $(this).hasClass('enp-btn__disabled')
+        ) {
+            return; // hey! You're not supposed to click me!
+        } else {
+            // $(this).addClass('enp-btn__disabled');
+            $(this).addClass('enp-btn__clicked');
+        }
 
         // assume that our front-end check is enough
         // and increase it by 1 for a super fast response time
-        increaseCount(this);
-
+        enp_increaseCount(this);
 
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
         var id       = $(this).attr( 'data-pid' );
@@ -45,13 +54,28 @@ jQuery( document ).ready( function( $ ) {
                 // here's how to get the new count from the returned xml doc though
                 // var count = $(xml).find('count').text();
 
+                var pid = $(xml).find('pid').text();
+                var btn_slug = $(xml).find('slug').text();
+                var btn = $('#'+btn_slug+'_'+pid);
                 var response = $(xml).find('response_data').text(); // will === 'success' or 'error'
+
                 if(response === 'error') {
                     // there was an error updating the meta key on the server
                     // reset the count back one and let the user know what's up
-                    var pid = $(xml).find('pid').text();
                     var message = $(xml).find('message').text();
                     $('.enp-btns-'+pid).append('<p class="enp-btn-error-message">'+message+'</p>');
+
+                    // roll back the count
+                    var new_count = enp_getBtnCount(btn);
+                    var roll_back_count = new_count - 1;
+                    $('.enp-btn__count', btn).text(roll_back_count);
+
+                    // add disabled and error classes to the button
+                    btn.addClass('enp-btn__disabled enp-btn__error');
+
+                } else {
+                    // success! add a btn class so we can style if we want to
+                    btn.addClass('enp-btn__success');
                 }
 
             },
@@ -69,12 +93,8 @@ jQuery( document ).ready( function( $ ) {
 
 
     // Increase the count by 1
-    function increaseCount(btn) {
-
-        count = $('.enp-btn__count', btn);
-        var curr_count = count.text();
-        // turn it into an integer
-        curr_count = parseInt(curr_count);
+    function enp_increaseCount(btn) {
+        var curr_count = enp_getBtnCount(btn);
         // if curr_count is 0, then remove the class that hides the 0
         if(curr_count === 0) {
             count.removeClass('enp-btn__count--zero');
@@ -84,6 +104,17 @@ jQuery( document ).ready( function( $ ) {
         new_count = curr_count + 1;
         // replace the text with the new number
         count.text(new_count);
+    }
+
+
+    // get the current count of a button
+    function enp_getBtnCount(btn) {
+        count = $('.enp-btn__count', btn);
+        var curr_count = count.text();
+        // turn it into an integer
+        curr_count = parseInt(curr_count);
+
+        return curr_count;
     }
 
 

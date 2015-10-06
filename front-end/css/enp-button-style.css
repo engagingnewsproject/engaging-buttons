@@ -38,6 +38,23 @@
     background: #ffc636;
 }
 
+.enp-btns .enp-btn__clicked,
+.enp-btns .enp-btn__clicked:active,
+.enp-btns .enp-btn__clicked:hover,
+.enp-btns .enp-btn__success,
+.enp-btns .enp-btn__success:active,
+.enp-btns .enp-btn__success:hover {
+    background: #F54B5C;
+    cursor: default;
+}
+
+.enp-btns .enp-btn__disabled,
+.enp-btns .enp-btn__disabled:active,
+.enp-btns .enp-btn__disabled:hover {
+    background: #ddd;
+    color: #777;
+}
+
 .enp-btns .enp-btn__count {
     background: rgba(0,0,0,.15);
     padding: .5em .6em .5em .8em;
