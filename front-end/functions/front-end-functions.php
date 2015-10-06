@@ -136,6 +136,23 @@ function enp_btn_append_btn_HTML($enp_btn, $post_id, $is_comment = false) {
 
 /*
 *
+*   Increase the click count by one before saving
+*
+*/
+function increaseClickCount($prev_clicks) {
+    $prev_clicks = (int)$prev_clicks;
+    if($prev_clicks !== false) {
+        $new_clicks = $prev_clicks + 1;
+    } else {
+        $new_clicks = 1;
+    }
+
+    return $new_clicks;
+}
+
+
+/*
+*
 *   Ajax increase button count on click
 *
 */
@@ -157,34 +174,26 @@ function enp_update_button_count() {
         global $wpdb;
 
         if($btn_type === 'post') {
-            // for posts/pages/cpt: get post meta and update it
-            $prev_clicks = get_post_meta( $pid, 'enp_button_'.$btn_slug, true);
-
-            $prev_clicks = (int)$prev_clicks;
-            if($prev_clicks !== false) {
-                $new_clicks = $prev_clicks + 1;
-            } else {
-                $new_clicks = 1;
-            }
-
-            // update the meta
-            update_post_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
+            // set our function names
+            $get_meta = 'get_post_meta';
+            $update_meta = 'update_post_meta';
         } elseif($btn_type === 'comment') {
-            // for posts/pages/cpt: get post meta and update it
-            $prev_clicks = get_comment_meta( $pid, 'enp_button_'.$btn_slug, true);
-
-            $prev_clicks = (int)$prev_clicks;
-            if($prev_clicks !== false) {
-                $new_clicks = $prev_clicks + 1;
-            } else {
-                $new_clicks = 1;
-            }
-
-            // update the meta
-            update_comment_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
+            // set our function names
+            $get_meta = 'get_comment_meta';
+            $update_meta = 'update_comment_meta';
         } else {
             // wait, what kind of post is it then?
+            return;
         }
+
+        // get post or comment meta and update it
+        $prev_clicks = $get_meta( $pid, 'enp_button_'.$btn_slug, true);
+
+        // increase the click by one
+        $new_clicks = increaseClickCount($prev_clicks);
+
+        // update the post or comment meta
+        $update_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
 
 
         $response->add( array(
