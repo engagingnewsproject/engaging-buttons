@@ -13,19 +13,22 @@ class Enp_Button {
     public $btn_type;
     public $btn_count;
     public $btn_lock;
+    public $is_comment;
 
-    public function __construct($slug = false) {
+    public function __construct($slug = false, $is_comment = false) {
+        $this->is_comment = $is_comment;
 
         if($slug === false) {
             // return all buttons if they didn't specify which one
             // USAGE: $enp_btns = new Enp_Button();
             //        $enp_btns = $enp_btns->get_btns();
-            $this->get_btns();
+            $this->get_btns($slug);
 
         } else {
             // get the one they asked for
             // USAGE: $enp_btn = new Enp_Button('respect');
             $enp_btn = $this->set_btn($slug);
+
         }
 
     }
@@ -40,7 +43,6 @@ class Enp_Button {
 
         // get the data from wp_options
         $enp_btn = get_option('enp_button_'.$slug);
-
         // set all the attributes
         $this->btn_slug  =  $this->set_btn_slug($enp_btn);
         $this->btn_name  =  $this->set_btn_name($enp_btn);
@@ -107,18 +109,24 @@ class Enp_Button {
     *
     */
     protected function set_btn_count($enp_btn) {
-        global $post;
-        $post_id = $post->ID;
-
-        $count = 0;
-
-        if($post_id !== false) {
-            // individual post button
-            $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$post_id, true);
+        if($this->is_comment === true) {
+            global $comment;
+            $comment_id = $comment->comment_ID;
+            $enp_btn_count = get_comment_meta($comment_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$comment_id, true);
         } else {
-            // global post button
-            $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
+            global $post;
+            $post_id = $post->ID;
+
+            if($post_id !== false) {
+                // individual post button
+                $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'].'_'.$post_id, true);
+            } else {
+                // global post button
+                $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
+            }
         }
+        // default 0 if nothing is found/posted yet
+        $count = 0;
 
         if(!empty($enp_btn_count)) {
             $count = (int) $enp_btn_count;
@@ -223,9 +231,9 @@ class Enp_Button {
     */
     public function get_btns() {
         $enp_btns = $this->get_btn_slugs();
-        foreach($enp_btns as $slug) {
 
-            $enp_btns_obj[] = new Enp_Button($slug);
+        foreach($enp_btns as $slug) {
+            $enp_btns_obj[] = new Enp_Button($slug, $this->is_comment);
         }
 
         return $enp_btns_obj;
