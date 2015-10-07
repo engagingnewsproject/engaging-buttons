@@ -110,8 +110,8 @@ function add_enp_button_names($values) {
 *
 *   Gets all registered content types (posts, pages, custom posts)
 *   Need to set the btn_type variable before saving
-*   Returns an array( [0] => array('slug'=>'comments', 'label_name'=>'Comments'),
-*                     [1] => array('slug'=>'posts', 'label_name'=>'Posts'),
+*   Returns an array( [0] => array('slug'=>'comment', 'label_name'=>'Comments'),
+*                     [1] => array('slug'=>'post', 'label_name'=>'Posts'),
 *                     [2] => array(...)
 *                   )
 *
@@ -126,7 +126,7 @@ function registeredContentTypes() {
 
     // add in the comments array
     $registered_content_types[] = array(
-                        'slug'=>'comments',
+                        'slug'=>'comment',
                         'label_name'=>'Comments'
                     );
 
@@ -161,7 +161,8 @@ function buttonCreateForm($enp_buttons, $registered_content_types) {
     } else {
         $i = 0;
         foreach($enp_buttons as $enp_button) {
-            $enp_btn_obj = new Enp_Button($enp_button['btn_slug']);
+            $args['btn_slug'] = $enp_button['btn_slug'];
+            $enp_btn_obj = new Enp_Button($args);
             $formHTML .= buttonCreateFormHTML($enp_buttons, $registered_content_types, $i, $enp_btn_obj);
             $i++;
         }

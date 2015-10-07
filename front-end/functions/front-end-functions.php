@@ -17,9 +17,12 @@
 *
 */
 
-function enp_get_all_btns($slug = false, $is_comment = false) {
-    $enp_btns = new Enp_Button($slug, $is_comment);
-    $enp_btns = $enp_btns->get_btns();
+function enp_get_all_btns($args) {
+    // we don't want to get any buttons that aren't a part of that post type
+    // rather, we ONLY want ones that ARE a part of that post type
+
+    $enp_btns = new Enp_Button($args);
+    $enp_btns = $enp_btns->get_btns($args);
 
     return $enp_btns;
 }
@@ -30,8 +33,8 @@ function enp_get_all_btns($slug = false, $is_comment = false) {
 *   could be useful for adding a filter or hook later
 *
 */
-function enp_get_btn($slug, $is_comment) {
-    $enp_btns = new Enp_Button($slug, $is_comment);
+function enp_get_btn($args) {
+    $enp_btns = new Enp_Button($args);
 
     return $enp_btns;
 }
@@ -48,6 +51,13 @@ function enp_append_post_btns( $content ) {
 
     $content .= enp_btns_HTML($post_id);
 
+    /*$args = array(
+                'post_id' => 4,
+                'btn_slug' => 'respect',
+                'btn_type' => 'post'
+            );
+    $test_btn = new Enp_Button($args);
+    var_dump($test_btn);*/
     return $content;
 }
 add_filter( 'the_content', 'enp_append_post_btns' );
@@ -79,9 +89,18 @@ function enp_btns_HTML($id, $is_comment = false) {
     } else {
         $classes[] = 'enp-btns-post-'.$id;
     }
+
+    if($is_comment === true) {
+        $btn_type_arg = 'comment';
+    } else {
+        $btn_type_arg = false;
+    }
     // don't specify a button slug (false) so we can get all buttons
-    $slug = false;
-    $enp_btns = enp_get_all_btns($slug, $is_comment);
+    $args = array(
+                'btn_slug' => false,
+                'btn_type' => $btn_type_arg
+            );
+    $enp_btns = enp_get_all_btns($args);
 
     if(!empty($enp_btns[0])) {
         $enp_btn_HTML = '<ul class="';

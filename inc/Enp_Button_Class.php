@@ -13,43 +13,81 @@ class Enp_Button {
     public $btn_type;
     public $btn_count;
     public $btn_lock;
-    public $is_comment;
 
-    public function __construct($slug = false, $is_comment = false) {
-        // set our comment flag
-        $this->is_comment = $is_comment;
 
-        if($slug === false) {
+    //public function __construct($slug = false, $is_comment = false) {
+    public function __construct($args = array()) {
+        // arguments for querying the Enp_Button object
+        $default_args = array(
+            'post_id' => false, // set to post or comment id
+            'btn_slug' => false, // set to slug, "respect", "recommend", "important"
+            'btn_type' => false // slug of the post type. post, page, comment, or cpt slug
+        );
+
+        $args = array_merge($default_args, $args);
+
+        if($args['btn_slug'] === false) {
             // return all buttons if they didn't specify which one
             // USAGE: $enp_btns = new Enp_Button();
             //        $enp_btns = $enp_btns->get_btns();
-            $this->get_btns($slug);
+            $this->get_btns($args);
 
         } else {
             // get the one they asked for
             // USAGE: $enp_btn = new Enp_Button('respect');
-            $enp_btn = $this->set_btn($slug);
+            $enp_btn = $this->set_btn($args);
 
         }
 
     }
 
-    public function get_btn($slug) {
+    /*
+    NOT IN USE
+    public function get_btn($args) {
         $enp_btn_values = get_option('enp_buttons_'.$slug);
+
         return $this->set_btn($enp_btn_values);
-    }
+    }*/
 
 
-    protected function set_btn($slug) {
+    protected function set_btn($args) {
 
-        // get the data from wp_options
-        $enp_btn = get_option('enp_button_'.$slug);
-        // set all the attributes
-        $this->btn_slug  =  $this->set_btn_slug($enp_btn);
-        $this->btn_name  =  $this->set_btn_name($enp_btn);
-        $this->btn_type  =  $this->set_btn_type($enp_btn);
-        $this->btn_count =  $this->set_btn_count($enp_btn);
-        $this->btn_lock  =  $this->set_btn_lock();
+
+        // try/catch to return exception if no button is found
+        try {
+             // get the data from wp_options
+
+            if($args['btn_slug'] !== false) {
+                $slug = $args['btn_slug'];
+                $enp_btn = get_option('enp_button_'.$slug);
+            } else {
+                $enp_btn = false;
+                throw new Exception('Enp_Button: No btn_slug set.');
+            }
+
+            if($enp_btn !== false) {
+                $this->btn_type  =  $this->set_btn_type($enp_btn, $args);
+                // check to see if the button types return true
+                if($this->btn_type !== false) {
+                    $this->btn_slug  =  $this->set_btn_slug($enp_btn);
+                    // set all the attributes
+                    $this->btn_name  =  $this->set_btn_name($enp_btn);
+
+                    $this->btn_count =  $this->set_btn_count($enp_btn, $args);
+                    $this->btn_lock  =  $this->set_btn_lock();
+                } else {
+                    throw new Exception('Enp_Button: No button found for that btn_type');
+                }
+
+            } else {
+                throw new Exception('Enp_Button: No button found');
+            }
+        } catch(Exception $e) {
+            // return our exception
+            echo $e->getMessage();
+            return false;
+        }
+
     }
 
     /*
@@ -82,14 +120,33 @@ class Enp_Button {
     /*
     *
     *   set the button type for the current Enp_Button object
-    *   as an array of types - ie - ['btn_type'] => array('comments' => false, 'posts' => true)
+    *   as an array of types - ie - ['btn_type'] => array('comment' => false, 'posts' => true)
     *
     */
-    protected function set_btn_type($enp_btn) {
+    protected function set_btn_type($enp_btn, $args) {
         $btn_type = false;
 
         if(isset($enp_btn['btn_type'])) {
             $btn_type = $enp_btn['btn_type'];
+        }
+
+        // check if our args match at all. If there's a match, then we can return the object
+
+        if($btn_type !== false && $args['btn_type'] !== false) {
+            $btn_type_match = false;
+            // this is a string, so we can check if that btn_type is set to true
+            if( $btn_type[$args['btn_type']] !== false ) {
+                $btn_type_match = true;
+            }
+        } else {
+            $btn_type_match = true; // because there's nothing requested (false),
+                                    // not really a match but we should return the object
+        }
+
+        if($btn_type_match === true) {
+            return $btn_type;
+        } else {
+            return false;
         }
 
         // TODO?
@@ -100,7 +157,7 @@ class Enp_Button {
         // set as false. It's an extra check for something that's not a big
         // deal though, so I'm not sure if it's worth the resources or not
 
-        return $btn_type;
+
     }
 
 
@@ -109,27 +166,41 @@ class Enp_Button {
     *   Set the btn count value
     *
     */
-    protected function set_btn_count($enp_btn) {
-        if($this->is_comment === true) {
-            global $comment;
-            $comment_id = $comment->comment_ID;
+    protected function set_btn_count($enp_btn, $args) {
+        $enp_btn_count = false;
+
+        if($args['btn_type'] === 'comment') {
+            if($args['post_id'] !== false) {
+                $comment_id = $args['post_id'];
+            } else {
+                global $comment;
+                $comment_id = $comment->comment_ID;
+            }
+
             $enp_btn_count = get_comment_meta($comment_id, 'enp_button_'.$enp_btn['btn_slug'], true);
         } else {
-            global $post;
-            $post_id = $post->ID;
+            $post_id = false;
+            if($args['post_id'] !== false) {
+                $post_id = $args['post_id'];
+                var_dump($post_id);
+            } else {
+                global $post;
+                $post_id = $post->ID;
+            }
 
             if($post_id !== false) {
                 // individual post button
                 $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'], true);
             } else {
-                // global post button
                 $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
             }
+
         }
+
         // default 0 if nothing is found/posted yet
         $count = 0;
 
-        if(!empty($enp_btn_count)) {
+        if($enp_btn_count !== false) {
             $count = (int) $enp_btn_count;
         }
 
@@ -189,7 +260,7 @@ class Enp_Button {
     /*
     *
     *   get an individual button type
-    *   returns array of types - ie - array('comments' => false, 'posts' => true)
+    *   returns array of types - ie - array('comment' => false, 'posts' => true)
     *
     */
     public function get_btn_type($type = false) {
@@ -230,11 +301,12 @@ class Enp_Button {
     *   }
     *
     */
-    public function get_btns() {
+    public function get_btns($args) {
         $enp_btns = $this->get_btn_slugs();
 
         foreach($enp_btns as $slug) {
-            $enp_btns_obj[] = new Enp_Button($slug, $this->is_comment);
+            $args['btn_slug'] = $slug;
+            $enp_btns_obj[] = new Enp_Button($args);
         }
 
         return $enp_btns_obj;
