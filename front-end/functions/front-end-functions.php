@@ -48,10 +48,11 @@ function enp_get_btn($args) {
 function enp_append_post_btns( $content ) {
     global $post;
     $post_id = $post->ID;
+    $post_type = get_post_type( $post );
 
     $args = array(
                 'post_id' => $post_id,
-                'btn_type' => false
+                'btn_type' => $post_type
             );
 
     $content .= enp_btns_HTML($args);

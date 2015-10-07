@@ -185,8 +185,9 @@ class Enp_Button {
             }
 
             $enp_btn_count = get_comment_meta($comment_id, 'enp_button_'.$enp_btn['btn_slug'], true);
-        } else {
+        } elseif(!is_admin()) {
             $post_id = false;
+
             if($args['post_id'] !== false) {
                 $post_id = $args['post_id'];
             } else {
