@@ -87,6 +87,10 @@ add_filter( 'comment_text', 'enp_append_comment_btns' );
 function enp_btns_HTML($args) {
     $enp_btn_HTML = '';
 
+    // get the button objects
+    $enp_btns = enp_get_all_btns($args);
+
+    // classes array for outputting in our HTML
     $classes = ["enp-btns"];
 
     if($args['btn_type'] === 'comment') {
@@ -95,10 +99,8 @@ function enp_btns_HTML($args) {
         $classes[] = 'enp-btns-post-'.$args['post_id'];
     }
 
-    $enp_btns = enp_get_all_btns($args);
-
-
-    if(!empty($enp_btns[0]) ) {
+    // if
+    if(enp_button_exists($enp_btns[0])) {
         $enp_btn_HTML = '<ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
@@ -106,7 +108,7 @@ function enp_btns_HTML($args) {
         $enp_btn_HTML .= '">';
 
         foreach($enp_btns as $enp_btn) {
-            if(enp_button_exists($enp_btn) === true) {
+            if(enp_button_exists($enp_btn)) {
                 $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args);
             }
 
