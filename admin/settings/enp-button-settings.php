@@ -68,41 +68,6 @@ function enp_button_page() { ?>
         </div>
         <?php }
 
-        /*
-        $enp_btns = new Enp_Button();
-        $enp_btns = $enp_btns->get_btns();
-        echo '<strong>Enp_Buttons object</strong><br/>';
-        var_dump($enp_btns);
-        echo '<br/><br/>';
-        foreach($enp_btns as $enp_btn) {
-            echo '<h1>'.$enp_btn->get_btn_name().'</h1>';
-        }
-
-        $enp_btn = new Enp_Button('respect');
-        // RIGHT NOW, this is an array. We want it to be an object.
-        echo '<br/><strong>Enp_Button object</strong><br/>';
-        var_dump($enp_btn);
-
-
-        echo '<br/><strong>Enp_Button Name</strong><br/>';
-        var_dump($enp_btn->get_btn_name());
-
-
-        $enp_btn = new Enp_Button('recommend');
-        // RIGHT NOW, this is an array. We want it to be an object.
-        echo '<br/><strong>Enp_Button object</strong><br/>';
-        var_dump($enp_btn);
-
-
-        echo '<br/><strong>Enp_Button Slug</strong><br/>';
-        var_dump($enp_btn->get_btn_slug());
-
-
-
-        echo '<br/><strong>Registered Content Types</strong><br/>';
-        var_dump(registeredContentTypes());
-        */
-
 
         // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');

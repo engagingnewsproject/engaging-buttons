@@ -262,8 +262,18 @@ function buttonCreateBtnType($enp_buttons, $i, $registered_content_types) {
 function buttonCreateBtnTypeHTML($enp_buttons, $i, $content_type) {
     $checklist_html ='';
 
+    $name = 'enp_buttons['.$i.'][btn_type]['.$content_type['slug'].']';
+
+    // set our default value to false
+    $checked_val = false;
+    // this is absurdly convoluted, but it works... Improvements are welcome
+    if(isset($enp_buttons[$i]['btn_type'][$content_type['slug']])) {
+        // set the value
+        $checked_val = $enp_buttons[$i]['btn_type'][$content_type['slug']];
+    }
+
     $checklist_html .= '<label>
-                            <input type="checkbox" name="enp_buttons['.$i.'][btn_type]['.$content_type['slug'].']" value="1" '.checked(true, $enp_buttons[$i]['btn_type'][$content_type['slug']], false).' aria-describedby="enp-button-content-type-description"/> '.$content_type['label_name'].'
+                            <input type="checkbox" name="'.$name.'" value="1" '.checked(true, $checked_val, false).' aria-describedby="enp-button-content-type-description"/> '.$content_type['label_name'].'
                         </label>
                         <br/>';
 

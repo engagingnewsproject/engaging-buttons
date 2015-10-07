@@ -99,7 +99,7 @@ function enp_btns_HTML($args) {
         $classes[] = 'enp-btns-post-'.$args['post_id'];
     }
 
-    // if
+    // check if the first one is full of null values
     if(enp_button_exists($enp_btns[0])) {
         $enp_btn_HTML = '<ul class="';
         foreach($classes as $class) {
@@ -199,7 +199,7 @@ function enp_update_button_count() {
     // Get the Post ID from the URL
     $pid = $_REQUEST['pid'];
     $btn_slug = $_REQUEST['slug'];
-    $btn_type = $_REQUEST['type'];
+    $btn_type = $_REQUEST['type']; // post or comment? We don't need the specific post type
 
     // Instantiate WP_Ajax_Response
     $response = new WP_Ajax_Response;
