@@ -49,15 +49,13 @@ function enp_append_post_btns( $content ) {
     global $post;
     $post_id = $post->ID;
 
-    $content .= enp_btns_HTML($post_id);
-
-    /*$args = array(
-                'post_id' => 4,
-                'btn_slug' => 'respect',
-                'btn_type' => 'post'
+    $args = array(
+                'post_id' => $post_id,
+                'btn_type' => false
             );
-    $test_btn = new Enp_Button($args);
-    var_dump($test_btn);*/
+
+    $content .= enp_btns_HTML($args);
+
     return $content;
 }
 add_filter( 'the_content', 'enp_append_post_btns' );
@@ -66,9 +64,13 @@ add_filter( 'the_content', 'enp_append_post_btns' );
 function enp_append_comment_btns( $content ) {
     global $comment;
     $comment_id = $comment->comment_ID;
-    $is_comment = true;
 
-    $content .= enp_btns_HTML($comment_id, $is_comment);
+    $args = array(
+                'post_id' => $comment_id,
+                'btn_type' => 'comment'
+            );
+
+    $content .= enp_btns_HTML($args);
 
     return $content;
 }
@@ -81,28 +83,21 @@ add_filter( 'comment_text', 'enp_append_comment_btns' );
 *   Generate enp button html and return it
 *
 */
-function enp_btns_HTML($id, $is_comment = false) {
+function enp_btns_HTML($args) {
+    $enp_btn_HTML = '';
+
     $classes = ["enp-btns"];
 
-    if($is_comment === true) {
-        $classes[] = 'enp-btns-comment-'.$id;
+    if($args['btn_type'] === 'comment') {
+        $classes[] = 'enp-btns-comment-'.$args['post_id'];
     } else {
-        $classes[] = 'enp-btns-post-'.$id;
+        $classes[] = 'enp-btns-post-'.$args['post_id'];
     }
 
-    if($is_comment === true) {
-        $btn_type_arg = 'comment';
-    } else {
-        $btn_type_arg = false;
-    }
-    // don't specify a button slug (false) so we can get all buttons
-    $args = array(
-                'btn_slug' => false,
-                'btn_type' => $btn_type_arg
-            );
     $enp_btns = enp_get_all_btns($args);
 
-    if(!empty($enp_btns[0])) {
+
+    if(!empty($enp_btns[0]) ) {
         $enp_btn_HTML = '<ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
@@ -110,8 +105,10 @@ function enp_btns_HTML($id, $is_comment = false) {
         $enp_btn_HTML .= '">';
 
         foreach($enp_btns as $enp_btn) {
+            if(enp_button_exists($enp_btn) === true) {
+                $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args);
+            }
 
-            $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $id, $is_comment);
         }
 
         $enp_btn_HTML .= '</ul>';
@@ -128,9 +125,11 @@ function enp_btns_HTML($id, $is_comment = false) {
 *   ENP Btn HTML for displaying on front-end
 *
 */
-function enp_btn_append_btn_HTML($enp_btn, $post_id, $is_comment = false) {
+function enp_btn_append_btn_HTML($enp_btn, $args) {
+
+    $post_id = $args['post_id'];
     // Create a nonce for this action
-    if($is_comment === true) {
+    if($args['btn_type'] === 'comment') {
         $type = 'comment';
     } else {
         $type = 'post';
@@ -150,6 +149,20 @@ function enp_btn_append_btn_HTML($enp_btn, $post_id, $is_comment = false) {
                             </li>';
 
     return $enp_btn_HTML;
+}
+
+/*
+*
+*   Basic check to make sure that our object isn't full of null values
+*
+*/
+function enp_button_exists($enp_btn) {
+
+    if($enp_btn->get_btn_slug() === NULL) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 

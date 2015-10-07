@@ -15,12 +15,20 @@ class Enp_Button {
     public $btn_lock;
 
 
+    /*$args = array(
+                'post_id' => 4,
+                'btn_slug' => 'respect',
+                'btn_type' => 'post'
+            );
+    $test_btn = new Enp_Button($args);
+    var_dump($test_btn);*/
+
     //public function __construct($slug = false, $is_comment = false) {
     public function __construct($args = array()) {
         // arguments for querying the Enp_Button object
         $default_args = array(
             'post_id' => false, // set to post or comment id
-            'btn_slug' => false, // set to slug, "respect", "recommend", "important"
+            'btn_slug' => false, // set to slug string or array of strings, "respect", "recommend", "important". also accepts array
             'btn_type' => false // slug of the post type. post, page, comment, or cpt slug
         );
 
@@ -76,7 +84,7 @@ class Enp_Button {
                     $this->btn_count =  $this->set_btn_count($enp_btn, $args);
                     $this->btn_lock  =  $this->set_btn_lock();
                 } else {
-                    throw new Exception('Enp_Button: No button found for that btn_type');
+                    // throw new Exception('Enp_Button: No button found for that btn_type');
                 }
 
             } else {
@@ -85,7 +93,6 @@ class Enp_Button {
         } catch(Exception $e) {
             // return our exception
             echo $e->getMessage();
-            return false;
         }
 
     }
@@ -131,10 +138,10 @@ class Enp_Button {
         }
 
         // check if our args match at all. If there's a match, then we can return the object
-
         if($btn_type !== false && $args['btn_type'] !== false) {
             $btn_type_match = false;
             // this is a string, so we can check if that btn_type is set to true
+            // because this will check for $btn_type['comment'] = '1', etc
             if( $btn_type[$args['btn_type']] !== false ) {
                 $btn_type_match = true;
             }
@@ -182,7 +189,6 @@ class Enp_Button {
             $post_id = false;
             if($args['post_id'] !== false) {
                 $post_id = $args['post_id'];
-                var_dump($post_id);
             } else {
                 global $post;
                 $post_id = $post->ID;
@@ -192,7 +198,8 @@ class Enp_Button {
                 // individual post button
                 $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'], true);
             } else {
-                $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
+                // TODO: get a global count?
+                // $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);
             }
 
         }
@@ -308,6 +315,19 @@ class Enp_Button {
             $args['btn_slug'] = $slug;
             $enp_btns_obj[] = new Enp_Button($args);
         }
+
+        $i = 0;
+        foreach($enp_btns_obj as $obj) {
+             // remove any null objects
+            if($obj->btn_slug === NULL) {
+                unset($enp_btns_obj[$i]); //removes the array at given index
+                $reindex = array_values($enp_btns_obj); //normalize index
+                $enp_btns_obj = $reindex; //update variable
+            }
+
+            $i++;
+        }
+
 
         return $enp_btns_obj;
     }
