@@ -193,14 +193,41 @@ function increaseClickCount($prev_clicks) {
 */
 
 add_action( 'wp_ajax_enp_update_button_count', 'enp_update_button_count' );
-add_action( 'wp_ajax_nopriv_enp_update_button_count', 'enp_update_button_count' );
+add_action( 'wp_ajax_nopriv_enp_update_button_count', 'enp_update_button_count_not_logged_in' );
+
+function enp_update_button_count_not_logged_in() {
+
+
+    // check if logged in is set
+    $require_logged_in = enp_require_logged_in();
+    $is_logged_in = is_user_logged_in();
+
+    if($require_logged_in === true && $is_logged_in === false) {
+        // throw an error
+        $btn_slug = $_REQUEST['slug'];
+        $pid = $_REQUEST['pid'];
+        $btn_type = $_REQUEST['type'];
+
+        die(json_encode(array('response_status'=>'error', 'pid' => $pid, 'btn_type'=> $btn_type, 'btn_slug'=> $btn_slug,'message' => 'You must be logged in to click this button. Please Log In and try again.')));
+    } elseif($require_logged_in === false && $is_logged_in === false) {
+        // they're not logged in, and we're not requiring logged in, so we can run this
+        enp_update_button_count();
+    }
+
+}
+
 
 function enp_update_button_count() {
-    // Get the Post ID from the URL
     $pid = $_REQUEST['pid'];
     $btn_slug = $_REQUEST['slug'];
     $btn_type = $_REQUEST['type']; // post or comment? We don't need the specific post type
 
+    enp_process_update_button_count($pid, $btn_slug, $btn_type);
+}
+
+
+
+function enp_process_update_button_count($pid, $btn_slug, $btn_type) {
     // Instantiate WP_Ajax_Response
     $response = new WP_Ajax_Response;
 
@@ -249,6 +276,7 @@ function enp_update_button_count() {
             'supplemental' => array(
                 'pid' => $pid,
                 'slug' => $btn_slug,
+                'type' => $btn_type,
                 'message' => 'We couldn\'t update the '.ucfirst($btn_slug).' button count. Reload this page and try again.',
                 ),
             )
@@ -261,5 +289,15 @@ function enp_update_button_count() {
     exit();
 }
 
+
+function enp_require_logged_in() {
+    $require_logged_in = get_option('enp_button_must_be_logged_in');
+
+    if($require_logged_in !== false) {
+        $require_logged_in = true;
+    }
+
+    return $require_logged_in;
+}
 
 ?>

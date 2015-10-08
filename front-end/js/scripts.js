@@ -65,15 +65,10 @@ jQuery( document ).ready( function( $ ) {
                     // there was an error updating the meta key on the server
                     // reset the count back one and let the user know what's up
                     var message = $(xml).find('message').text();
-                    $('.enp-btns-'+pid).append('<p class="enp-btn-error-message">'+message+'</p>');
-
-                    // roll back the count
-                    var new_count = enp_getBtnCount(btn);
-                    var roll_back_count = new_count - 1;
-                    $('.enp-btn__count', btn).text(roll_back_count);
-
-                    // add disabled and error classes to the button
-                    btn.addClass('enp-btn__disabled enp-btn__error');
+                    // show error message
+                    var btn_group = $('.enp-btns-'+btn_type+'-'+pid);
+                    // process the error
+                    enp_processError(btn, btn_group, message);
 
                 } else {
                     // success! add a btn class so we can style if we want to
@@ -81,11 +76,20 @@ jQuery( document ).ready( function( $ ) {
                 }
 
             },
-            error:function(xml) {
+            error:function(json) {
+
+                var error = $.parseJSON(json.responseText);
                 // An error occurred when trying to post, alert an error message
-                var message = $(xml).find('message').text();
-                // logs the error in console
-                console.log(xml.responseText);
+                var message = error.message;
+                var pid = error.pid;
+                var btn_type = error.btn_type;
+                var btn_slug = error.btn_slug;
+                // create objects
+                var btn = $('#'+btn_slug+'_'+btn_type+'_'+pid);
+                var btn_group = $('.enp-btns-'+btn_type+'-'+pid);
+
+                // process the error
+                enp_processError(btn, btn_group, message);
             }
 
 
@@ -118,6 +122,24 @@ jQuery( document ).ready( function( $ ) {
         curr_count = parseInt(curr_count);
 
         return curr_count;
+    }
+
+    // roll back count on error
+    function enp_rollBackCount(btn) {
+        var new_count = enp_getBtnCount(btn);
+        var roll_back_count = new_count - 1;
+        $('.enp-btn__count', btn).text(roll_back_count);
+    }
+
+    function enp_processError(btn, btn_group, message) {
+        // roll back count
+        enp_rollBackCount(btn);
+
+        // append the error message
+        btn_group.append('<p class="enp-btn-error-message">'+message+'</p>');
+
+        // add disabled and error classes to the button
+        btn.addClass('enp-btn__disabled enp-btn__error');
     }
 
 
