@@ -103,7 +103,6 @@ function enp_btns_HTML($args) {
 
     // check if logged in is set
     $enp_btn_clickable = enp_btn_clickable();
-    var_dump($enp_btn_clickable);
 
     // check if the first one is full of null values
     if(enp_button_exists($enp_btns[0])) {
