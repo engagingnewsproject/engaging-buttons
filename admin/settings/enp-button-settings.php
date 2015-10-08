@@ -4,7 +4,7 @@
 add_action('admin_menu', 'enp_create_menu');
 function enp_create_menu() {
     //create new top-level menu
-    add_menu_page('Engaging Button', 'Engaging Button', 'manage_options', 'enp_button_page', 'enp_button_page', 'dashicons-megaphone', 100);
+    add_options_page('Engaging Button', 'Engaging Button', 'manage_options', 'enp_button_page', 'enp_button_page', 'dashicons-megaphone', 100);
 }
 
 
@@ -60,7 +60,7 @@ function enp_button_page() { ?>
 <div class="wrap enp-respect-button-options">
 
     <form method="post" action="options.php">
-        <h1>Respect Button Settings</h1>
+        <h1>Engaging Button Settings</h1>
 
         <?php if(isset( $_GET['settings-updated'])) { ?>
         <div class="updated">

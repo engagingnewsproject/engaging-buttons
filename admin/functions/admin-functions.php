@@ -192,7 +192,7 @@ function buttonCreateFormHTML($enp_buttons, $registered_content_types, $i = 0, $
                     </tr>
                     <tr>
                         <th scope="row">
-                            <label for="enp-button-content-type">How to Use this Button</label>
+                            <label for="enp-button-content-type">Where to Use this Button</label>
                         </th>
                         <td>
                             <fieldset>'.
