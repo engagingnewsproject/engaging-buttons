@@ -6,19 +6,39 @@
 
 jQuery( document ).ready( function( $ ) {
 
-    console.log('Enp Button scripts enqueued');
 
     $('.enp-btn').click(function(e) {
         e.preventDefault();
-        if( $(this).hasClass('enp-btn__clicked')||
-            $(this).hasClass('enp-btn__success')||
-            $(this).hasClass('enp-btn__error')  ||
-            $(this).hasClass('enp-btn__disabled')
+
+        // if user is not logged in & it's required, then disable the button
+        var enp_btn_clickable = enp_button_params.enp_btn_clickable;
+        var enp_login_url = enp_button_params.enp_login_url;
+
+        if(enp_btn_clickable == 0) { // false
+            // if we already have an error message, destroy it
+            if($('.enp-btn-error-message').length) {
+                $('.enp-btn-error-message').remove();
+            }
+
+            var btns_group_wrap_id = $(this).parent().parent().parent().attr('id');
+            // append the button wrap id to the login url
+            enp_login_url = enp_login_url+'%2F%23'+btns_group_wrap_id;
+            // get the place to append the message
+            var btn_group = $(this).parent().parent();
+            var message = 'You must be <a href="'+enp_login_url+'">logged in</a> to click this button. Please <a href="'+enp_login_url+'">log in</a> and try again.';
+            enp_errorMessage(btn_group, message);
+            return false;
+        }
+
+        if( $(this).hasClass('enp-btn--clicked')||
+            $(this).hasClass('enp-btn--success')||
+            $(this).hasClass('enp-btn--error')  ||
+            $(this).hasClass('enp-btn--disabled')
         ) {
             return; // hey! You're not supposed to click me!
         } else {
-            // $(this).addClass('enp-btn__disabled');
-            $(this).addClass('enp-btn__clicked');
+            // $(this).addClass('enp-btn--disabled');
+            $(this).addClass('enp-btn--clicked');
         }
 
         // assume that our front-end check is enough
@@ -72,7 +92,7 @@ jQuery( document ).ready( function( $ ) {
 
                 } else {
                     // success! add a btn class so we can style if we want to
-                    btn.addClass('enp-btn__success');
+                    btn.addClass('enp-btn--success');
                 }
 
             },
@@ -131,15 +151,20 @@ jQuery( document ).ready( function( $ ) {
         $('.enp-btn__count', btn).text(roll_back_count);
     }
 
+    function enp_errorMessage(obj, message) {
+        // append the error message
+        obj.append('<p class="enp-btn-error-message">'+message+'</p>');
+    }
+
     function enp_processError(btn, btn_group, message) {
         // roll back count
         enp_rollBackCount(btn);
 
-        // append the error message
-        btn_group.append('<p class="enp-btn-error-message">'+message+'</p>');
+        // create error message
+        enp_errorMessage(btn_group, message);
 
         // add disabled and error classes to the button
-        btn.addClass('enp-btn__disabled enp-btn__error');
+        btn.addClass('enp-btn--disabled enp-btn--error');
     }
 
 

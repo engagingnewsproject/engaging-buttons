@@ -94,14 +94,21 @@ function enp_btns_HTML($args) {
     $classes = ["enp-btns"];
 
     if($args['btn_type'] === 'comment') {
-        $classes[] = 'enp-btns-comment-'.$args['post_id'];
+        $btn_type = 'comment';
     } else {
-        $classes[] = 'enp-btns-post-'.$args['post_id'];
+        $btn_type = 'post';
     }
+
+    $classes[] = 'enp-btns-'.$btn_type.'-'.$args['post_id'];
+
+    // check if logged in is set
+    $enp_btn_clickable = enp_btn_clickable();
+    var_dump($enp_btn_clickable);
 
     // check if the first one is full of null values
     if(enp_button_exists($enp_btns[0])) {
-        $enp_btn_HTML = '<ul class="';
+        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap">
+                            <ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
         }
@@ -109,12 +116,23 @@ function enp_btns_HTML($args) {
 
         foreach($enp_btns as $enp_btn) {
             if(enp_button_exists($enp_btn)) {
-                $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args);
+                $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable);
             }
 
         }
 
         $enp_btn_HTML .= '</ul>';
+
+        if($enp_btn_clickable === false) {
+            // append a login link and message
+            // redirect them back to this button section
+            $redirect = get_permalink().'/#enp-btns-wrap-'.$btn_type.'-'.$args['post_id'];
+
+            $enp_btn_HTML .= '<p class="enp-btn-hint">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
+        }
+
+        $enp_btn_HTML .= '</div>'; // close enp-btns-wrap
+
 
     }
 
@@ -128,7 +146,7 @@ function enp_btns_HTML($args) {
 *   ENP Btn HTML for displaying on front-end
 *
 */
-function enp_btn_append_btn_HTML($enp_btn, $args) {
+function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable) {
 
     $post_id = $args['post_id'];
     // Create a nonce for this action
@@ -141,7 +159,7 @@ function enp_btn_append_btn_HTML($enp_btn, $args) {
     $nonce = wp_create_nonce( 'enp_button_'.$type.'_'.$enp_btn->get_btn_slug().'_' . $post_id );
     // Get link to admin page to trash the post and add nonces to it
     $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&type='.$type.'&pid='. $post_id .'&nonce=' .$nonce .'"
-            id="'.$enp_btn->get_btn_slug().'_'.$type.'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().' enp-btn--'.$type.'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-type="'.$type.'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
+            id="'.$enp_btn->get_btn_slug().'_'.$type.'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().' enp-btn--'.$type. ($enp_btn_clickable === false ? ' enp-btn--require-logged-in' : '').'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-type="'.$type.'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
 
     // while hard to read, this format is necessary with no breaks between span tags.
     // otherwise, WordPress's filter will add <br/>'s there. No good.
@@ -208,7 +226,30 @@ function enp_update_button_count_not_logged_in() {
         $pid = $_REQUEST['pid'];
         $btn_type = $_REQUEST['type'];
 
-        die(json_encode(array('response_status'=>'error', 'pid' => $pid, 'btn_type'=> $btn_type, 'btn_slug'=> $btn_slug,'message' => 'You must be logged in to click this button. Please Log In and try again.')));
+        // redirect url
+        if($btn_type == 'post') {
+            $login_url = wp_login_url( get_permalink($pid) );
+        } else {
+            // for comments, we need to redirect to the parent post,
+            // plus append the comment ID
+
+            // get parent post ID from the comment with a WordPess functino
+
+            $login_url = site_url();
+        }
+
+
+        // return response
+        die(json_encode(
+            array(
+                'response_status'=>'error',
+                'pid' => $pid,
+                'btn_type'=> $btn_type,
+                'btn_slug'=> $btn_slug,
+                'message' => 'You must be <a href="'.$login_url.'">logged in</a> to click this button. Please <a href="'.$login_url.'">Log In</a> and try again.'
+            )
+        ));
+
     } elseif($require_logged_in === false && $is_logged_in === false) {
         // they're not logged in, and we're not requiring logged in, so we can run this
         enp_update_button_count();
@@ -289,15 +330,5 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type) {
     exit();
 }
 
-
-function enp_require_logged_in() {
-    $require_logged_in = get_option('enp_button_must_be_logged_in');
-
-    if($require_logged_in !== false) {
-        $require_logged_in = true;
-    }
-
-    return $require_logged_in;
-}
 
 ?>

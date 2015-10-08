@@ -3,9 +3,17 @@
 *
 */
 
+.enp-btns-wrap {
+    margin-bottom: 1.6em;
+}
+
+.enp-btns-wrap .enp-btns {
+    margin-bottom: 0;
+}
+
 .enp-btns .enp-btn-wrap {
     display: inline-block;
-    margin: 0 .6em 1.2em 0;
+    margin: 0 .6em .8em 0;
 }
 
 .enp-btns .enp-btn-wrap:last-child {
@@ -38,19 +46,22 @@
     background: #ffc636;
 }
 
-.enp-btns .enp-btn__clicked,
-.enp-btns .enp-btn__clicked:active,
-.enp-btns .enp-btn__clicked:hover,
-.enp-btns .enp-btn__success,
-.enp-btns .enp-btn__success:active,
-.enp-btns .enp-btn__success:hover {
+.enp-btns .enp-btn--clicked,
+.enp-btns .enp-btn--clicked:active,
+.enp-btns .enp-btn--clicked:hover,
+.enp-btns .enp-btn--success,
+.enp-btns .enp-btn--success:active,
+.enp-btns .enp-btn--success:hover,
+.enp-btns .enp-btn--require-logged-in,
+.enp-btns .enp-btn--require-logged-in:hover,
+.enp-btns .enp-btn--require-logged-in:active {
     background: #F54B5C;
     cursor: default;
 }
 
-.enp-btns .enp-btn__disabled,
-.enp-btns .enp-btn__disabled:active,
-.enp-btns .enp-btn__disabled:hover {
+.enp-btns .enp-btn--disabled,
+.enp-btns .enp-btn--disabled:active,
+.enp-btns .enp-btn--disabled:hover {
     background: #ddd;
     color: #777;
 }
@@ -75,4 +86,10 @@
     padding: .8em;
     color: #7B0511;
     background: #FFCDCF;
+}
+
+.enp-btn-hint {
+    margin: -.4em 0 0;
+    font-size: .8em;
+    color: #666;
 }
