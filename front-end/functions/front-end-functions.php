@@ -134,7 +134,7 @@ function enp_btns_HTML($args) {
             // redirect them back to this button section
             $redirect = get_permalink().'/#enp-btns-wrap-'.$btn_type.'-'.$args['post_id'];
 
-            $enp_btn_HTML .= '<p class="enp-btn-hint enp-please-log-in-hint">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
+            $enp_btn_HTML .= '<p class="enp-btn-hint enp-hint--please-log-in">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
         }
 
 
