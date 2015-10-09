@@ -88,8 +88,13 @@
     background: #FFCDCF;
 }
 
+.enp-promote,
 .enp-btn-hint {
-    margin: -.4em 0 0;
+    margin: -.4em 0 .4em;
     font-size: .8em;
     color: #666;
+}
+
+.enp-promote {
+    margin-bottom: 2em;
 }

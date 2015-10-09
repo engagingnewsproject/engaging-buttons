@@ -61,7 +61,11 @@ function enp_append_post_btns( $content ) {
 }
 add_filter( 'the_content', 'enp_append_post_btns' );
 
-
+/*
+*
+*   Get all Buttons, and append them to each comment
+*
+*/
 function enp_append_comment_btns( $content ) {
     global $comment;
     $comment_id = $comment->comment_ID;
@@ -118,6 +122,9 @@ function enp_btns_HTML($args) {
                 $enp_btn_HTML .= enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable);
             }
 
+            // process button names to pass to the Promote option later
+            $enp_btn_names[] = $enp_btn->get_btn_name();
+
         }
 
         $enp_btn_HTML .= '</ul>';
@@ -127,8 +134,20 @@ function enp_btns_HTML($args) {
             // redirect them back to this button section
             $redirect = get_permalink().'/#enp-btns-wrap-'.$btn_type.'-'.$args['post_id'];
 
-            $enp_btn_HTML .= '<p class="enp-btn-hint">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
+            $enp_btn_HTML .= '<p class="enp-btn-hint enp-please-log-in-hint">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
         }
+
+
+        if($btn_type === 'post' && !empty($enp_btn_names)) {
+            //check if promote_enp option is set
+            $promote_enp = promote_enp();
+
+            if($promote_enp === true) {
+                $return = true;
+                $enp_btn_HTML .= promote_enp_HTML($enp_btn_names, $return); // true returns instead of echos
+            }
+        }
+
 
         $enp_btn_HTML .= '</div>'; // close enp-btns-wrap
 
@@ -171,6 +190,9 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable) {
     return $enp_btn_HTML;
 }
 
+
+
+
 /*
 *
 *   Basic check to make sure that our object isn't full of null values
@@ -185,6 +207,103 @@ function enp_button_exists($enp_btn) {
     }
 }
 
+/*
+*
+*   bool check to see if the promote Engaging News Project option is checked (true)
+*
+*/
+function promote_enp() {
+    $promote_enp = get_option('enp_button_promote_enp');
+    if( $promote_enp == 1 ) {
+        $promote_enp = true;
+    } else {
+        $promote_enp = false;
+    }
+
+    return $promote_enp;
+}
+
+/*
+*
+*   HTML for promote enp. Possibly add a filter so people can change the text?
+*
+*/
+function promote_enp_HTML($enp_btn_names = false, $return = false) {
+
+    if($enp_btn_names === false || empty($enp_btn_names)) {
+        // we're in the comments section... gotta find all our button names
+        $args = array('btn_type' => 'comment');
+        // get all buttons that are active for comments
+        $enp_btns = enp_get_all_btns($args);
+
+        // check to make sure it's not just null values
+        if(enp_button_exists($enp_btns[0])) {
+
+            foreach($enp_btns as $enp_btn) {
+                if(enp_button_exists($enp_btn)) {
+                    $enp_btn_names[] = $enp_btn->get_btn_name();
+                }
+            }
+        }
+
+    }
+
+
+    // Return Array of buttons being displayed
+    $enp_btn_name_text = '';
+    if(!empty($enp_btn_names)) {
+        $names_count = count($enp_btn_names);
+
+        $i = 1;
+        foreach($enp_btn_names as $name) {
+            // figure out if we need a comma, 'and', or nothing
+
+            // we're on the last one (or first one)
+            if($i === $names_count) {
+                if($names_count > 2) {
+                    $enp_btn_name_text .= 'and '.$name;
+                } elseif($names_count > 1) {
+                    $enp_btn_name_text .= 'and '.$name;
+                } else { // first and last (only one))
+                    $enp_btn_name_text .= $name;
+                }
+            } elseif($i === 1) { // we're on the first one
+                    if($names_count > 2) {
+                        $enp_btn_name_text .= $name.', '; // first one, and more to come
+                    } else {
+                        $enp_btn_name_text .= $name.' '; // first one and only two
+                    }
+            } else { // we're not on the first or last, so put a comma in there
+                $enp_btn_name_text .= $name.', ';
+            }
+
+            $i++;
+        }
+
+        if($names_count === 1 || $names_count === 0) {
+            $button_pluralize = '';
+        } else {
+            $button_pluralize = 's';
+        }
+    }
+
+
+    $promote_HTML = '<p class="enp-promote">'.$enp_btn_name_text.' Button'.$button_pluralize.' powered by the <a href="http://engagingnewsproject.org">Engaging News Project</a></p>';
+
+    if($return === true) {
+        return $promote_HTML; // return for appending to HTML
+    } else {
+        echo $promote_HTML; // echo for action hooks
+    }
+}
+
+/*
+*
+*   Append promote Engaging News Project to comments
+*   There's no hook for after the comment list, so we have to inject it BEFORE the comment form
+*   and hope the theme's formatting isn't too wonky
+*/
+add_action( 'comment_form_before', 'promote_enp_HTML');
 
 /*
 *
