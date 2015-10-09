@@ -4,7 +4,7 @@
 add_action('admin_menu', 'enp_create_menu');
 function enp_create_menu() {
     //create new top-level menu
-    add_options_page('Engaging Button', 'Engaging Button', 'manage_options', 'enp_button_page', 'enp_button_page', 'dashicons-megaphone', 100);
+    add_options_page('Engaging Buttons', 'Engaging Buttons', 'manage_options', 'enp_button_page', 'enp_button_page', 'dashicons-megaphone', 100);
 }
 
 
@@ -13,29 +13,6 @@ function enp_create_menu() {
 // We can't register dynamically named variables, so we're going to
 // create everything under enp_buttons and parse from there
 add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
-function set_enp_buttons_values($values) {
-    /*
-    * TODO: Refactor into one foreach loop
-    *       update_enp_button_slugs, set_unset_btn_type_values($values), add_enp_button_names($values), and update_enp_button_slug_entry($values)
-    *       each use a foreach($values as $value) loop.
-    */
-
-    // Save slugs enp_button_slugs = array('respect', 'important', 'recommend');
-    update_enp_button_slugs($values);
-
-    // set all the btn_type values to false
-    // if they weren't submitted by being checked true by the user
-    $values = set_unset_btn_type_values($values);
-
-    // Add a btn_name in there too in there too
-    $values = add_enp_button_names($values);
-
-    // Save/Create enp_button_$slug
-    update_enp_button_slug_entry($values);
-
-    // Save the entire enp_buttons as is so we have everything in one place if we need it
-    return $values;
-}
 
 
 // Create settings fields.
@@ -60,7 +37,7 @@ function enp_button_page() { ?>
 <div class="wrap enp-respect-button-options">
 
     <form method="post" action="options.php">
-        <h1>Engaging Button Settings</h1>
+        <h1>Engaging Buttons Settings</h1>
 
         <?php if(isset( $_GET['settings-updated'])) { ?>
         <div class="updated">
