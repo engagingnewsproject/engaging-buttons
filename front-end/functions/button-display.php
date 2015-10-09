@@ -103,6 +103,7 @@ function enp_btns_HTML($args) {
         $btn_type = 'post';
     }
 
+
     $classes[] = 'enp-btns-'.$btn_type.'-'.$args['post_id'];
 
     // check if logged in is set
@@ -132,7 +133,14 @@ function enp_btns_HTML($args) {
         if($enp_btn_clickable === false) {
             // append a login link and message
             // redirect them back to this button section
-            $redirect = get_permalink().'/#enp-btns-wrap-'.$btn_type.'-'.$args['post_id'];
+            if($btn_type === 'post') {
+                $redirect = get_permalink().'/#enp-btns-wrap-'.$btn_type.'-'.$args['post_id'];
+            } elseif($btn_type === 'comment') {
+                $redirect = get_comment_link($args['post_id']);
+            } else {
+                // hmmm... which type are they on?
+                $redirect = site_url();
+            }
 
             $enp_btn_HTML .= '<p class="enp-btn-hint enp-hint--please-log-in">Please <a href="'.wp_login_url( $redirect ).'">Log In</a> to click the buttons</p>';
         }
@@ -176,7 +184,7 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable) {
 
     $nonce = wp_create_nonce( 'enp_button_'.$type.'_'.$enp_btn->get_btn_slug().'_' . $post_id );
     // Get link to admin page to trash the post and add nonces to it
-    $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&type='.$type.'&pid='. $post_id .'&nonce=' .$nonce .'"
+    $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&type='.$type.'&pid='. $post_id .'&nonce=' .$nonce . '"
             id="'.$enp_btn->get_btn_slug().'_'.$type.'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().' enp-btn--'.$type. ($enp_btn_clickable === false ? ' enp-btn--require-logged-in' : '').'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-type="'.$type.'" data-btn-slug="'.$enp_btn->get_btn_slug().'">';
 
     // while hard to read, this format is necessary with no breaks between span tags.

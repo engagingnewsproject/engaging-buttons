@@ -46,15 +46,15 @@ function enp_update_button_count_not_logged_in() {
 
         // redirect url
         if($btn_type == 'post') {
-            $login_url = wp_login_url( get_permalink($pid) );
+            $redirect = get_permalink($pid).'/#enp-btns-wrap-'.$btn_type.'-'.$pid;
+        } elseif($btn_type == 'comment') {
+            $redirect = get_comment_link($pid);
         } else {
-            // TODO: for comments, we need to redirect to the parent post,
-            // plus append the comment ID
-
-            // get parent post ID from the comment with a WordPess functino
-
-            $login_url = site_url();
+            // what kind are we on then?
+            $redirect = site_url();
         }
+
+        $login_url = wp_login_url($redirect);
 
 
         // return response
