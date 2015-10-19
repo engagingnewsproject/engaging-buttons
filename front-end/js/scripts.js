@@ -52,6 +52,8 @@ jQuery( document ).ready( function( $ ) {
         var btn_type = $(this).attr( 'data-btn-type' );
         var url      = enp_button_params.ajax_url;
 
+        console.log(enp_getLocalStorage(btn_type));
+
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
         // Post to the server
         $.ajax({
@@ -93,6 +95,9 @@ jQuery( document ).ready( function( $ ) {
                 } else {
                     // success! add a btn class so we can style if we want to
                     btn.addClass('enp-btn--success');
+                    console.log('success');
+                    // set localStorage
+                    enp_setlocalStorage(btn_type, btn_slug, pid);
                 }
 
             },
@@ -165,6 +170,24 @@ jQuery( document ).ready( function( $ ) {
 
         // add disabled and error classes to the button
         btn.addClass('enp-btn--disabled enp-btn--error');
+    }
+
+    /*
+    *   localStorage function
+    */
+    function enp_setlocalStorage(type, slug, id) {
+        console.log(type+'_'+slug+'_'+id);
+        // localStorage.getItem(type+'_'+slug+'_'+id, 1);
+        var values = [enp_getLocalStorage(type)];
+        values = [slug+'_'+id];
+        localStorage.setItem('enp_button_'+type, values);
+        console.log(enp_getLocalStorage(type));
+    }
+
+    function enp_getLocalStorage(type) {
+        var values = localStorage.getItem('enp_button_'+type);
+
+        return values;
     }
 
 
