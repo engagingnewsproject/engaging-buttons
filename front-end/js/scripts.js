@@ -10,40 +10,40 @@ jQuery( document ).ready( function( $ ) {
     $('.enp-btn').click(function(e) {
         e.preventDefault();
 
+
+        if( $(this).hasClass('enp-btn--error') || $(this).hasClass('enp-btn--disabled') || $(this).hasClass('enp-btn--click-wait')) {
+            return; // hey! You're not supposed to click me! Wait a second if you've already clicked
+        } else {
+            // Delay them from clicking over and over without waiting
+            $(this).addClass('enp-btn--click-wait');
+        }
+
+
+
         // if user is not logged in & it's required, then disable the button
         var enp_btn_clickable = enp_button_params.enp_btn_clickable;
-        var enp_login_url = enp_button_params.enp_login_url;
 
         if(enp_btn_clickable == 0) { // false
-            // if we already have an error message, destroy it
-            if($('.enp-btn-error-message').length) {
-                $('.enp-btn-error-message').remove();
-            }
-
-            var btns_group_wrap_id = $(this).parent().parent().parent().attr('id');
-            // append the button wrap id to the login url
-            enp_login_url = enp_login_url+'%2F%23'+btns_group_wrap_id;
-            // get the place to append the message
-            var btn_group = $(this).parent().parent();
-            var message = 'You must be <a href="'+enp_login_url+'">logged in</a> to click this button. Please <a href="'+enp_login_url+'">log in</a> and try again.';
-            enp_errorMessage(btn_group, message);
+            // Button is disabled, return an error message with login links
+            enp_pleaseLoginError(this)
             return false;
         }
 
-        if( $(this).hasClass('enp-btn--clicked')||
-            $(this).hasClass('enp-btn--success')||
-            $(this).hasClass('enp-btn--error')  ||
-            $(this).hasClass('enp-btn--disabled')
-        ) {
-            return; // hey! You're not supposed to click me!
+
+        // distinguish between increasing or decreasing button count
+
+        var operator;
+        var post_action;
+
+        if($(this).hasClass('enp-btn--increased')) {
+            operator = '-';
         } else {
-            // $(this).addClass('enp-btn--disabled');
-            $(this).addClass('enp-btn--clicked');
+            operator = '+';
         }
 
         // assume that our front-end check is enough
         // and increase it by 1 for a super fast response time
-        enp_increaseCount(this);
+        enp_changeCount(this, operator);
 
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
         var id       = $(this).attr( 'data-pid' );
@@ -51,8 +51,6 @@ jQuery( document ).ready( function( $ ) {
         var btn_slug = $(this).attr( 'data-btn-slug' );
         var btn_type = $(this).attr( 'data-btn-type' );
         var url      = enp_button_params.ajax_url;
-
-        console.log(enp_getLocalStorage(btn_type));
 
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
         // Post to the server
@@ -64,6 +62,7 @@ jQuery( document ).ready( function( $ ) {
                     'pid': id,
                     'slug': btn_slug,
                     'type': btn_type,
+                    'operator': operator,
                     'nonce': nonce
                 },
             dataType: 'xml',
@@ -94,8 +93,18 @@ jQuery( document ).ready( function( $ ) {
 
                 } else {
                     // success! add a btn class so we can style if we want to
-                    btn.addClass('enp-btn--success');
-                    console.log('success');
+                    if(operator === '+') {
+                        btn.removeClass('enp-btn--decreased');
+                        btn.addClass('enp-btn--increased');
+                    } else {
+                        btn.removeClass('enp-btn--increased');
+                        btn.addClass('enp-btn--decreased');
+                    }
+
+
+                    // remove clicked class so they can try again
+                    btn.removeClass('enp-btn--click-wait');
+
                     // set localStorage
                     enp_setlocalStorage(btn_type, btn_slug, pid);
                 }
@@ -115,6 +124,9 @@ jQuery( document ).ready( function( $ ) {
 
                 // process the error
                 enp_processError(btn, btn_group, message);
+
+                // remove clicked class so they can try again
+                btn.removeClass('enp-btn--click-wait');
             }
 
 
@@ -125,7 +137,7 @@ jQuery( document ).ready( function( $ ) {
 
 
     // Increase the count by 1
-    function enp_increaseCount(btn) {
+    function enp_changeCount(btn, operator) {
         var curr_count = enp_getBtnCount(btn);
         // if curr_count is 0, then remove the class that hides the 0
         if(curr_count === 0) {
@@ -133,7 +145,12 @@ jQuery( document ).ready( function( $ ) {
         }
 
         // add one for the click
-        new_count = curr_count + 1;
+        if(operator === '+') {
+            new_count = curr_count + 1;
+        } else {
+            new_count = curr_count - 1;
+        }
+
         // replace the text with the new number
         count.text(new_count);
     }
@@ -170,6 +187,23 @@ jQuery( document ).ready( function( $ ) {
 
         // add disabled and error classes to the button
         btn.addClass('enp-btn--disabled enp-btn--error');
+    }
+
+    // client side message to please login
+    function enp_pleaseLoginError(btn) {
+        var enp_login_url = enp_button_params.enp_login_url;
+        // if we already have an error message, destroy it
+        if($('.enp-btn-error-message').length) {
+            $('.enp-btn-error-message').remove();
+        }
+
+        var btns_group_wrap_id = $(btn).parent().parent().parent().attr('id');
+        // append the button wrap id to the login url
+        enp_login_url = enp_login_url+'%2F%23'+btns_group_wrap_id;
+        // get the place to append the message
+        var btn_group = $(btn).parent().parent();
+        var message = 'You must be <a href="'+enp_login_url+'">logged in</a> to click this button. Please <a href="'+enp_login_url+'">log in</a> and try again.';
+        enp_errorMessage(btn_group, message);
     }
 
     /*

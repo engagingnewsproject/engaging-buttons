@@ -12,12 +12,17 @@
 *   Increase the click count by one before saving
 *
 */
-function increaseClickCount($prev_clicks) {
+function changeClickCount($prev_clicks, $operator) {
     $prev_clicks = (int)$prev_clicks;
-    if($prev_clicks !== false) {
-        $new_clicks = $prev_clicks + 1;
-    } else {
-        $new_clicks = 1;
+
+    if($operator === '+') { // add
+        if($prev_clicks !== false) {
+            $new_clicks = $prev_clicks + 1;
+        } else {
+            $new_clicks = 1;
+        }
+    } else { // $operator = '-' // subtract
+        $new_clicks = $prev_clicks - 1;
     }
 
     return $new_clicks;
@@ -80,13 +85,14 @@ function enp_update_button_count() {
     $pid = $_REQUEST['pid'];
     $btn_slug = $_REQUEST['slug'];
     $btn_type = $_REQUEST['type']; // post or comment? We don't need the specific post type
+    $operator = $_REQUEST['operator'];
 
-    enp_process_update_button_count($pid, $btn_slug, $btn_type);
+    enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator);
 }
 
 
 
-function enp_process_update_button_count($pid, $btn_slug, $btn_type) {
+function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator) {
     // Instantiate WP_Ajax_Response
     $response = new WP_Ajax_Response;
 
@@ -111,7 +117,7 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type) {
         $prev_clicks = $get_meta( $pid, 'enp_button_'.$btn_slug, true);
 
         // increase the click by one
-        $new_clicks = increaseClickCount($prev_clicks);
+        $new_clicks = changeClickCount($prev_clicks, $operator);
 
         // update the post or comment meta
         $update_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );

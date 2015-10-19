@@ -46,12 +46,9 @@
     background: #ffc636;
 }
 
-.enp-btns .enp-btn--clicked,
-.enp-btns .enp-btn--clicked:active,
-.enp-btns .enp-btn--clicked:hover,
-.enp-btns .enp-btn--success,
-.enp-btns .enp-btn--success:active,
-.enp-btns .enp-btn--success:hover,
+.enp-btns .enp-btn--click-wait,
+.enp-btns .enp-btn--click-wait:active,
+.enp-btns .enp-btn--click-wait:hover,
 .enp-btns .enp-btn--require-logged-in,
 .enp-btns .enp-btn--require-logged-in:hover,
 .enp-btns .enp-btn--require-logged-in:active {
@@ -66,7 +63,12 @@
     color: #777;
 }
 
+.enp-btns .enp-btn--increased{
+    background: #F54B5C;
+}
+
 .enp-btns .enp-btn__count {
+    position: relative;
     background: rgba(0,0,0,.15);
     padding: .5em .6em .5em .8em;
     border-radius: 3px;
@@ -98,3 +100,29 @@
 .enp-promote {
     margin-bottom: 2em;
 }
+/* animating click wait
+.enp-btns .enp-btn--click-wait,
+.enp-btns .enp-btn--click-wait:hover,
+.enp-btns .enp-btn--click-wait:active {
+     background-image: linear-gradient(to bottom,
+                                      #7B0511,
+                                      #7B0511 50%,
+                                      #C81C2D 50%,
+                                      #C81C2D);
+    background-position: 0 0;
+    background-size: 100% 200%;
+    -webkit-animation: spread .5s infinite;
+    animation: spread .5s infinite;
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+
+@-webkit-keyframes spread {
+    0% { background-position: 0 0; }
+    100% { background-position: 0% -100%; }
+}
+
+@keyframes spread {
+    0% { background-position: 0 0; }
+    100% { background-position: 0% -100%; }
+}*/
