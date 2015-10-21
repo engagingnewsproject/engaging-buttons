@@ -122,6 +122,13 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
         // update the post or comment meta
         $update_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
 
+        // switch the operator for the next post
+        if($operator === '+') {
+            $new_operator = '-';
+        } else {
+            $new_operator = '+';
+        }
+
 
         // update the user if there's an ID to use
         $enp_clicked_btn_text = '';
@@ -173,6 +180,7 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
                 'message' => 'The click on '.$pid.' has been registered!',
                 'count' => $new_clicks,
                 'old_count' => $prev_clicks,
+                'new_operator' => $new_operator,
                 'user_clicked_message' => $enp_clicked_btn_HTML
                 ),
             )

@@ -30,28 +30,19 @@ jQuery( document ).ready( function( $ ) {
         }
 
 
-        // distinguish between increasing or decreasing button count
-
-        var operator;
-        var post_action;
-
-        if($(this).hasClass('enp-btn--increased')) {
-            operator = '-';
-        } else {
-            operator = '+';
-        }
-
-        // assume that our front-end check is enough
-        // and increase it by 1 for a super fast response time
-        enp_changeCount(this, operator);
 
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post
         var id       = $(this).attr( 'data-pid' );
         var nonce    = $(this).attr( 'data-nonce' );
         var btn_slug = $(this).attr( 'data-btn-slug' );
         var btn_type = $(this).attr( 'data-btn-type' );
+        var operator = $(this).attr( 'data-operator' );
         var url      = enp_button_params.ajax_url;
         var user_id  = enp_button_params.enp_btn_user_id;
+
+        // assume that our front-end check is enough
+        // and increase it by 1 for a super fast response time
+        enp_changeCount(this, operator);
 
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
         // Post to the server
@@ -96,13 +87,22 @@ jQuery( document ).ready( function( $ ) {
                     enp_processError(btn, btn_group, message);
 
                 } else {
+                    // switch out the operator data attribute
+                    var new_operator = $(xml).find('new_operator').text();
+                    btn.attr('data-operator', new_operator);
+
                     // success! add a btn class so we can style if we want to
-                    if(operator === '+') {
+                    // if the new operator === '-', then we just added one
+                    if(new_operator === '-') {
                         btn.removeClass('enp-btn--decreased');
                         btn.addClass('enp-btn--increased');
+                        btn.removeClass('enp-btn--user-has-not-clicked');
+                        btn.addClass('enp-btn--user-clicked');
                     } else {
                         btn.removeClass('enp-btn--increased');
                         btn.addClass('enp-btn--decreased');
+                        btn.addClass('enp-btn--user-has-not-clicked');
+                        btn.removeClass('enp-btn--user-clicked');
                     }
 
                     var user_clicked_message = $(xml).find('user_clicked_message').text();
