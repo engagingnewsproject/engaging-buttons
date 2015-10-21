@@ -2,7 +2,7 @@
    /*
    Plugin Name: Engaging Button
    Description: A plugin for giving respect to posts, pages, and comments.
-   Version: 0.0.1
+   Version: 0.0.2
    Author: Engaging News Project
    Author URI: http://engagingnewsproject.org
    License: ASK US
@@ -15,6 +15,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Loader.php');
+include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_User_Class.php');
 
 //Automatically Load all the PHP files we need
 $classesDir = array (

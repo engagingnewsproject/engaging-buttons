@@ -52,7 +52,7 @@
 .enp-btns .enp-btn--require-logged-in,
 .enp-btns .enp-btn--require-logged-in:hover,
 .enp-btns .enp-btn--require-logged-in:active {
-    background: #F54B5C;
+    background: #7B0511;
     cursor: default;
 }
 
@@ -63,8 +63,13 @@
     color: #777;
 }
 
+.enp-btns .enp-btn--current-user-clicked,
 .enp-btns .enp-btn--increased{
-    background: #F54B5C;
+    background: #7B0511;
+}
+
+.enp-btns .enp-btn--current-user-clicked {
+    background: #3B7580;
 }
 
 .enp-btns .enp-btn__count {
