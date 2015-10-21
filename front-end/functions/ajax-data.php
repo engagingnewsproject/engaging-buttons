@@ -131,7 +131,7 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
 
 
         // update the user if there's an ID to use
-        $enp_clicked_btn_text = '';
+        $enp_clicked_btn_HTML = '';
         if( $user_id !== '0' ) {
 
             // get their previous clicks
@@ -168,6 +168,8 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
             $enp_user = new Enp_Button_User(array('user_id' => $user_id));
             $enp_clicked_btn_HTML = enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $pid);
 
+        } else {
+            $enp_clicked_btn_HTML = '<p class="enp-btn-hint enp-user-clicked-hint">We need to set and check localStorage for buttons clicked</p>';
         }
 
 
