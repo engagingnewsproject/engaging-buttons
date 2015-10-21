@@ -124,6 +124,7 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
 
 
         // update the user if there's an ID to use
+        $enp_clicked_btn_text = '';
         if( $user_id !== '0' ) {
 
             // get their previous clicks
@@ -151,6 +152,15 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
             }
             update_user_meta( $user_id, 'enp_button_'.$btn_type.'_'.$btn_slug, $user_clicks );
 
+            // Build button message text
+            $args = array(
+                        'post_id' => $pid,
+                        'btn_type' => $btn_type
+                    );
+            $enp_btns = enp_get_all_btns($args);
+            $enp_user = new Enp_Button_User(array('user_id' => $user_id));
+            $enp_clicked_btn_HTML = enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $pid);
+
         }
 
 
@@ -162,7 +172,8 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
                 'type' => $btn_type,
                 'message' => 'The click on '.$pid.' has been registered!',
                 'count' => $new_clicks,
-                'old_count' => $prev_clicks
+                'old_count' => $prev_clicks,
+                'user_clicked_message' => $enp_clicked_btn_HTML
                 ),
             )
         );

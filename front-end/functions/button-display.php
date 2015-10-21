@@ -89,6 +89,9 @@ add_filter( 'comment_text', 'enp_append_comment_btns' );
 *
 */
 function enp_btns_HTML($args) {
+    // get the user
+    $enp_user = new Enp_Button_User();
+
     $enp_btn_HTML = '';
 
     // get the button objects
@@ -102,7 +105,6 @@ function enp_btns_HTML($args) {
     } else {
         $btn_type = 'post';
     }
-
 
     $classes[] = 'enp-btns-'.$btn_type.'-'.$args['post_id'];
 
@@ -125,10 +127,11 @@ function enp_btns_HTML($args) {
 
             // process button names to pass to the Promote option later
             $enp_btn_names[] = $enp_btn->get_btn_name();
-
         }
 
         $enp_btn_HTML .= '</ul>';
+
+        $enp_btn_HTML .= enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $args['post_id']);
 
         if($enp_btn_clickable === false) {
             // append a login link and message
@@ -215,6 +218,59 @@ function enp_button_exists($enp_btn) {
     }
 }
 
+
+/*
+*
+*   Return HTML to display if a user has clicked a button
+*
+*/
+
+function enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $post_id) {
+    $user_clicked_btn_names = array();
+    $user_clicked_btns_HTML = '';
+
+    foreach($enp_btns as $enp_btn) {
+        $args = array(
+            'btn_slug' => $enp_btn->get_btn_slug(),
+            'btn_type' => $btn_type,
+            'post_id' => $post_id
+        );
+        if($enp_user->has_user_clicked($args) === true) {
+            $user_clicked_btn_names[] = $enp_btn->get_btn_name();
+        }
+    }
+
+    if(!empty($user_clicked_btn_names)) {
+
+        $user_clicked_btns_HTML = enp_user_clicked_btns_text($user_clicked_btn_names, $btn_type);
+
+
+    }
+
+
+    return $user_clicked_btns_HTML;
+
+
+}
+
+
+function enp_user_clicked_btns_text($user_clicked_btn_names, $btn_type) {
+
+    $user_clicked_btns_text = '';
+
+    if(!empty($user_clicked_btn_names)) {
+        $user_clicked_btns_text .= '<p class="enp-btn-hint enp-user-clicked-hint">You ';
+
+        $user_clicked_btns_text .= enp_build_name_text($user_clicked_btn_names);
+
+        $user_clicked_btns_text .= ' this '.$btn_type.'.</p>';
+    }
+
+    return $user_clicked_btns_text;
+}
+
+
+
 /*
 *
 *   bool check to see if the promote Engaging News Project option is checked (true)
@@ -260,34 +316,11 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     // Return Array of buttons being displayed
     $enp_btn_name_text = '';
     if(!empty($enp_btn_names)) {
+
+
+        $enp_btn_name_text = enp_build_name_text($enp_btn_names);
+
         $names_count = count($enp_btn_names);
-
-        $i = 1;
-        foreach($enp_btn_names as $name) {
-            // figure out if we need a comma, 'and', or nothing
-
-            // we're on the last one (or first one)
-            if($i === $names_count) {
-                if($names_count > 2) {
-                    $enp_btn_name_text .= 'and '.$name;
-                } elseif($names_count > 1) {
-                    $enp_btn_name_text .= 'and '.$name;
-                } else { // first and last (only one))
-                    $enp_btn_name_text .= $name;
-                }
-            } elseif($i === 1) { // we're on the first one
-                    if($names_count > 2) {
-                        $enp_btn_name_text .= $name.', '; // first one, and more to come
-                    } else {
-                        $enp_btn_name_text .= $name.' '; // first one and only two
-                    }
-            } else { // we're not on the first or last, so put a comma in there
-                $enp_btn_name_text .= $name.', ';
-            }
-
-            $i++;
-        }
-
         if($names_count === 1 || $names_count === 0) {
             $button_pluralize = '';
         } else {
@@ -303,6 +336,39 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     } else {
         echo $promote_HTML; // echo for action hooks
     }
+}
+
+
+function enp_build_name_text($names) {
+    $names_count = count($names);
+    $name_text = '';
+    $i = 1;
+    foreach($names as $name) {
+        // figure out if we need a comma, 'and', or nothing
+
+        // we're on the last one (or first one)
+        if($i === $names_count) {
+            if($names_count > 2) {
+                $name_text .= 'and '.$name;
+            } elseif($names_count > 1) {
+                $name_text .= 'and '.$name;
+            } else { // first and last (only one))
+                $name_text .= $name;
+            }
+        } elseif($i === 1) { // we're on the first one
+                if($names_count > 2) {
+                    $name_text .= $name.', '; // first one, and more to come
+                } else {
+                    $name_text .= $name.' '; // first one and only two
+                }
+        } else { // we're not on the first or last, so put a comma in there
+            $name_text .= $name.', ';
+        }
+
+        $i++;
+    }
+
+    return $name_text;
 }
 
 /*

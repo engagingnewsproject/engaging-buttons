@@ -105,6 +105,28 @@ class Enp_Button_User {
 
     }
 
+    /*
+    *
+    *   Bool check to see if a user has clicked a button or not
+    *
+    */
+    public function has_user_clicked($args) {
+        $default_args = array(
+            'btn_slug' => false, // set to slug string or array of strings, "respect", "recommend", "important". also accepts array
+            'btn_type' => false, // post or comment. we don't care if it's a page or cpt
+            'post_id' => false // the post id of the button you want to see if they've clicked
+        );
+
+        // merge the default_args and args arrays
+        $args = array_merge($default_args, $args);
+
+        // get the user's clicks
+        $user_clicks = $this->get_user_clicks($args['btn_slug'], $args['btn_type']);
+
+        // see if the post id is in their array for those button clicks
+        return in_array($args['post_id'], $user_clicks);
+    }
+
 
 }
 

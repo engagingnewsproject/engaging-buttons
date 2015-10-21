@@ -83,13 +83,15 @@ jQuery( document ).ready( function( $ ) {
                 var btn_slug = $(xml).find('slug').text();
                 var btn = $('#'+btn_slug+'_'+btn_type+'_'+pid);
                 var response = $(xml).find('response_data').text(); // will === 'success' or 'error'
+                var btn_group = $('.enp-btns-'+btn_type+'-'+pid);
+                var btn_wrap = $('#enp-btns-wrap-'+btn_type+'-'+pid);
 
                 if(response === 'error') {
                     // there was an error updating the meta key on the server
                     // reset the count back one and let the user know what's up
                     var message = $(xml).find('message').text();
                     // show error message
-                    var btn_group = $('.enp-btns-'+btn_type+'-'+pid);
+
                     // process the error
                     enp_processError(btn, btn_group, message);
 
@@ -101,6 +103,14 @@ jQuery( document ).ready( function( $ ) {
                     } else {
                         btn.removeClass('enp-btn--increased');
                         btn.addClass('enp-btn--decreased');
+                    }
+
+                    var user_clicked_message = $(xml).find('user_clicked_message').text();
+
+                    if($('.enp-user-clicked-hint', btn_wrap).length) {
+                        $('.enp-user-clicked-hint', btn_wrap).replaceWith(user_clicked_message);
+                    } else {
+                        btn_group.after(user_clicked_message);
                     }
 
                     // remove clicked class so they can try again
