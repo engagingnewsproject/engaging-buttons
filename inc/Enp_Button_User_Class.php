@@ -111,6 +111,11 @@ class Enp_Button_User {
     *
     */
     public function has_user_clicked($args) {
+        // check to see if there's even a user
+        if($this->user_id == 0) {
+            return false;
+        }
+
         $default_args = array(
             'btn_slug' => false, // set to slug string or array of strings, "respect", "recommend", "important". also accepts array
             'btn_type' => false, // post or comment. we don't care if it's a page or cpt
