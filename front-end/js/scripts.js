@@ -51,6 +51,7 @@ jQuery( document ).ready( function( $ ) {
         var btn_slug = $(this).attr( 'data-btn-slug' );
         var btn_type = $(this).attr( 'data-btn-type' );
         var url      = enp_button_params.ajax_url;
+        var user_id  = enp_button_params.enp_btn_user_id;
 
         // if it's a comment, pass the id/slug to an ajax request to update the comment_meta for this comment
         // Post to the server
@@ -63,6 +64,7 @@ jQuery( document ).ready( function( $ ) {
                     'slug': btn_slug,
                     'type': btn_type,
                     'operator': operator,
+                    'user_id' : user_id,
                     'nonce': nonce
                 },
             dataType: 'xml',
@@ -100,7 +102,6 @@ jQuery( document ).ready( function( $ ) {
                         btn.removeClass('enp-btn--increased');
                         btn.addClass('enp-btn--decreased');
                     }
-
 
                     // remove clicked class so they can try again
                     btn.removeClass('enp-btn--click-wait');

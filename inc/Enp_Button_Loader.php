@@ -80,10 +80,12 @@ class Enp_Button_Loader {
             $is_enp_btn_clickable = 1;
         }
 
+        $user_id = get_current_user_id(); // will return 0 if none found
+
         $login_url = wp_login_url( get_permalink() );
 
         wp_localize_script( 'enp-button-scripts', 'enp_button_params',
-            array( 'ajax_url' => admin_url( 'admin-ajax.php', $protocol ), 'enp_btn_clickable'=> $is_enp_btn_clickable , 'enp_login_url'=>$login_url) );
+            array( 'ajax_url' => admin_url( 'admin-ajax.php', $protocol ), 'enp_btn_clickable'=> $is_enp_btn_clickable, 'enp_login_url'=>$login_url, 'enp_btn_user_id'=> $user_id) );
         }
 }
 

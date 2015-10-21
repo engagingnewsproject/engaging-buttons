@@ -41,9 +41,8 @@ add_action( 'wp_ajax_nopriv_enp_update_button_count', 'enp_update_button_count_n
 function enp_update_button_count_not_logged_in() {
     // check if logged in is set
     $require_logged_in = enp_require_logged_in();
-    $is_logged_in = is_user_logged_in();
 
-    if($require_logged_in === true && $is_logged_in === false) {
+    if($require_logged_in === true) {
         // throw an error
         $btn_slug = $_REQUEST['slug'];
         $pid = $_REQUEST['pid'];
@@ -73,7 +72,7 @@ function enp_update_button_count_not_logged_in() {
             )
         ));
 
-    } elseif($require_logged_in === false && $is_logged_in === false) {
+    } elseif($require_logged_in === false) {
         // they're not logged in, and we're not requiring logged in, so we can run this
         enp_update_button_count();
     }
@@ -86,13 +85,14 @@ function enp_update_button_count() {
     $btn_slug = $_REQUEST['slug'];
     $btn_type = $_REQUEST['type']; // post or comment? We don't need the specific post type
     $operator = $_REQUEST['operator'];
+    $user_id = $_REQUEST['user_id'];
 
-    enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator);
+    enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, $user_id);
 }
 
 
 
-function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator) {
+function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, $user_id) {
     // Instantiate WP_Ajax_Response
     $response = new WP_Ajax_Response;
 
@@ -121,6 +121,37 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator) 
 
         // update the post or comment meta
         $update_meta( $pid, 'enp_button_'.$btn_slug, $new_clicks );
+
+
+        // update the user if there's an ID to use
+        if( $user_id !== '0' ) {
+
+            // get their previous clicks
+            $user_clicks = get_user_meta($user_id, 'enp_button_'.$btn_type.'_'.$btn_slug, true);
+            if(empty($user_clicks)) {
+                // if it's empty, it'll return an empty string, but we want an array
+                $user_clicks = array();
+            }
+            // are we increasing or decreasing?
+            if($operator === '+') {
+                // add the Button ID to the Array
+                $key = array_search($pid, $user_clicks);
+
+                if($key === false) {
+                    // They haven't clicked this one before, so add it
+                    $user_clicks[] = $pid;
+                }
+            } else {
+                // search the array and return the key/index
+                $key = array_search($pid, $user_clicks);
+                if($key !== false) {
+                    // remove this one from the array
+                    array_splice($user_clicks, $key, 1);
+                }
+            }
+            update_user_meta( $user_id, 'enp_button_'.$btn_type.'_'.$btn_slug, $user_clicks );
+
+        }
 
 
         $response->add( array(
