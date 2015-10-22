@@ -278,7 +278,7 @@ function enp_user_clicked_btns_text($user_clicked_btn_names, $btn_type) {
 
         $key = array_search("Important", $user_clicked_btn_names);
         if($key !== false) { // Important is found
-            $important_text = 'This post is Important to you.';
+            $important_text = 'This '.$btn_type.' is Important to you.';
             // remove it from the array
             array_splice($user_clicked_btn_names, $key, 1);
         }
