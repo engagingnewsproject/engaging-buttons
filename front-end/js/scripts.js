@@ -7,6 +7,40 @@
 jQuery( document ).ready( function( $ ) {
 
 
+    // Check if the user is not logged in, and the button is clickable
+    // If this passes, we need to set-up button states based on localStorage
+    var user_id  = enp_button_params.enp_btn_user_id;
+    var enp_btn_clickable = enp_button_params.enp_btn_clickable;
+
+    if(parseInt(user_id) === 0 && enp_btn_clickable != 0) {
+        // See what buttons we're working with
+        $('.enp-btn').each(function(){
+            var id       = $(this).attr( 'data-pid' );
+            var btn_slug = $(this).attr( 'data-btn-slug' );
+            var btn_type = $(this).attr( 'data-btn-type' );
+            var operator = $(this).attr( 'data-operator' );
+
+            var values = enp_getLocalStorage(btn_type, btn_slug);
+
+            // if we have an array and it has values, then let's see if
+            // the post IDs match and set the operator correctly
+            if(typeof values === 'object' && values !== null) {
+                // check if the post id is in the array
+                // if it isn't, it'll return -1
+                var index = $.inArray(id, values);
+                if(index !== -1) {
+                    // it's in the array! set the data operator to -
+                    $(this).attr( 'data-operator', '-' );
+                    // set the click state
+                    $(this).addClass('enp-btn--user-clicked');
+                }
+            }
+
+        });
+
+    }
+
+
     $('.enp-btn').click(function(e) {
         e.preventDefault();
 
@@ -76,6 +110,15 @@ jQuery( document ).ready( function( $ ) {
                 var response = $(xml).find('response_data').text(); // will === 'success' or 'error'
                 var btn_group = $('.enp-btns-'+btn_type+'-'+pid);
                 var btn_wrap = $('#enp-btns-wrap-'+btn_type+'-'+pid);
+                var new_operator = $(xml).find('new_operator').text();
+                var operator;
+
+                // we need to know which operator we sent over.
+                if(new_operator === '+') {
+                    operator = '-';
+                } else {
+                    operator = '+';
+                }
 
                 if(response === 'error') {
                     // there was an error updating the meta key on the server
@@ -88,7 +131,7 @@ jQuery( document ).ready( function( $ ) {
 
                 } else {
                     // switch out the operator data attribute
-                    var new_operator = $(xml).find('new_operator').text();
+
                     btn.attr('data-operator', new_operator);
 
                     // success! add a btn class so we can style if we want to
@@ -116,8 +159,16 @@ jQuery( document ).ready( function( $ ) {
                     // remove clicked class so they can try again
                     btn.removeClass('enp-btn--click-wait');
 
-                    // set localStorage
-                    enp_setlocalStorage(btn_type, btn_slug, pid);
+
+                    // NOT LOGGED IN, LOCALSTORAGE
+                    var user_id  = enp_button_params.enp_btn_user_id;
+                    // if user is not logged in, process localStorage data
+                    if(parseInt(user_id) === 0) {
+                        // set localStorage
+                        enp_setlocalStorage(btn_type, btn_slug, pid, operator);
+                    }
+
+
                 }
 
             },
@@ -220,17 +271,40 @@ jQuery( document ).ready( function( $ ) {
     /*
     *   localStorage function
     */
-    function enp_setlocalStorage(type, slug, id) {
-        console.log(type+'_'+slug+'_'+id);
-        // localStorage.getItem(type+'_'+slug+'_'+id, 1);
-        var values = [enp_getLocalStorage(type)];
-        values = [slug+'_'+id];
-        localStorage.setItem('enp_button_'+type, values);
-        console.log(enp_getLocalStorage(type));
+    function enp_setlocalStorage(type, slug, id, operator) {
+        // get the values (returns as JSON array)
+        var values = enp_getLocalStorage(type, slug);
+        console.log(values);
+
+         // if we have an array, check to see if we're adding or subtracting
+         // typeof returns object when it's an array or object
+        if(typeof values === 'object' && values !== null) {
+            // check if the value is in the array
+            // if it isn't, it'll return -1
+            var index = $.inArray(id, values);
+            if(operator === '-' && index !== -1) {
+                // remove the item
+                values.splice(index, 1);
+            } else if(operator === '+' && index === -1) {
+                // add an item
+                values.push(id);
+            } else {
+                // hmm... this shouldn't happen
+                console.log('Something is not right. The operator is '+operator+', and the index is '+index+'.');
+            }
+        } else {
+            // There aren't any values, we need to create the array
+            values = [id];
+        }
+
+        // Store the value
+        localStorage.setItem('enp_button_'+type+'_'+slug, JSON.stringify(values));
     }
 
-    function enp_getLocalStorage(type) {
-        var values = localStorage.getItem('enp_button_'+type);
+    function enp_getLocalStorage(type, slug) {
+        var values = localStorage.getItem('enp_button_'+type+'_'+slug);
+        // turn it into an array
+        values = JSON.parse(values);
 
         return values;
     }
