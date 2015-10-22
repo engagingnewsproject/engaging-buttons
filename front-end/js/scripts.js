@@ -24,7 +24,14 @@ jQuery( document ).ready( function( $ ) {
 
             if(clicked_btn_names.length) {
                 var btn_type = $(this).attr('data-btn-type');
-                enp_ClickedBtnMessage(clicked_btn_names, btn_type);
+                var user_clicked_message = enp_UserClickedMessage(clicked_btn_names, btn_type);
+
+                if($('.enp-user-clicked-hint', this).length) {
+                    $('.enp-user-clicked-hint', this).replaceWith(user_clicked_message);
+                } else {
+                    $('.enp-btns', this).after(user_clicked_message);
+                }
+
             }
         });
     }
@@ -68,14 +75,6 @@ jQuery( document ).ready( function( $ ) {
         });
         // pass the btn_names back to our parent for outputting message
         return clicked_btn_names;
-    }
-
-    /*
-    *   Generate our button message based on localStorage
-    */
-    function enp_ClickedBtnMessage(clicked_btn_names, btn_type) {
-        console.log(clicked_btn_names);
-        console.log(btn_type);
     }
 
 
@@ -187,8 +186,37 @@ jQuery( document ).ready( function( $ ) {
                         btn.removeClass('enp-btn--user-clicked');
                     }
 
-                    var user_clicked_message = $(xml).find('user_clicked_message').text();
 
+                    // NOT LOGGED IN, LOCALSTORAGE
+                    var user_clicked_message;
+                    var user_id  = enp_button_params.enp_btn_user_id;
+                    // if user is not logged in, process localStorage data
+                    if(parseInt(user_id) === 0) {
+                        // set localStorage
+                        enp_setlocalStorage(btn_type, btn_slug, pid, operator);
+                        // generate message from localStorage
+                        user_clicked_message = '';
+
+                        var clicked_btn_names = enp_SetBtnStates.call(btn_wrap);
+
+                        if(clicked_btn_names.length) {
+                            var user_clicked_message = enp_UserClickedMessage(clicked_btn_names, btn_type);
+
+                            if($('.enp-user-clicked-hint', this).length) {
+                                $('.enp-user-clicked-hint', this).replaceWith(user_clicked_message);
+                            } else {
+                                $('.enp-btns', this).after(user_clicked_message);
+                            }
+
+                        }
+
+                    } else {
+                        // not logged in, so we can get our message from the ajax post
+                        user_clicked_message = $(xml).find('user_clicked_message').text();
+                    }
+
+
+                    // update the button clicked message
                     if($('.enp-user-clicked-hint', btn_wrap).length) {
                         $('.enp-user-clicked-hint', btn_wrap).replaceWith(user_clicked_message);
                     } else {
@@ -197,15 +225,6 @@ jQuery( document ).ready( function( $ ) {
 
                     // remove clicked class so they can try again
                     btn.removeClass('enp-btn--click-wait');
-
-
-                    // NOT LOGGED IN, LOCALSTORAGE
-                    var user_id  = enp_button_params.enp_btn_user_id;
-                    // if user is not logged in, process localStorage data
-                    if(parseInt(user_id) === 0) {
-                        // set localStorage
-                        enp_setlocalStorage(btn_type, btn_slug, pid, operator);
-                    }
 
 
                 }
@@ -345,6 +364,80 @@ jQuery( document ).ready( function( $ ) {
         values = JSON.parse(values);
 
         return values;
+    }
+
+
+    /*
+    *   Generate our button message based on localStorage
+    */
+    function enp_UserClickedMessage(clicked_btn_names, btn_type) {
+
+        var user_clicked_btns_text = '';
+        var important_text = '';
+
+        if(clicked_btn_names.length) {
+            user_clicked_btns_text = '<p class="enp-btn-hint enp-user-clicked-hint">';
+
+            var index = $.inArray("Important", clicked_btn_names);
+            if(index !== -1) { // Important is found
+                important_text = 'This '+btn_type+' is Important to you.';
+                // remove it from the array
+                clicked_btn_names.splice(index, 1);
+            }
+
+            // check if the array is still not empty after potentially removing "Important"
+            if(clicked_btn_names.length) {
+                user_clicked_btns_text = user_clicked_btns_text + 'You ';
+
+                user_clicked_btns_text = user_clicked_btns_text + enp_build_name_text(clicked_btn_names);
+
+                user_clicked_btns_text = user_clicked_btns_text + ' this '+btn_type+'.';
+            }
+
+            if(user_clicked_btns_text && important_text) {
+                // add a space before the important text;
+                important_text = ' ' + important_text;
+            }
+
+            user_clicked_btns_text =  user_clicked_btns_text + important_text + '</p>';
+
+        }
+
+        return user_clicked_btns_text;
+    }
+
+
+    // Build the string with commas and 'and' if necessary
+    function enp_build_name_text(names) {
+        var names_count = names.length;
+        var name_text = '';
+        var j;
+
+        for (i = 0; i < names.length; i++) {
+            // figure out if we need a comma, 'and', or nothing
+            j = i+1;
+
+            // we're on the last one (or first one)
+            if(j === names_count) {
+                if(names_count > 2) {
+                    name_text = name_text + 'and '+names[i];
+                } else if(names_count > 1) {
+                    name_text = name_text + 'and '+names[i];
+                } else { // first and last (only one))
+                    name_text = name_text + names[i];
+                }
+            } else if($i === 1) { // we're on the first one
+                    if(names_count > 2) {
+                        name_text = name_text + names[i]+', '; // first one, and more to come
+                    } else {
+                        name_text = name_text + names[i]+' '; // first one and only two
+                    }
+            } else { // we're not on the first or last, so put a comma in there
+                name_text = name_text + names[i]+', ';
+            }
+        }
+
+        return name_text;
     }
 
 
