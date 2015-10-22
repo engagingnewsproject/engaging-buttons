@@ -13,8 +13,34 @@ jQuery( document ).ready( function( $ ) {
     var enp_btn_clickable = enp_button_params.enp_btn_clickable;
 
     if(parseInt(user_id) === 0 && enp_btn_clickable != 0) {
+
+        $('.enp-btns-wrap').each(function(){
+            // set empty array
+
+            var parent_obj = $(this);
+
+            // pass the state of this to the next each loop
+            var clicked_btn_names = enp_SetBtnStates.call(this);
+
+            if(clicked_btn_names.length) {
+                var btn_type = $(this).attr('data-btn-type');
+                enp_ClickedBtnMessage(clicked_btn_names, btn_type);
+            }
+        });
+    }
+
+
+    /*
+    *   Sets all button states based on localStorage
+    *   use in nested each statement. passing this
+    *   so we know what the enp-btn-wrap parent is
+    */
+    function enp_SetBtnStates(parent_obj) {
+        var parent_obj = this;
+        // create empty array to store names
+        var clicked_btn_names = [];
         // See what buttons we're working with
-        $('.enp-btn').each(function(){
+        $('.enp-btn', this).each(function(){
             var btn_slug = $(this).attr( 'data-btn-slug' );
             var btn_type = $(this).attr( 'data-btn-type' );
 
@@ -32,12 +58,26 @@ jQuery( document ).ready( function( $ ) {
                     $(this).attr( 'data-operator', '-' );
                     // set the click state
                     $(this).addClass('enp-btn--user-clicked');
+
+                    var btn_name = $('.enp-btn__name', this).text();
+                    // push to clicked button array so we can create the message
+                    clicked_btn_names.push(btn_name);
                 }
+
             }
-
         });
-
+        // pass the btn_names back to our parent for outputting message
+        return clicked_btn_names;
     }
+
+    /*
+    *   Generate our button message based on localStorage
+    */
+    function enp_ClickedBtnMessage(clicked_btn_names, btn_type) {
+        console.log(clicked_btn_names);
+        console.log(btn_type);
+    }
+
 
 
     $('.enp-btn').click(function(e) {
@@ -273,7 +313,6 @@ jQuery( document ).ready( function( $ ) {
     function enp_setlocalStorage(type, slug, id, operator) {
         // get the values (returns as JSON array)
         var values = enp_getLocalStorage(type, slug);
-        console.log(values);
 
          // if we have an array, check to see if we're adding or subtracting
          // typeof returns object when it's an array or object
