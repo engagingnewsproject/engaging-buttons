@@ -15,10 +15,8 @@ jQuery( document ).ready( function( $ ) {
     if(parseInt(user_id) === 0 && enp_btn_clickable != 0) {
         // See what buttons we're working with
         $('.enp-btn').each(function(){
-            var id       = $(this).attr( 'data-pid' );
             var btn_slug = $(this).attr( 'data-btn-slug' );
             var btn_type = $(this).attr( 'data-btn-type' );
-            var operator = $(this).attr( 'data-operator' );
 
             var values = enp_getLocalStorage(btn_type, btn_slug);
 
@@ -27,6 +25,7 @@ jQuery( document ).ready( function( $ ) {
             if(typeof values === 'object' && values !== null) {
                 // check if the post id is in the array
                 // if it isn't, it'll return -1
+                var id = $(this).attr( 'data-pid' );
                 var index = $.inArray(id, values);
                 if(index !== -1) {
                     // it's in the array! set the data operator to -

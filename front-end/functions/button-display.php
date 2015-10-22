@@ -271,13 +271,36 @@ function enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $post_id
 function enp_user_clicked_btns_text($user_clicked_btn_names, $btn_type) {
 
     $user_clicked_btns_text = '';
+    $important_text = '';
 
     if(!empty($user_clicked_btn_names)) {
-        $user_clicked_btns_text .= '<p class="enp-btn-hint enp-user-clicked-hint">You ';
+        $user_clicked_btns_text .= '<p class="enp-btn-hint enp-user-clicked-hint">';
 
-        $user_clicked_btns_text .= enp_build_name_text($user_clicked_btn_names);
+        $key = array_search("Important", $user_clicked_btn_names);
+        if($key !== false) { // Important is found
+            $important_text = 'This post is Important to you.';
+            // remove it from the array
+            array_splice($user_clicked_btn_names, $key, 1);
+        }
 
-        $user_clicked_btns_text .= ' this '.$btn_type.'.</p>';
+        // check if the array is still not empty after potentially removing "Important"
+
+        if(!empty($user_clicked_btn_names)) {
+            $user_clicked_btns_text .= 'You ';
+
+            $user_clicked_btns_text .= enp_build_name_text($user_clicked_btn_names);
+
+            $user_clicked_btns_text .= ' this '.$btn_type.'.';
+        }
+
+        if(!empty($user_clicked_btns_text) && !empty($important_text)) {
+            // add a space before the important text;
+            $important_text = ' '.$important_text;
+        }
+
+        $user_clicked_btns_text .= $important_text;
+
+        $user_clicked_btns_text .= '</p>';
     }
 
     return $user_clicked_btns_text;

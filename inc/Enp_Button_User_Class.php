@@ -128,6 +128,11 @@ class Enp_Button_User {
         // get the user's clicks
         $user_clicks = $this->get_user_clicks($args['btn_slug'], $args['btn_type']);
 
+        if(empty($user_clicks)) {
+            // there's no value set yet
+            return false;
+        };
+
         // see if the post id is in their array for those button clicks
         return in_array($args['post_id'], $user_clicks);
     }
