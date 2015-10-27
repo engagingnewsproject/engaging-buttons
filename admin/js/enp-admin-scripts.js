@@ -13,8 +13,8 @@ jQuery( document ).ready( function( $ ) {
     }
 
 
-    var addBtnHtml = '<a class="button button-primary enp-add-btn">Add Button</a> ';
-    var removeBtnHtml = '<a class="button enp-remove-btn">Remove Button</a>';
+    var addBtnHtml = '<a class="button button-primary enp-add-btn">Add New Button</a>';
+    var removeBtnHtml = '<a class="enp-remove-btn">Remove Button <svg class="icon-cancel"><use xlink:href="#icon-cancel"></use></svg></a>';
     // add our "Add/remove buttons"
 
 

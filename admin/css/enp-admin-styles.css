@@ -1,0 +1,43 @@
+.enp-respect-button-options {
+    max-width: 60em;
+}
+
+.enp-btn-table-wrap {
+    padding: 1em 2em;
+    margin: 1.6em 0;
+    position: relative;
+    background: #fff;
+    border-bottom: 1px solid #aaa;
+}
+
+.enp-btn-table-wrap:last-of-type {
+    margin-bottom: 4em;
+}
+
+form .btn-controls {
+    padding-top: 1.6em;
+}
+
+.enp-remove-btn {
+    position: absolute;
+    top: 0.6em;
+    right: 1em;
+    color: #B02432;
+    cursor: pointer;
+}
+
+.enp-remove-btn:hover {
+    color: #F83349;
+}
+
+.enp-remove-btn .icon-cancel {
+    position: relative;
+    top: .42em;
+    width: 1.7em;
+    height: 1.7em;
+    fill: #B02432;
+}
+
+.enp-remove-btn:hover .icon-cancel {
+    fill: #F83349;
+}

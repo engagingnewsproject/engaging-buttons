@@ -30,6 +30,9 @@ function enp_button_data() {
 
 // enqueue our scripts
 function enp_enqueue_admin_scripts() {
+    wp_register_style('enp-admin-styles', plugins_url( 'enp-button/admin/css/enp-admin-styles.css'));
+    wp_enqueue_style( 'enp-admin-styles');
+
     wp_register_script('enp-admin-scripts', plugins_url( 'enp-button/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
 }
@@ -40,6 +43,11 @@ add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );
 * Step 3: Create the markup for the options page
 */
 function enp_button_page() { ?>
+<svg style="display: none;">
+    <symbol id="icon-cancel" viewBox="0 0 1024 1024">
+        <path d="M512 928c-229.76 0-416-186.24-416-416s186.24-416 416-416 416 186.24 416 416-186.24 416-416 416zM512 192c-176.704 0-320 143.296-320 320s143.296 320 320 320c176.736 0 320-143.296 320-320s-143.264-320-320-320zM657.184 625.12l-32.448 32.448c-5.952 5.952-15.616 5.952-21.6 0l-91.84-91.84-91.84 91.84c-5.984 5.952-15.616 5.952-21.6 0l-32.448-32.448c-5.952-5.952-5.952-15.616 0-21.6l91.872-91.808-91.872-91.84c-5.952-5.984-5.952-15.648 0-21.632l32.448-32.416c5.984-5.984 15.616-5.984 21.6 0l91.84 91.84 91.84-91.84c5.984-5.984 15.648-5.984 21.6 0l32.448 32.416c5.952 5.984 5.952 15.648 0 21.632l-91.872 91.84 91.872 91.808c5.952 5.984 5.952 15.68 0 21.6z"></path>
+    </symbol>
+</svg>
 
 <div class="wrap enp-respect-button-options">
 
