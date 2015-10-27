@@ -7,31 +7,45 @@
 jQuery( document ).ready( function( $ ) {
 
     // count how many buttons we have
-    var total_btns = $('.enp-btn-form').length;
+    function enp_totalBtns() {
+        var total_btns = $('.enp-btn-form').length;
+        return total_btns;
+    }
+
 
     var addBtnHtml = '<a class="button button-primary enp-add-btn">Add Button</a> ';
-
+    var removeBtnHtml = '<a class="button enp-remove-btn">Remove Button</a>';
     // add our "Add/remove buttons"
+
+
     $('.enp-btn-form').each(function(i, table_obj){
+        var total_btns = enp_totalBtns();
 
-
-        var addBtn = '<tr class="btn-controls-row"><th></th><td class="btn-controls" data-button="'+i+'">';
+        var add_enp_btns = '<tr class="btn-controls-row"><th></th><td class="btn-controls" data-button="'+i+'">';
         // last button, so put the "Add Button button in there"
         if(i === (total_btns - 1)) {
-            addBtn = addBtn + addBtnHtml;
+            add_enp_btns = add_enp_btns + addBtnHtml;
+        }
+        // only add the remove button if there's more than one button
+        if(1 < total_btns) {
+            add_enp_btns = add_enp_btns + removeBtnHtml;
         }
 
         // remove button and finish off the tr row
-        addBtn = addBtn + '<a class="button enp-remove-btn">Remove Button</a></td></tr>';
+        add_enp_btns = add_enp_btns + '</td></tr>';
 
         // append to the table
-        $(this).append(addBtn);
+        $(this).append(add_enp_btns);
     });
+
 
 
     // Remove button
     $('.enp-remove-btn').click(function(e){
         e.preventDefault();
+
+        var total_btns = enp_totalBtns();
+
         var btn_number = $(this).parent().data('button');
 
         // Remove the form from the clicked button
