@@ -21,7 +21,7 @@ form .btn-controls {
 .enp-remove-btn {
     position: absolute;
     top: 0.6em;
-    right: 1em;
+    right: 1.2em;
     color: #B02432;
     cursor: pointer;
 }
@@ -30,7 +30,7 @@ form .btn-controls {
     color: #F83349;
 }
 
-.enp-remove-btn .icon-cancel {
+.enp-remove-btn .icon-remove {
     position: relative;
     top: .42em;
     width: 1.7em;
@@ -38,6 +38,32 @@ form .btn-controls {
     fill: #B02432;
 }
 
-.enp-remove-btn:hover .icon-cancel {
+.enp-remove-btn:hover .icon-remove {
     fill: #F83349;
 }
+
+.enp-add-btn {
+    position: absolute;
+    bottom: 1.3em;
+    right: 1.2em;
+    color: #2A733C;
+    cursor: pointer;
+}
+
+.enp-add-btn:hover {
+    color: #1E542C;
+}
+
+.enp-add-btn .icon-add {
+    position: relative;
+    top: .42em;
+    width: 1.7em;
+    height: 1.7em;
+    fill: #36924C;
+}
+
+.enp-add-btn:hover .icon-add {
+    fill: #2A733C;
+}
+
+
