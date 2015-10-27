@@ -96,6 +96,9 @@ function enp_btns_HTML($args) {
 
     // get the button objects
     $enp_btns = enp_get_all_btns($args);
+    if($enp_btns === null) {
+        return false; // quit now if there aren't any buttons
+    }
 
     // classes array for outputting in our HTML
     $classes = ["enp-btns"];
@@ -334,9 +337,13 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     if($enp_btn_names === false || empty($enp_btn_names)) {
         // we're in the comments section... gotta find all our button names
         $args = array('btn_type' => 'comment');
+
         // get all buttons that are active for comments
         $enp_btns = enp_get_all_btns($args);
-
+        if($enp_btns === null) {
+            return false; // quit now if it's all null
+        }
+        // check to make sure it's not just null values
         // check to make sure it's not just null values
         if(enp_button_exists($enp_btns[0])) {
 
@@ -346,6 +353,7 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
                 }
             }
         }
+
 
     }
 

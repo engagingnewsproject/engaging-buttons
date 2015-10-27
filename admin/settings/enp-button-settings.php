@@ -74,6 +74,7 @@ function enp_button_page() { ?>
 
         // build the buttons form
         $registered_content_types = registeredContentTypes();
+
         buttonCreateForm($enp_buttons, $registered_content_types);
 
 

@@ -14,8 +14,8 @@
 */
 function buttonCreateForm($enp_buttons, $registered_content_types) {
     $formHTML = '';
-
-    if($enp_buttons === false) {
+    if($enp_buttons === false || empty($enp_buttons)) {
+        $enp_buttons = array(array('btn_slug' => '', 'btn_type'=>'')); // create an empty array for it to squasy bugs
         $formHTML .= buttonCreateFormHTML($enp_buttons, $registered_content_types);
     } else {
         $i = 0;

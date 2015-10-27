@@ -14,9 +14,6 @@
     margin-bottom: 4em;
 }
 
-form .btn-controls {
-    padding-top: 1.6em;
-}
 
 .icon-remove,
 .icon-add,
@@ -52,12 +49,12 @@ form .btn-controls {
 
 .enp-add-btn-wrap {
     font-size: 1.05em;
-    margin: -1.3em 0 4em;
+    margin: -1em 0 4em;
 }
 
 .enp-add-btn {
     background: #fff;
-    padding: .8em 1.2em;
+    padding: 1.2em 1.2em 1em;
     color: #3E774B;
     border-bottom: 2px solid #57A76A;
     cursor: pointer;

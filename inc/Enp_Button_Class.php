@@ -312,23 +312,26 @@ class Enp_Button {
     public function get_btns($args) {
         $enp_btns = $this->get_btn_slugs();
 
+        $enp_btns_obj = null;
+
         foreach($enp_btns as $slug) {
             $args['btn_slug'] = $slug;
             $enp_btns_obj[] = new Enp_Button($args);
         }
 
-        $i = 0;
-        foreach($enp_btns_obj as $obj) {
-             // remove any null objects
-            if($obj->btn_slug === NULL) {
-                unset($enp_btns_obj[$i]); //removes the array at given index
-                $reindex = array_values($enp_btns_obj); //normalize index
-                $enp_btns_obj = $reindex; //update variable
+        if($enp_btns_obj !== null) {
+            $i = 0;
+            foreach($enp_btns_obj as $obj) {
+                 // remove any null objects
+                if($obj->btn_slug === NULL) {
+                    unset($enp_btns_obj[$i]); //removes the array at given index
+                    $reindex = array_values($enp_btns_obj); //normalize index
+                    $enp_btns_obj = $reindex; //update variable
+                }
+
+                $i++;
             }
-
-            $i++;
         }
-
 
         return $enp_btns_obj;
     }
