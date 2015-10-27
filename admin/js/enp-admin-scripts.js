@@ -13,19 +13,18 @@ jQuery( document ).ready( function( $ ) {
     }
 
 
-    var addBtnHtml = '<a class="enp-add-btn">Add Button <svg class="icon-add"><use xlink:href="#icon-add"></use></svg> </a>';
+    var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn">Add Button <svg class="icon-add"><use xlink:href="#icon-add"></use></svg></a></div>';
     var removeBtnHtml = '<a class="enp-remove-btn">Remove Button <svg class="icon-remove"><use xlink:href="#icon-remove"></use></svg></a>';
     // add our "Add/remove buttons"
 
+    // last button, so put the "Add Button button in there"
+    $(addBtnHtml).insertAfter('.enp-btn-table-wrap:last');
 
     $('.enp-btn-form').each(function(i, table_obj){
         var total_btns = enp_totalBtns();
 
         var add_enp_btns = '<tr class="btn-controls-row"><th></th><td class="btn-controls" data-button="'+i+'">';
-        // last button, so put the "Add Button button in there"
-        if(i === (total_btns - 1)) {
-            add_enp_btns = add_enp_btns + addBtnHtml;
-        }
+
         // only add the remove button if there's more than one button
         if(1 < total_btns) {
             add_enp_btns = add_enp_btns + removeBtnHtml;
@@ -38,6 +37,20 @@ jQuery( document ).ready( function( $ ) {
         $(this).append(add_enp_btns);
     });
 
+
+    // Add button
+    $('.enp-add-btn').click(function(e){
+        e.preventDefault();
+
+        var btn_number = $(this).parent().data('button');
+
+        // clone the last button and increase its numbers by one
+
+        var new_button = $('.enp-btn-form[data-button="'+btn_number+'"]').parent().clone();
+
+        $('.enp-btn-form[data-button="'+btn_number+'"]').parent().after(new_button);
+
+    });
 
 
     // Remove button
@@ -66,11 +79,6 @@ jQuery( document ).ready( function( $ ) {
                     enp_reIndexForm(form_number, new_index, this);
                 }
             });
-        } else {
-            // if the remove button clicked was the last one,
-            // we need to append a new add button button to the previous form
-            prev_btn_controls = $('.enp-btn-form').find("[data-button='" + (btn_number - 1) + "']");
-            $(prev_btn_controls).prepend(addBtnHtml);
         }
 
     });
@@ -93,10 +101,6 @@ jQuery( document ).ready( function( $ ) {
             // set the new name as the new value
             $(this).attr('name', new_input_name);
         });
-
-
-
-
     }
 
 });

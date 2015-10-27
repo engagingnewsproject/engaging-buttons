@@ -18,6 +18,14 @@ form .btn-controls {
     padding-top: 1.6em;
 }
 
+.icon-remove,
+.icon-add,
+.enp-remove-btn,
+.enp-add-btn {
+    -webkit-transition: all .2s;
+    transition: all .2s;
+}
+
 .enp-remove-btn {
     position: absolute;
     top: 0.6em;
@@ -42,11 +50,16 @@ form .btn-controls {
     fill: #F83349;
 }
 
+.enp-add-btn-wrap {
+    font-size: 1.05em;
+    margin: -1.3em 0 4em;
+}
+
 .enp-add-btn {
-    position: absolute;
-    bottom: 1.3em;
-    right: 1.2em;
-    color: #2A733C;
+    background: #fff;
+    padding: .8em 1.2em;
+    color: #3E774B;
+    border-bottom: 2px solid #57A76A;
     cursor: pointer;
 }
 
@@ -56,14 +69,14 @@ form .btn-controls {
 
 .enp-add-btn .icon-add {
     position: relative;
-    top: .42em;
+    top: .5em;
     width: 1.7em;
     height: 1.7em;
-    fill: #36924C;
+    fill: #57A76A;
 }
 
 .enp-add-btn:hover .icon-add {
-    fill: #2A733C;
+    fill: #3F794E;
 }
 
 
