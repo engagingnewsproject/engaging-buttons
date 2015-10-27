@@ -37,32 +37,34 @@ function buttonCreateForm($enp_buttons, $registered_content_types) {
 
 
 function buttonCreateFormHTML($enp_buttons, $registered_content_types, $i = 0, $enp_btn_obj = false ) {
-    $formHTML = '<table class="form-table">
-                <tbody>
-                    <tr>
-                        <th scope="row">
-                            <label for="enp-button-type">Button</label>
-                        </th>
-                        <td>
-                            <fieldset>'
-                                .buttonCreateSlug($enp_buttons, $i, $enp_btn_obj).
-                            '</fieldset>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">
-                            <label for="enp-button-content-type">Where to Use this Button</label>
-                        </th>
-                        <td>
-                            <fieldset>'.
-                                buttonCreateBtnType($enp_buttons, $i, $registered_content_types)
-                            .'</fieldset>
-                            <p id="enp-button-content-type-description" class="description">Where do you want this button to display?</p>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <hr>';
+    $formHTML = '
+                <div class="enp-btn-table-wrap">
+                    <table class="form-table enp-btn-form" data-button="'.$i.'">
+                        <tbody>
+                            <tr class="btn-slug">
+                                <th scope="row">
+                                    <label for="enp-button-type">Button</label>
+                                </th>
+                                <td class="btn-select-slug">
+                                    <fieldset>'
+                                        .buttonCreateSlug($enp_buttons, $i, $enp_btn_obj).
+                                    '</fieldset>
+                                </td>
+                            </tr>
+                            <tr class="btn-type">
+                                <th scope="row">
+                                    <label for="enp-button-content-type">Where to Use this Button</label>
+                                </th>
+                                <td class="btn-select-type">
+                                    <fieldset>'.
+                                        buttonCreateBtnType($enp_buttons, $i, $registered_content_types)
+                                    .'</fieldset>
+                                    <p id="enp-button-content-type-description" class="description">Where do you want this button to display?</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>';
 
     return $formHTML;
 }

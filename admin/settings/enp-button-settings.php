@@ -28,6 +28,13 @@ function enp_button_data() {
     register_setting( 'enp_button_settings', 'enp_button_promote_enp' );
 }
 
+// enqueue our scripts
+function enp_enqueue_admin_scripts() {
+    wp_register_script('enp-admin-scripts', plugins_url( 'enp-button/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
+    wp_enqueue_script( 'enp-admin-scripts');
+}
+add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );
+
 
 /**
 * Step 3: Create the markup for the options page
@@ -87,7 +94,15 @@ function enp_button_page() { ?>
         </table>
         <?php settings_fields( 'enp_button_settings' ); ?>
         <?php do_settings_sections( 'enp_button_settings' ); ?>
-        <?php submit_button(); ?>
+
+        <table class="form-table">
+            <tbody>
+                <tr>
+                    <th></th>
+                    <td><?php submit_button(); ?></td>
+                </tr>
+            </tbody>
+        </table>
     </form>
 
     <p>The Respect Button plugin is made by the <a href="http://engagingnewsproject.org">Engaging News Project</a>, a nonprofit at the University of Texas at Austin that researches COMMERCIALLY-VIABLE and DEMOCRATICALLY-BENEFICIAL ways to improve ONLINE NEWS</p>
