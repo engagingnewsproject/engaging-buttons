@@ -83,4 +83,7 @@
     fill: #3F794E;
 }
 
-
+#setting-error-enp-nag {
+    margin: 10px 15px 10px 3px;
+    max-width: 56em;
+}

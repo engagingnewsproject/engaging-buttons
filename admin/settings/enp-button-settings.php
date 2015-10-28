@@ -14,6 +14,9 @@ function enp_create_menu() {
 // create everything under enp_buttons and parse from there
 add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 
+// If they don't want data reporting, give them a little, "please, please, PLEASE add reporting!" notification
+add_filter( 'pre_update_option_enp_button_allow_data_tracking', 'set_enp_button_allow_data_tracking', 10, 2 );
+
 
 // Create settings fields.
 add_action( 'admin_init', 'enp_button_data' );
@@ -57,13 +60,7 @@ function enp_button_page() { ?>
     <form class="engaging-buttons-form" method="post" action="options.php">
         <h1>Engaging Buttons Settings</h1>
 
-        <?php if(isset( $_GET['settings-updated'])) { ?>
-        <div class="updated">
-            <p>Settings updated successfully</p>
-        </div>
-        <?php }
-
-
+        <?
         // return all buttons and build off of current options
         $enp_buttons = get_option('enp_buttons');
 

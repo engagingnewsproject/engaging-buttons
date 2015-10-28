@@ -20,6 +20,17 @@ function set_enp_buttons_values($values) {
     *       each use a foreach($values as $value) loop.
     */
 
+    if(empty($values)) {
+        add_settings_error(
+            'enp-no-buttons-selected',
+            '',
+            'You need to select which button to display. If you do not need any buttons, you can disable the plugin to remove all Engaging Buttons.',
+            'error'
+        );
+        // return an error to please select a button
+        return false;
+    }
+
     // Save slugs enp_button_slugs = array('respect', 'important', 'recommend');
     update_enp_button_slugs($values);
 
@@ -32,6 +43,8 @@ function set_enp_buttons_values($values) {
 
     // Save/Create enp_button_$slug
     update_enp_button_slug_entry($values);
+
+
 
     // Save the entire enp_buttons as is so we have everything in one place if we need it
     return $values;
@@ -177,5 +190,19 @@ function registeredContentTypes() {
 
 }
 
+
+function set_enp_button_allow_data_tracking($value) {
+    if(empty($value)) {
+        // return notification to pleeeease turn this value on
+        add_settings_error(
+            'enp-nag-for-data',
+            'enp-nag',
+            'Please turn on "Allow data collection" so that we can continue to provide high-quality, open-source plugins. We will only use your Engaging Button data anonymously for research with the Engaging News Project.',
+            'error'
+        );
+    }
+
+    return $value;
+}
 
 ?>
