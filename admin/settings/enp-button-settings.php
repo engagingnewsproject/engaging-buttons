@@ -52,9 +52,9 @@ function enp_button_page() { ?>
     </symbol>
 </svg>
 
-<div class="wrap enp-respect-button-options">
+<div class="wrap engaging-buttons-options">
 
-    <form method="post" action="options.php">
+    <form class="engaging-buttons-form" method="post" action="options.php">
         <h1>Engaging Buttons Settings</h1>
 
         <?php if(isset( $_GET['settings-updated'])) { ?>

@@ -10,8 +10,14 @@ jQuery( document ).ready( function( $ ) {
     var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn"><svg class="icon-add"><use xlink:href="#icon-add"></use></svg> Add Another Button</a></div>';
     var removeBtnHtml = '<a class="enp-remove-btn">Remove Button <svg class="icon-remove"><use xlink:href="#icon-remove"></use></svg></a>';
 
+    var max_btns = enp_maxBtns();
+    var total_btns = enp_totalBtns();
+
     // last button, so put the "Add Button button in there"
-    $(addBtnHtml).insertAfter('.enp-btn-table-wrap:last');
+    if(total_btns < max_btns) {
+        $(addBtnHtml).insertAfter('.enp-btn-table-wrap:last');
+    }
+
 
     $('.enp-btn-form').each(function(i, table_obj) {
         var total_btns = enp_totalBtns();
