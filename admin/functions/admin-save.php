@@ -113,6 +113,7 @@ function set_unset_btn_type_values($values) {
     // get all the registered content types as an array
     $registered_content_types = registeredContentTypes();
     $i = 0;
+    $set_options = array();
     foreach($values as $value) {
         // check each content type to see if it's set
         // if it's not, then set it to false
@@ -121,9 +122,22 @@ function set_unset_btn_type_values($values) {
             if(!isset($values[$i]['btn_type'][$type['slug']])) {
                 // update the original $values too
                 $values[$i]['btn_type'][$type['slug']] = false;
+            } else {
+                // flag if NONE were set and return an error message
+                $set_options[$i] = $values[$i]['btn_slug'];
             }
         }
         $i++;
+    }
+
+    if(count($set_options) !== count($values)) {
+        // return notification to pleeeease turn this value on
+        add_settings_error(
+            'enp-no-button-type',
+            'enp-nag',
+            'You did not select where to use one or more of your buttons.',
+            'error'
+        );
     }
 
     return $values;
