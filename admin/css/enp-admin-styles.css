@@ -2,6 +2,7 @@
     max-width: 60em;
 }
 
+.enp-btn-global-settings-wrap,
 .enp-btn-table-wrap {
     padding: 1em 2em;
     margin: 1.6em 0;
@@ -10,8 +11,14 @@
     border-bottom: 1px solid #aaa;
 }
 
+.enp-btn-global-settings-wrap,
 .enp-btn-table-wrap:last-of-type {
     margin-bottom: 4em;
+}
+
+.enp-respect-button-options td fieldset label {
+    display: block;
+    margin: .3em 0 .6em!important;
 }
 
 

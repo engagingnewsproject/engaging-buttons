@@ -6,14 +6,8 @@
 
 jQuery( document ).ready( function( $ ) {
 
-    // count how many buttons we have
-    function enp_totalBtns() {
-        var total_btns = $('.enp-btn-form').length;
-        return total_btns;
-    }
-
     //add/remove btn html
-    var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn">Add Button <svg class="icon-add"><use xlink:href="#icon-add"></use></svg></a></div>';
+    var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn"><svg class="icon-add"><use xlink:href="#icon-add"></use></svg> Add Another Button</a></div>';
     var removeBtnHtml = '<a class="enp-remove-btn">Remove Button <svg class="icon-remove"><use xlink:href="#icon-remove"></use></svg></a>';
 
     // last button, so put the "Add Button button in there"
@@ -33,13 +27,23 @@ jQuery( document ).ready( function( $ ) {
 
     });
 
-    // get a copy of the first button in case there are no buttons left later on
-    // var original_clone = ;
+    // show/hide the correct options
+    enp_btnSlugVisibility();
 
 
     // Add button
     $(document).on('click', '.enp-add-btn', function(e){
         e.preventDefault();
+
+        // check to see if there's already the max amount of buttons possible
+        var max_btns = enp_maxBtns();
+        var total_btns = enp_totalBtns();
+
+        if(max_btns <= total_btns) {
+            // Too many buttons. Cancel
+            console.log('There are no more buttons to create. Max number of buttons reached.');
+            return false;
+        }
 
         var new_button = $('.enp-btn-table-wrap:eq(0)').clone();
 
@@ -60,6 +64,14 @@ jQuery( document ).ready( function( $ ) {
         // reveal all remove buttons, if they're not already
         $('.enp-remove-btn').show();
 
+        // check to see if we should allow the creation of another button
+        var new_total_btns = total_btns+1
+        if(max_btns <= new_total_btns) {
+            $('.enp-add-btn').hide();
+        }
+
+        enp_btnSlugVisibility();
+
     });
 
 
@@ -75,6 +87,9 @@ jQuery( document ).ready( function( $ ) {
         }
 
         var btn_number = $(this).parent().data('button');
+
+        // unset the values before removing. Necessary for our show/hide slugs to work correctly
+        $('.enp-btn-form[data-button="'+btn_number+'"] input').prop( "checked", false );
 
         // Remove the form from the clicked button
         $('.enp-btn-form[data-button="'+btn_number+'"]').parent().fadeOut('300', function() { $(this).remove(); });
@@ -102,7 +117,35 @@ jQuery( document ).ready( function( $ ) {
             $('.enp-remove-btn').hide();
         }
 
+        // check to see if we should show the .enp-add-btn again
+        var max_btns = enp_maxBtns();
+        if(new_total_btns < max_btns) {
+            $('.enp-add-btn').fadeIn();
+        }
+
+        enp_btnSlugVisibility();
+
     });
+
+
+    // on change of slug inputs
+    $( document ).on('change', ".btn-slug-input", function() {
+        // show/hide the correct options
+        enp_btnSlugVisibility();
+    });
+
+
+        // count how many buttons we have
+    function enp_totalBtns() {
+        var total_btns = $('.enp-btn-form').length;
+        return total_btns;
+    }
+
+    // count how many button slugs are available
+    function enp_maxBtns() {
+        var max_btns = $('.btn-select-slug:eq(0) input').length;
+        return max_btns;
+    }
 
 
     // Reindex option
@@ -122,6 +165,43 @@ jQuery( document ).ready( function( $ ) {
             // set the new name as the new value
             $(this).attr('name', new_input_name);
         });
+    }
+
+
+    // an array of the current selected button slugs
+    function enp_getSelectedBtnSlugs() {
+        var selected_btns = [];
+
+        $('.btn-select-slug').each(function() {
+            selected_btns.push($('.btn-slug-input:checked', this).val());
+        });
+
+        return selected_btns;
+    }
+
+
+    // If a btn slug option is selected, remove it from the rest of the buttons
+    // so users can't select the same button twice
+    function enp_btnSlugVisibility() {
+        // get current selections
+        selected_btns = enp_getSelectedBtnSlugs();
+
+        // show everything to "reset" it
+        $('.btn-slug-input').show();
+        $('.btn-slug-input').parent().show();
+
+        // hide the selected options from all the other options
+        for (i = 0; i < selected_btns.length; i++) {
+            console.log(selected_btns[i]);
+            // hide the not checked ones
+            $('.btn-slug-input-'+selected_btns[i]+':not(:checked)').hide();
+            $('.btn-slug-input-'+selected_btns[i]+':not(:checked)').parent().hide();
+
+            /* show the checked ones
+            $('.btn-slug-input-'+selected_btns[i]+':checked').show();
+            $('.btn-slug-input-'+selected_btns[i]+':checked').parent().show();*/
+
+        }
     }
 
 });

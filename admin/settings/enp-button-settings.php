@@ -73,48 +73,44 @@ function enp_button_page() { ?>
         $btn_promote_enp = get_option('enp_button_promote_enp');
 
         // build the buttons form
-        $registered_content_types = registeredContentTypes();
+        $registered_content_types = registeredContentTypes();?>
 
-        buttonCreateForm($enp_buttons, $registered_content_types);
+        <div class="enp-btn-global-settings-wrap">
+            <table class="form-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            Engaging Button Global Setting
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="enp_button_must_be_logged-in">
+                                    <input type="checkbox" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
+                                </label>
+                                <label for="enp_button_allow_data_tracking">
+                                    <input type="checkbox" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
+                                    <p id="enp-button-allow-data-tracking-description" class="description">This allows the <a href="http://engagingnewsproject.org">Engaging News Project</a>, an academic nonprofit at the University of Texas at Austin, to record data on the buttons so they can continue to provide free, open-source plugins and research. No personal information is recorded. Learn more about what data is tracked and how it is used here.</p>
+                                </label>
+                                <label for="enp_button_promote_enp">
+                                    <input type="checkbox" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
+                                    <p id="enp-button-promote-enp-description" class="description">Small text displayed beneath the WordPress comments section.</p>
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
+        <h3>Your Site's Engaging Buttons</h3>
 
-        // add the general settings
-        ?>
-        <table class="form-table">
-            <tbody>
-                <tr>
-                    <th scope="row">
-                        Engaging Button Plugin Setting
-                    </th>
-                    <td>
-                        <fieldset>
-                            <label for="enp_button_must_be_logged-in">
-                                <input type="checkbox" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
-                            </label>
-                            <label for="enp_button_allow_data_tracking">
-                                <input type="checkbox" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
-                                <p id="enp-button-allow-data-tracking-description" class="description">This allows the <a href="http://engagingnewsproject.org">Engaging News Project</a>, an academic nonprofit at the University of Texas at Austin, to record data on the buttons so they can continue to provide free, open-source plugins and research. No personal information is recorded. Learn more about what data is tracked and how it is used here.</p>
-                            </label>
-                            <label for="enp_button_promote_enp">
-                                <input type="checkbox" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
-                                <p id="enp-button-promote-enp-description" class="description">Small text displayed beneath the WordPress comments section.</p>
-                            </label>
-                        </fieldset>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <? buttonCreateForm($enp_buttons, $registered_content_types); ?>
+
         <?php settings_fields( 'enp_button_settings' ); ?>
         <?php do_settings_sections( 'enp_button_settings' ); ?>
 
-        <table class="form-table">
-            <tbody>
-                <tr>
-                    <th></th>
-                    <td><?php submit_button(); ?></td>
-                </tr>
-            </tbody>
-        </table>
+        <?php submit_button(); ?>
+
     </form>
 
     <p>The Respect Button plugin is made by the <a href="http://engagingnewsproject.org">Engaging News Project</a>, a nonprofit at the University of Texas at Austin that researches COMMERCIALLY-VIABLE and DEMOCRATICALLY-BENEFICIAL ways to improve ONLINE NEWS</p>

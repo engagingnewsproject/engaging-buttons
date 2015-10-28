@@ -83,15 +83,13 @@ function buttonCreateSlugHTML($enp_buttons, $i = 0, $enp_btn_obj) {
     // if there's no object or there are
     if($enp_btn_obj === false || $enp_btn_obj->btn_lock === false) {
         $buttonSlugHTML ='<label>
-                            <input type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="respect" '.checked('respect', $enp_buttons[$i]["btn_slug"], false).' /> Respect
+                            <input class="btn-slug-input btn-slug-input-respect" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="respect" '.checked('respect', $enp_buttons[$i]["btn_slug"], false).' /> Respect
                         </label>
-                        <br/>
                         <label>
-                            <input type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="recommend" '.checked('recommend', $enp_buttons[$i]["btn_slug"], false).' /> Recommend
+                            <input class="btn-slug-input btn-slug-input-recommend" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="recommend" '.checked('recommend', $enp_buttons[$i]["btn_slug"], false).' /> Recommend
                         </label>
-                        <br/>
                         <label>
-                            <input type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="important" '.checked('important', $enp_buttons[$i]["btn_slug"], false).' /> Important
+                            <input class="btn-slug-input btn-slug-input-important" type="radio" name="enp_buttons['.$i.'][btn_slug]" aria-describedby="enp-button-slug-description" value="important" '.checked('important', $enp_buttons[$i]["btn_slug"], false).' /> Important
                         </label>
                         <p id="enp-button-slug-description"class="description">Which button do you want to use on your site?</p>
                         <p class="description">Have an idea for other button text options? Let us know! ____@engagingnewsproject.org';
@@ -135,8 +133,7 @@ function buttonCreateBtnTypeHTML($enp_buttons, $i, $content_type) {
 
     $checklist_html .= '<label>
                             <input type="checkbox" name="'.$name.'" value="1" '.checked(true, $checked_val, false).' aria-describedby="enp-button-content-type-description"/> '.$content_type['label_name'].'
-                        </label>
-                        <br/>';
+                        </label>';
 
     return $checklist_html;
 }
