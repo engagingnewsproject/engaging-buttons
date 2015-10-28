@@ -96,7 +96,8 @@ function enp_btns_HTML($args) {
 
     // get the button objects
     $enp_btns = enp_get_all_btns($args);
-    if($enp_btns === null) {
+
+    if(empty($enp_btns)) {
         return false; // quit now if there aren't any buttons
     }
 

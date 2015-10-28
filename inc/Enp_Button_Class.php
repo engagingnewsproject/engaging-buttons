@@ -312,7 +312,7 @@ class Enp_Button {
     public function get_btns($args) {
         $enp_btns = $this->get_btn_slugs();
 
-        $enp_btns_obj = null;
+        $enp_btns_obj = array();
 
         foreach($enp_btns as $slug) {
             $args['btn_slug'] = $slug;
