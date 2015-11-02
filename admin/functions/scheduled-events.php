@@ -33,9 +33,6 @@ function enp_build_popular_button_data() {
     // check to see if anything has changed
     $rebuild_popular_data = get_option('enp_rebuild_popular_data');
 
-    // write a last ran field
-    update_option('enp_rebuild_popular_data_last_ran', date("H:i:s"));
-
     if($rebuild_popular_data !== '1') {
         return false; // Stop the process. Nothing has changed.
     }
