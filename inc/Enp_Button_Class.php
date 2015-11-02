@@ -11,8 +11,6 @@ class Enp_Button {
     public $btn_slug;
     public $btn_name;
     public $btn_type;
-    public $btn_count;
-    public $btn_lock;
 
 
     /*$args = array(
@@ -81,7 +79,7 @@ class Enp_Button {
                     // set all the attributes
                     $this->btn_name  =  $this->set_btn_name($enp_btn);
 
-                    $this->btn_count =  $this->set_btn_count($enp_btn, $args);
+                    $this->btn_count =  $this->set_btn_count($enp_btn['btn_slug'], $args);
                     $this->btn_lock  =  $this->set_btn_lock();
                 } else {
                     // throw new Exception('Enp_Button: No button found for that btn_type');
@@ -173,7 +171,7 @@ class Enp_Button {
     *   Set the btn count value
     *
     */
-    protected function set_btn_count($enp_btn, $args) {
+    protected function set_btn_count($btn_slug, $args) {
         $enp_btn_count = false;
 
         if($args['btn_type'] === 'comment') {
@@ -184,7 +182,7 @@ class Enp_Button {
                 $comment_id = $comment->comment_ID;
             }
 
-            $enp_btn_count = get_comment_meta($comment_id, 'enp_button_'.$enp_btn['btn_slug'], true);
+            $enp_btn_count = get_comment_meta($comment_id, 'enp_button_'.$btn_slug, true);
         } elseif(!is_admin()) {
             $post_id = false;
 
@@ -197,7 +195,7 @@ class Enp_Button {
 
             if($post_id !== false) {
                 // individual post button
-                $enp_btn_count = get_post_meta($post_id,'enp_button_'.$enp_btn['btn_slug'], true);
+                $enp_btn_count = get_post_meta($post_id,'enp_button_'.$btn_slug, true);
             } else {
                 // TODO: get a global count?
                 // $enp_btn_count = get_option('enp_button_'.$enp_btn['btn_slug']);

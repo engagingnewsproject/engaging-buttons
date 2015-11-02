@@ -8,8 +8,6 @@
 
 
 
-
-
 /*
 *
 *   Get all buttons. Doesn't really save much time, but
@@ -46,6 +44,10 @@ function enp_get_btn($args) {
 *
 */
 function enp_append_post_btns( $content ) {
+    // Demo for Enp_Popular_Buttons
+    /*$pop_btns = new Enp_Popular_Buttons(array('btn_type' => 'post'));
+    var_dump($pop_btns->get_btn_types());*/
+
     global $post;
     $post_id = $post->ID;
     $post_type = get_post_type( $post );
@@ -424,5 +426,43 @@ function enp_build_name_text($names) {
 *   and hope the theme's formatting isn't too wonky
 */
 add_action( 'comment_form_before', 'promote_enp_HTML');
+
+
+
+/*
+*   mimicing get_btn_count outside of a button object
+*   so we can query the count directly from database when needed
+*
+*   $args = array(
+*               'post_id' => 4,
+*               'btn_slug' => 'respect',
+*               'btn_type' => 'comment'
+*           );
+*
+*   $btn_count = get_single_btn_count($args);
+*   var_dump($btn_count); // int(5)
+*/
+
+function get_single_btn_count($args = false) {
+    if(!empty($args['btn_type']) && !empty($args['post_id']) && !empty($args['btn_slug']) ) {
+        if($args['btn_type'] !== 'comment') {
+            $meta_type = 'post';
+        } else {
+            $meta_type = 'comment';
+        }
+
+        $get_meta = 'get_'.$meta_type.'_meta';
+        $btn_count = $get_meta($args['post_id'], 'enp_button_'.$args['btn_slug'], true);
+
+        if($btn_count === false || empty($btn_count)) {
+            $btn_count = 0;
+        }
+
+        $btn_count = intval($btn_count);
+        return $btn_count;
+    } else {
+        return false;
+    }
+}
 
 ?>
