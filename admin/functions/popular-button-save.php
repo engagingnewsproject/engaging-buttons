@@ -8,6 +8,7 @@
 
 
 function enp_popular_button_save() {
+
     // get all our active slugs
     $enp_button_slugs = get_option('enp_button_slugs');
 

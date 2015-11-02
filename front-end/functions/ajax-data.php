@@ -169,9 +169,11 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
             $enp_clicked_btn_HTML = enp_user_clicked_buttons_HTML($enp_user, $enp_btns, $btn_type, $pid);
 
         } else {
-            $enp_clicked_btn_HTML = '<p class="enp-btn-hint enp-user-clicked-hint">We need to set and check localStorage for buttons clicked</p>';
+            $enp_clicked_btn_HTML = ''; // we need to check localStorage for button clicks
         }
 
+        // update our rebuild flag
+        update_option('enp_rebuild_popular_data', '1');
 
         $response->add( array(
             'data'  => 'success',
