@@ -45,7 +45,7 @@ function enp_popular_button_save() {
                 if($key === 'comment') {
                     $process_comments = true;
                 } else {
-                    // reset the array
+                    // reset the array with the new post type
                     $popular_post_args = array('post_type' => $key);
                     $popular_post_args = array_merge($popular_args, $popular_post_args);
                     enp_popular_posts_save($btn_slug, $popular_post_args);
@@ -65,6 +65,8 @@ function enp_popular_button_save() {
 
 //
 function enp_popular_comments_save($btn_slug, $post_types, $args) {
+
+    // all comments by btn slug (combines pages, posts, etc. anywhere the button is shown)
     $comment_args = array(
             'fields' => 'ids',
             'status' => 'approve',
@@ -78,12 +80,11 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
 
     $popular_comments = enp_build_popular_array($btn_slug, $comments, 'comment');
 
-    // all comments by btn slug (combines pages, posts, etc. anywhere the button is shown)
     update_option('enp_button_popular_'.$btn_slug.'_comments', $popular_comments);
 
 
-
-    // all comments by post type
+    // Loop through all the passed post_types and
+    // save all comments by post type
     // ex: enp_button_popular_respect_page_comments
     foreach($post_types as $key=>$value) {
         // check if the button type is active
@@ -110,7 +111,6 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
 */
 function enp_popular_posts_save($btn_slug, $args) {
 
-
     // TODO: Override this via Admin option
     $args['posts_per_page']= 20; // limit to 20.
 
@@ -123,24 +123,6 @@ function enp_popular_posts_save($btn_slug, $args) {
 
     // Restore original Post Data
     wp_reset_postdata();
-}
-
-/*
-*   Loop through the returned comment_ids, get the count, and return
-*   an array of arrays of ids + button count in order of button count from greatest to least
-*/
-function enp_build_popular_comments_array($btn_slug, $comments) {
-    $popular_comments = array();
-
-    foreach($comments as $comment_id) {
-        $btn_count = get_comment_meta($comment_id, 'enp_button_'.$btn_slug, true);
-        $popular_comments[] = array(
-                                    'comment_id'=>$comment_id,
-                                    'btn_count'=>$btn_count
-                                );
-    }
-
-    return $popular_comments;
 }
 
 /*
