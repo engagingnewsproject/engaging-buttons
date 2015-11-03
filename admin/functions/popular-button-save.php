@@ -7,10 +7,16 @@
 */
 
 
+// Main wrapper function for building all the popular button data
 function enp_popular_button_save() {
 
     // get all our active slugs
     $enp_button_slugs = get_option('enp_button_slugs');
+
+    // Quit the call if there are no settings
+    if($enp_button_slugs === false) {
+        return false;
+    }
 
     // loop through each active button slug
     foreach($enp_button_slugs as $btn_slug) {
@@ -57,7 +63,7 @@ function enp_popular_button_save() {
 
 }
 
-
+//
 function enp_popular_comments_save($btn_slug, $post_types, $args) {
     $comment_args = array(
             'fields' => 'ids',
@@ -69,12 +75,16 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
     $comments_query = new WP_Comment_Query;
     $comments = $comments_query->query( $args );
 
-    $popular_comments = enp_build_popular_comments_array($btn_slug, $comments);
 
-    // all comments
+    $popular_comments = enp_build_popular_array($btn_slug, $comments, 'comment');
+
+    // all comments by btn slug (combines pages, posts, etc. anywhere the button is shown)
     update_option('enp_button_popular_'.$btn_slug.'_comments', $popular_comments);
 
+
+
     // all comments by post type
+    // ex: enp_button_popular_respect_page_comments
     foreach($post_types as $key=>$value) {
         // check if the button type is active
         if($value === '1' && $key !== 'comment') {
@@ -85,7 +95,7 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
             $comments_query = new WP_Comment_Query;
             $comments = $comments_query->query( $post_type_args );
             // build the array of popular ids and counts
-            $popular_comments = enp_build_popular_comments_array($btn_slug, $comments);
+            $popular_comments = enp_build_popular_array($btn_slug, $comments, 'comment');
             // save the array
             update_option('enp_button_popular_'.$btn_slug.'_'.$key.'_comments', $popular_comments);
 
@@ -94,7 +104,10 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
 }
 
 
-
+/*
+*   Loop through the returned comment_ids, get the count, and return
+*   an array of arrays of ids + button count in order of button count from greatest to least
+*/
 function enp_popular_posts_save($btn_slug, $args) {
 
 
@@ -102,33 +115,20 @@ function enp_popular_posts_save($btn_slug, $args) {
     $args['posts_per_page']= 20; // limit to 20.
 
     $pop_posts = get_posts( $args );
+    $post_type = $args['post_type'];
 
-    $popular_posts = array();
+    $popular_posts = enp_build_popular_array($btn_slug, $pop_posts, $post_type);
 
-    foreach ($pop_posts as $post) {
-        // clear the array
-
-        $post_id = $post->ID;
-        $btn_count_args = array(
-           'post_id' => $post_id,
-           'btn_slug' => $btn_slug,
-           'btn_type' => $args['post_type']
-        );
-
-        $btn_count = get_single_btn_count($btn_count_args);
-        $popular_posts[] = array(
-                                'post_id' => $post_id,
-                                'btn_count' => $btn_count
-                            );
-    }
-
-    update_option('enp_button_popular_'.$btn_slug.'_'.$args['post_type'], $popular_posts);
+    update_option('enp_button_popular_'.$btn_slug.'_'.$post_type, $popular_posts);
 
     // Restore original Post Data
     wp_reset_postdata();
 }
 
-
+/*
+*   Loop through the returned comment_ids, get the count, and return
+*   an array of arrays of ids + button count in order of button count from greatest to least
+*/
 function enp_build_popular_comments_array($btn_slug, $comments) {
     $popular_comments = array();
 
@@ -141,6 +141,34 @@ function enp_build_popular_comments_array($btn_slug, $comments) {
     }
 
     return $popular_comments;
+}
+
+/*
+*   Loop through the returned ids, get the count, and return
+*   an array of arrays of ids + button count in order of button count from greatest to least
+*/
+function enp_build_popular_array($btn_slug, $pop_posts, $post_type) {
+    $popular_array = array();
+
+    foreach ($pop_posts as $pop) {
+        if($post_type === 'comment') {
+            $id = $pop;
+            $label = 'comment';
+        } else {
+            $id = $pop->ID;
+            $label = 'post';
+        }
+
+        $btn_count_args = array('post_id' => $id,'btn_slug' => $btn_slug,'btn_type' => $post_type);
+        $btn_count = get_single_btn_count($btn_count_args);
+
+        $popular_array[] = array(
+                                $label.'_id' => $id,
+                                'btn_count' => $btn_count
+                            );
+    }
+
+    return $popular_array;
 }
 
 ?>
