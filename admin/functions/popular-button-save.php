@@ -46,7 +46,9 @@ function enp_popular_button_save() {
                     $process_comments = true;
                 } else {
                     // reset the array with the new post type
-                    $popular_post_args = array('post_type' => $key);
+                    $popular_post_args = array( 'post_type'     => $key,
+                                                'posts_per_page'=> 20 // TODO: Override this via Admin option;
+                                              );
                     $popular_post_args = array_merge($popular_args, $popular_post_args);
                     enp_popular_posts_save($btn_slug, $popular_post_args);
                 }
@@ -59,7 +61,13 @@ function enp_popular_button_save() {
             // strip out popular args post type
             enp_popular_comments_save($btn_slug, $btn_info['btn_type'], $popular_args);
         }
+
+        // pass the slug to our all posts save function
+        enp_all_popular_posts_save($btn_slug, $btn_info);
+
     } // end foreach btn_slug
+
+
 
 }
 
@@ -70,6 +78,7 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
     $comment_args = array(
             'fields' => 'ids',
             'status' => 'approve',
+            'number' => 20 // TODO: Override this via Admin option
         );
 
     $args = array_merge($comment_args, $args);
@@ -106,13 +115,10 @@ function enp_popular_comments_save($btn_slug, $post_types, $args) {
 
 
 /*
-*   Loop through the returned comment_ids, get the count, and return
-*   an array of arrays of ids + button count in order of button count from greatest to least
+*   Save most clicked by slug and post type in wp_options
+*   'enp_button_popular_'.$btn_slug.'_'.$post_type
 */
 function enp_popular_posts_save($btn_slug, $args) {
-
-    // TODO: Override this via Admin option
-    $args['posts_per_page']= 20; // limit to 20.
 
     $pop_posts = get_posts( $args );
     $post_type = $args['post_type'];
@@ -125,9 +131,11 @@ function enp_popular_posts_save($btn_slug, $args) {
     wp_reset_postdata();
 }
 
+
+
 /*
 *   Loop through the returned ids, get the count, and return
-*   an array of arrays of ids + button count in order of button count from greatest to least
+*   an array of arrays of ids + button count
 */
 function enp_build_popular_array($btn_slug, $pop_posts, $post_type) {
     $popular_array = array();
@@ -151,6 +159,39 @@ function enp_build_popular_array($btn_slug, $pop_posts, $post_type) {
     }
 
     return $popular_array;
+}
+
+/*
+*   Save most clicked overall slug (all post types, no comments) in wp_options
+*   'enp_button_popular_'.$btn_slug
+*   Build the field based on the saved popular posts in wp_options
+*/
+function enp_all_popular_posts_save($btn_slug, $btn_info) {
+    // loop through each button type
+    $all_popular_posts = array();
+    foreach($btn_info['btn_type'] as $key=>$value) {
+        // check if the button type is active and is not comments
+        if($value === '1' && $key !== 'comment') {
+            // get the arrays
+            $pop_posts = get_option('enp_button_popular_'.$btn_slug.'_'.$key);
+            if(!empty($pop_posts)) {
+                $all_popular_posts = array_merge($all_popular_posts, $pop_posts);
+            }
+        }
+    }
+
+    // rearrange the array to be in order of most clicks to least
+    if(!empty($all_popular_posts)) {
+        usort($all_popular_posts, 'enp_sort_popular_post_order'); // enp_sort_popular_post_order is a function, oddly
+    }
+
+    update_option( 'enp_button_popular_'.$btn_slug, $all_popular_posts );
+}
+
+
+// Sorts multidemensional array from high to low by btn_count value
+function enp_sort_popular_post_order($a, $b) {
+    return ($a['btn_count'] < $b['btn_count']) ? 1 : -1;
 }
 
 ?>
