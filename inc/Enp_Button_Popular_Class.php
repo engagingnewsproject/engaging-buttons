@@ -84,8 +84,7 @@ class Enp_Popular_Buttons {
         }
 
         // remove the label from the object, since we don't need to pass it in public
-        // unset($this->label);
-        // well... it could come in handy... we'll leave it there for now
+        unset($this->label);
 
     }
 
@@ -98,7 +97,6 @@ class Enp_Popular_Buttons {
         $this->btn_type = $args['btn_type'];
         $this->{'popular_'.$this->label} = $this->set_popular_posts($args);
         $this->{'popular_'.$this->label.'_by_id'} = $this->set_popular_posts_by_id($args);
-
     }
 
     /*
@@ -106,17 +104,42 @@ class Enp_Popular_Buttons {
     *   All the hard work has already been done
     */
     protected function set_popular_posts($args) {
-        if($args['btn_type'] === 'all_post_types' && $args['comments'] !== true) {
-            $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'] );
-        } elseif($args['btn_type'] === 'comment' || ($args['btn_type'] === 'all_post_types' && $args['comments'] === true)) {
-            $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_comments' );
-        } elseif($args['btn_type'] !== 'all_post_types' && $args['comments'] === true) {
-            $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_'.$args['btn_type'].'_comments' );
-        } else {
-            $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_'.$args['btn_type'] );
+        try{
+
+            if($this->btn_slug === false) {
+                throw new Exception('Enp_Popular_Buttons: No btn_slug set.');
+            }
+
+            $pop_posts = false;
+
+            // figure out which option value we need to grab
+            // if all posts type and we want posts
+            if($args['btn_type'] === 'all_post_types' && $this->label === 'posts') {
+                $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'] );
+            }
+            // we have btn_slug and individual button type that's not comments, so return that
+            elseif($args['btn_type'] !== 'all_post_types' && $this->label === 'posts') {
+                $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_'.$args['btn_type'] );
+            }
+            // if we have a specific btn_type and want comments
+            elseif($args['btn_type'] !== 'all_post_types' && $this->label === 'comments') {
+                $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_'.$args['btn_type'].'_comments' );
+            }
+            // if we want all comments regardless of post type
+            elseif($args['btn_type'] === 'all_post_types' && $this->label === 'comments') {
+                $pop_posts = get_option( 'enp_button_popular_'.$args['btn_slug'].'_comments' );
+            } else {
+                throw new Exception('Enp_Popular_Buttons: We could not find any values to return.');
+            }
+
+            return $pop_posts;
+
+        } catch(Exception $e) {
+            // return our exception
+            echo $e->getMessage();
         }
 
-        return $pop_posts;
+
     }
 
     /*
@@ -125,21 +148,20 @@ class Enp_Popular_Buttons {
     */
     protected function set_popular_posts_by_id($args) {
         $pop_posts_by_id = array();
-
+        // check to make sure the popular_$label field has values
         if(!empty($this->{'popular_'.$this->label})) {
-
+            // set the dynamic array key label
             if($this->label === 'comments') {
                 $singular_label = 'comment';
             } else {
                 $singular_label = 'post';
             }
-
+            // loop through popular_$label and push all the IDs into an array
             foreach($this->{'popular_'.$this->label} as $pop_post) {
-
                 $pop_posts_by_id[] = $pop_post[$singular_label.'_id'];
             }
         }
-
+        // return the array
         return $pop_posts_by_id;
     }
 
@@ -163,13 +185,22 @@ class Enp_Popular_Buttons {
 
         $pop_posts_objs = array();
 
-        if(empty($btn_slugs)) {
+        try {
+            if(empty($btn_slugs)) {
+                throw new Exception('Enp_Button: There are no button slugs saved in the database. Please go to Engaging Buttons settings and create and save a button.');
+            }
+        } catch(Exception $e) {
+            // return our exception
+            echo $e->getMessage();
             return false;
         }
 
+
+        $i = 0;
         foreach($btn_slugs as $slug) {
             $args['btn_slug'] = $slug;
             $pop_posts_objs[] = new Enp_Popular_Buttons($args);
+            $i++;
         }
 
         return $pop_posts_objs;
