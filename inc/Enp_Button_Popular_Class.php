@@ -36,35 +36,13 @@ $pop_posts = new Enp_Popular_Buttons($args); // object{
                                                                                   [3]=>6)
                                                     }
 
-echo '<h2>Most '.$pop_posts->get_btn_past_tense_name().' '.$pop_posts->get_btn_past_tense_name().'</h2>';
-foreach($pop_posts->popular_posts as $pop) {
-    $post_id = $pop['post_id'];
-    $btn_clicks = $pop['btn_count'];
-    echo '<h3><a href="'.get_permalink($post_id).'">'.get_the_title($post_id).'</a></h3>';
-}
-
-// with WP_Query
-$query_args = array(
-                    'post_type' => $pop_posts->get_btn_types();
-                    'post__in' => $pop_posts->get_pop_posts_by_id(); // returns array of popular posts
-$pop_posts_query = new WP_Query( $args );
-
-// The Loop
-if ( $pop_posts_query->have_posts() ) :
-    while ( $pop_posts_query->have_posts() ) : $pop_posts_query->the_post();
-
-        echo '<li>' . get_the_title() . '</li>';
-
-    endwhile;
-endif;
-
-wp_reset_postdata();
 */
-
 class Enp_Popular_Buttons {
 
+
     public function __construct($args = array()) {
-         $default_args = array(
+
+        $default_args = array(
             'btn_slug' => false, // set to slug string or array of strings, "respect", "recommend", "important". also accepts array
             'btn_type' => 'all_post_types', // slug of the post type. post, page, comment, or cpt slug
             'comments' => false // flag to get comments of a post type
@@ -84,8 +62,12 @@ class Enp_Popular_Buttons {
         }
 
         // remove the label from the object, since we don't need to pass it in public
-        unset($this->label);
+        //unset($this->label);
 
+    }
+
+    public function the_content($content) {
+        return $content . '<p>Thanks!</p>';
     }
 
     /*
@@ -151,11 +133,8 @@ class Enp_Popular_Buttons {
         // check to make sure the popular_$label field has values
         if(!empty($this->{'popular_'.$this->label})) {
             // set the dynamic array key label
-            if($this->label === 'comments') {
-                $singular_label = 'comment';
-            } else {
-                $singular_label = 'post';
-            }
+            $singular_label = $this->get_singular_label();
+
             // loop through popular_$label and push all the IDs into an array
             foreach($this->{'popular_'.$this->label} as $pop_post) {
                 $pop_posts_by_id[] = $pop_post[$singular_label.'_id'];
@@ -173,6 +152,16 @@ class Enp_Popular_Buttons {
         }
 
         return $label;
+    }
+
+    protected function get_singular_label() {
+        if($this->label === 'comments') {
+            $singular_label = 'comment';
+        } else {
+            $singular_label = 'post';
+        }
+
+        return $singular_label;
     }
     /*
     *   If no slug was passed, we need to join all of them into
@@ -206,6 +195,7 @@ class Enp_Popular_Buttons {
         return $pop_posts_objs;
     }
 
-}
 
+}
+//new Enp_Popular_Buttons();
 ?>

@@ -32,10 +32,27 @@ $classesDir = array (
     plugin_dir_path( __FILE__ ) .'front-end/functions/',
 );
 
-foreach ($classesDir as $directory) {
-    foreach (glob($directory."*.php") as $filename){
-        include $filename;
-    }
+enp_button_include_files($classesDir);
+
+
+add_action( 'template_redirect', function() {
+
+  //Automatically Load all the PHP files we need
+  $classesDir = array (
+      plugin_dir_path( __FILE__ ) .'popular_buttons/',
+  );
+
+  enp_button_include_files($classesDir);
+
+});
+
+
+function enp_button_include_files($classesDir) {
+  foreach ($classesDir as $directory) {
+      foreach (glob($directory."*.php") as $filename){
+          include $filename;
+      }
+  }
 }
 
 
