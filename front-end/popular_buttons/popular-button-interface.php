@@ -50,31 +50,18 @@ function enp_process_popular_args($args = false, $btn_type = false, $comments = 
     return $args;
 }
 
-function pop_comments_title($html, $comment_id, $btn_count){
-    $html = '<h3>Comment '.$comment_id.' has '.$btn_count.' clicks!</h3>'.$html;
-    return $html;
-}
-add_filter('enp_popular_comment_html', 'pop_comments_title', 10, 3);
-
-/*function pop_comments_wrap($html, $this){
-    $html = '<div style="color: red;">'.$html.'</div>';
-    return $html;
-}
-add_filter('enp_popular_comments_loop_wrap', 'pop_comments_wrap', 10, 2);
-add_filter('enp_popular_posts_loop_wrap', 'pop_comments_wrap', 10, 2);*/
-
-function pop_posts_section_title($html, $pop_posts_obj){
-    $html = '<h3>Most Respected Posts</h3>'.$html;
-    return $html;
-}
-add_filter('enp_popular_posts_loop_before_html', 'pop_posts_section_title', 10, 2);
-
+// append the most popular from each active button
 function append_popular_posts($content) {
-    $posts = enp_get_popular_posts('respect');
-    $content .= $posts->popular_loop();
+    // check the settings
+    $enp_append_popular_slugs = get_option('enp_display_popular_slugs');
+    if(!empty($enp_append_popular_slugs)) {
+        foreach($enp_append_popular_slugs as $slug) {
+            $posts = enp_get_popular_posts($slug);
+            $content .= $posts->popular_loop();
+        }
+    }
+
     return $content;
 }
 add_filter('the_content', 'append_popular_posts');
-
-
 ?>
