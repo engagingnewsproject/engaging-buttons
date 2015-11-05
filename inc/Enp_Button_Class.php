@@ -103,7 +103,6 @@ class Enp_Button {
         if(isset($enp_btn['btn_slug'])) {
             $slug = $enp_btn['btn_slug'];
         }
-        //var_dump($slug);
         return $slug;
     }
 

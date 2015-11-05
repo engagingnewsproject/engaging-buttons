@@ -52,14 +52,17 @@ function enp_process_popular_args($args = false, $btn_type = false, $comments = 
 
 // append the most popular from each active button
 function append_popular_posts($content) {
-    // check the settings
-    $enp_append_popular_slugs = get_option('enp_display_popular_slugs');
-    if(!empty($enp_append_popular_slugs)) {
-        foreach($enp_append_popular_slugs as $slug) {
-            $posts = enp_get_popular_posts($slug);
-            $content .= $posts->popular_loop();
+    if(is_single() || is_singular()) {
+        // check the settings
+        $enp_append_popular_slugs = get_option('enp_display_popular_slugs');
+        if(!empty($enp_append_popular_slugs)) {
+            foreach($enp_append_popular_slugs as $slug) {
+                $posts = enp_get_popular_posts($slug);
+                $content .= $posts->popular_loop();
+            }
         }
     }
+
 
     return $content;
 }

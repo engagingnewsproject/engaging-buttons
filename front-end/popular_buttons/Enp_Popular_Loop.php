@@ -47,7 +47,7 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
     }
 
     public function popular_posts_loop() {
-        $enp_popular_html = '<ul>';
+        $enp_popular_html = '';
 
         do_action( 'enp_popular_posts_loop_before', $this );
         $enp_popular_html = apply_filters( 'enp_popular_posts_loop_before_html', $enp_popular_html, $this );
@@ -60,18 +60,17 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
             $enp_popular_post_html = '';
             do_action( 'enp_popular_post_before', $pop_id, $pop_count );
 
-            $enp_popular_post_html .= '<li><a href="'.get_permalink($pop_id).'">'.get_the_title($pop_id).' ('.$pop_count.')</a></li>';
+            $enp_popular_post_html .= '<li><a href="'.get_permalink($pop_id).'">'.get_the_title($pop_id).' <span class="enp-popular-list-btn-count enp-popular-list-btn-count--'.$this->btn_slug.'">'.$pop_count.'</span></a></li>';
             $enp_popular_html .= apply_filters('enp_popular_post_html', $enp_popular_post_html, $pop_id, $pop_count);
 
             do_action( 'enp_popular_post_after' ,$pop_id, $pop_count );
 
         }
 
-        $enp_popular_html .= '</ul>';
         do_action( 'enp_popular_posts_loop_after', $this );
-        $enp_popular_html = apply_filters( 'enp_popular_comments_loop_after_html', $enp_popular_html, $this );
+        $enp_popular_html = apply_filters( 'enp_popular_posts_loop_after_html', $enp_popular_html, $this );
 
-        return apply_filters('enp_popular_comments_loop_wrap', $enp_popular_html, $this);
+        return apply_filters('enp_popular_posts_loop_wrap', $enp_popular_html, $this);
     }
 
     public function have_popular() {
