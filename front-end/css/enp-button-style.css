@@ -106,11 +106,15 @@
 }
 
 /* Popular List Item Styles */
-.enp-popular-list-btn-count:before {
+.enp-popular-posts-list {
+    margin-left: 1.3em;
+}
+
+.enp-popular-posts-list-btn-count:before {
     content: '(';
 }
 
-.enp-popular-list-btn-count:after {
+.enp-popular-posts-list-btn-count:after {
     content: ')';
 }
 
