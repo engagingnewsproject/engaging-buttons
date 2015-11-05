@@ -54,14 +54,13 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
 
 
         foreach($this->{'popular_'.$this->label} as $pop) {
-
+            $enp_popular_post_html = '';
             $pop_id = $pop[$this->singular_label.'_id'];
             $pop_count = $pop['btn_count'];
-            $enp_popular_post_html = '';
+
             do_action( 'enp_popular_post_before', $pop_id, $pop_count );
 
-            $enp_popular_post_html .= '<li><a href="'.get_permalink($pop_id).'">'.get_the_title($pop_id).' <span class="enp-popular-list-btn-count enp-popular-list-btn-count--'.$this->btn_slug.'">'.$pop_count.'</span></a></li>';
-            $enp_popular_html .= apply_filters('enp_popular_post_html', $enp_popular_post_html, $pop_id, $pop_count);
+            $enp_popular_html .= apply_filters('enp_popular_post_html', $enp_popular_post_html, $pop_id, $pop_count, $this );
 
             do_action( 'enp_popular_post_after' ,$pop_id, $pop_count );
 
@@ -86,26 +85,4 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
     }
 
 }
-
-
-// with WP_Query
-            /*
-            $query_args = array(''
-                                'post__in' => $this->get_pop_by_id(), // returns array of popular post ids
-                            );
-            $pop_posts_query = new WP_Query( $query_args );
-            $pop_html = '';
-            // The Loop
-            if ( $pop_posts_query->have_posts() ) :
-                $pop_html = '<ul>';
-                while ( $pop_posts_query->have_posts() ) : $pop_posts_query->the_post();
-
-                    $pop_html .= '<li><a href="'.get_permalink().'">' . get_the_title() . '</a></li>';
-
-                endwhile;
-                $pop_html .= '<ul>';
-            endif;
-
-            wp_reset_postdata();
-            return $pop_html;*/
 ?>

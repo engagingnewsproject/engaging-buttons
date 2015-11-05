@@ -51,7 +51,7 @@ function enp_process_popular_args($args = false, $btn_type = false, $comments = 
 }
 
 // append the most popular from each active button
-function append_popular_posts($content) {
+function enp_append_popular_posts($content) {
     if(is_single() || is_singular()) {
         // check the settings
         $enp_append_popular_slugs = get_option('enp_display_popular_slugs');
@@ -66,5 +66,5 @@ function append_popular_posts($content) {
 
     return $content;
 }
-add_filter('the_content', 'append_popular_posts');
+add_filter('the_content', 'enp_append_popular_posts');
 ?>
