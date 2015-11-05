@@ -77,8 +77,11 @@ class Enp_Popular_Buttons {
     protected function set_popular_button($args) {
         $this->btn_slug = $args['btn_slug'];
         $this->btn_type = $args['btn_type'];
+        $this->btn_name = $this->set_btn_name($this->btn_slug);
+        $this->btn_past_tense_name = $this->set_past_tense_btn_name($this->btn_slug);
         $this->{'popular_'.$this->label} = $this->set_popular_posts($args);
         $this->{'popular_'.$this->label.'_by_id'} = $this->set_popular_posts_by_id($args);
+
     }
 
     /*
@@ -162,6 +165,22 @@ class Enp_Popular_Buttons {
         }
 
         return $singular_label;
+    }
+
+    protected function set_btn_name($btn_slug) {
+        return ucfirst($btn_slug);
+    }
+
+    protected function set_past_tense_btn_name($btn_slug) {
+        if($btn_slug === 'respect') {
+            $pt_name = 'Respected';
+        } elseif($btn_slug === 'recommend') {
+            $pt_name = 'Recommended';
+        } elseif($btn_slug === 'important') {
+            $pt_name = 'Important';
+        }
+
+        return ucfirst($pt_name);
     }
     /*
     *   If no slug was passed, we need to join all of them into

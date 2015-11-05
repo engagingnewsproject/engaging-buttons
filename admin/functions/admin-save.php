@@ -47,6 +47,9 @@ function set_enp_buttons_values($values) {
     // Save/Create enp_button_$slug
     update_enp_button_slug_entry($values);
 
+    // rebuild the popular button data
+    enp_popular_button_save();
+
     // Save the entire enp_buttons as is so we have everything in one place if we need it
     return $values;
 }

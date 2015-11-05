@@ -32,7 +32,7 @@ add_filter('enp_popular_comments_loop_wrap', 'pop_comments_wrap', 10, 2);
 add_filter('enp_popular_posts_loop_wrap', 'pop_comments_wrap', 10, 2);*/
 
 function pop_posts_section_title($html, $pop_posts_obj){
-    $html = '<h3>Most Respected Posts</h3>'.$html;
+    $html = '<h3>Most '.$pop_posts_obj->btn_past_tense_name.' Posts</h3>'.$html;
     return $html;
 }
 add_filter('enp_popular_posts_loop_before_html', 'pop_posts_section_title', 10, 2);
