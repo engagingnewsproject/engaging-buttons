@@ -5,63 +5,37 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
         if($this->have_popular()) {
 
             $enp_popular_html = '';
-            $this->singular_label = $this->get_singular_label();
 
             do_action( 'enp_popular_loop_before', $this );
 
-            // run comments or posts loop
-            $enp_popular_html = $this->{'popular_'.$this->label.'_loop'}($posts_per_page);
+            // run comments/posts html loop
+            $enp_popular_html = $this->process_popular_html($posts_per_page);
 
             do_action( 'enp_popular_loop_after', $this );
 
-            return $enp_popular_html;
+            return apply_filters('enp_popular_loop_wrap', $enp_popular_html, $this);
         }
     }
 
-    public function popular_comments_loop($posts_per_page = 5) {
+    public function process_popular_html($posts_per_page = 5) {
         $enp_popular_html = '';
+        $singular_label = $this->get_singular_label();
+        $label = $this->label;
 
-        do_action( 'enp_popular_comments_loop_before', $this );
-
-        $enp_popular_html = apply_filters( 'enp_popular_comments_loop_before_html', $enp_popular_html, $this );
-
-        foreach($this->{'popular_'.$this->label} as $pop) {
-
-            $pop_id = $pop[$this->singular_label.'_id'];
-            $pop_count = $pop['btn_count'];
-
-            do_action( 'enp_popular_comment_before', $enp_popular_html, $pop_id, $pop_count );
-
-            $enp_popular_html .= apply_filters('enp_popular_comment_html', get_comment_text( $pop_id ), $pop_id, $pop_count);
-
-            do_action( 'enp_popular_comment_after', $enp_popular_html, $pop_id, $pop_count );
-
-            //$enp_popular_html .= '<a href="'.get_permalink($pop_id).'">'.get_the_title($pop_id).'</a> has '.$pop_count.' clicks';
-        }
-
-        do_action( 'enp_popular_comments_loop_after', $enp_popular_html, $this );
-        $enp_popular_html = apply_filters( 'enp_popular_comments_loop_after_html', $enp_popular_html, $this );
-
-        return apply_filters('enp_popular_comments_loop_wrap', $enp_popular_html, $this);
-    }
-
-    public function popular_posts_loop($posts_per_page = 5) {
-        $enp_popular_html = '';
-
-        do_action( 'enp_popular_posts_loop_before', $this );
-        $enp_popular_html = apply_filters( 'enp_popular_posts_loop_before_html', $enp_popular_html, $this );
+        do_action( 'enp_popular_'.$label.'_loop_before', $this );
+        $enp_popular_html = apply_filters( 'enp_popular_'.$label.'_loop_before_html', $enp_popular_html, $this );
 
         $i = 0;
         foreach($this->{'popular_'.$this->label} as $pop) {
-            $enp_popular_post_html = '';
-            $pop_id = $pop[$this->singular_label.'_id'];
+            $enp_popular_item_html = '';
+            $pop_id = $pop[$singular_label.'_id'];
             $pop_count = $pop['btn_count'];
 
-            do_action( 'enp_popular_post_before', $pop_id, $pop_count );
+            do_action( 'enp_popular_'.$singular_label.'_before', $pop_id, $pop_count );
 
-            $enp_popular_html .= apply_filters('enp_popular_post_html', $enp_popular_post_html, $pop_id, $pop_count, $this );
+            $enp_popular_html .= apply_filters('enp_popular_'.$singular_label.'_html', $enp_popular_item_html, $pop_id, $pop_count, $this );
 
-            do_action( 'enp_popular_post_after' ,$pop_id, $pop_count );
+            do_action( 'enp_popular_'.$singular_label.'_after' ,$pop_id, $pop_count );
 
             // we only want 5 as a default, with the option to increase $posts_per_page later
             $i++;
@@ -70,10 +44,10 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
             }
         }
 
-        do_action( 'enp_popular_posts_loop_after', $this );
-        $enp_popular_html = apply_filters( 'enp_popular_posts_loop_after_html', $enp_popular_html, $this );
+        do_action( 'enp_popular_'.$label.'_loop_after', $this );
+        $enp_popular_html = apply_filters( 'enp_popular_'.$label.'_loop_after_html', $enp_popular_html, $this );
 
-        return apply_filters('enp_popular_posts_loop_wrap', $enp_popular_html, $this);
+        return apply_filters('enp_popular_'.$label.'_loop_wrap', $enp_popular_html, $this);
     }
 
     public function have_popular() {
@@ -82,10 +56,6 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
         } else {
             return true;
         }
-    }
-
-    public function get_pop_by_id() {
-        return $this->{'popular_'.$this->label.'_by_id'};
     }
 
 }
