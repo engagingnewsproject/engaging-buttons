@@ -58,7 +58,7 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
     }
 
     public function have_popular() {
-        if($this->{'popular_'.$this->label} === false) {
+        if($this->{'popular_'.$this->label} === false || empty($this->{'popular_'.$this->label}) ) {
             return false;
         } else {
             return true;
