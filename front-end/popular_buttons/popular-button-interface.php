@@ -95,12 +95,8 @@ add_filter('the_content', 'enp_append_popular_posts');
 
 
 /*
+*   Example code to do something with popular comments
 *
-*   Appends popular post sections to the bottom of single/singular
-*   posts if they're turned on from the admin panel.
-*   uses get_option('enp_display_popular_slugs')
-*
-*/
 function enp_append_popular_comments($content) {
     if(is_single() || is_singular()) {
         // check the settings
@@ -116,4 +112,5 @@ function enp_append_popular_comments($content) {
     return $content;
 }
 add_filter('the_content', 'enp_append_popular_comments');
+*/
 ?>

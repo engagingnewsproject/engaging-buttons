@@ -55,18 +55,15 @@ function enp_default_pop_post_html($html, $pop_id, $pop_count, $pop_posts){
 add_filter('enp_popular_post_html', 'enp_default_pop_post_html', 10, 4);
 
 
-
-function pop_comments_title($html, $comment_id, $btn_count){
-    $html = '<h3>Comment '.$comment_id.' has '.$btn_count.' clicks!</h3>'.$html;
-    return $html;
-}
-add_filter('enp_popular_comment_html', 'pop_comments_title', 10, 3);
 /*
-function pop_comments_wrap($html, $this){
-    $html = '<div style="color: red;">'.$html.'</div>';
+*   Example code for doing something with popular comment html filters
+*
+function enp_pop_comment_html($html, $comment_id, $btn_count, $pop_comments_obj){
+    $html = '<h3>Comment '.$comment_id.' has '.$btn_count.' clicks!</h3>'
+            .get_comment_text( $comment_id );
+
     return $html;
 }
-add_filter('enp_popular_comments_loop_wrap', 'pop_comments_wrap', 10, 2);
-add_filter('enp_popular_posts_loop_wrap', 'pop_comments_wrap', 10, 2);*/
-
+add_filter('enp_popular_comment_html', 'enp_pop_comment_html', 10, 4);
+*/
 ?>

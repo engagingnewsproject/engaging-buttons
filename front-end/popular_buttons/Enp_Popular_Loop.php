@@ -17,6 +17,13 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
         }
     }
 
+    /*
+    *   Processes both post and comment html. ALL HTML is generated through added filters.
+    *   $label = 'posts' or 'comments'
+    *   $singular_label = 'post' or 'comment'
+    *   So, the filter 'enp_popular_'.$label.'_loop_before_html' would be either
+    *   'enp_popular_posts_loop_before_html' or 'enp_popular_comments_loop_before_html'
+    */
     public function process_popular_html($posts_per_page = 5) {
         $enp_popular_html = '';
         $singular_label = $this->get_singular_label();
