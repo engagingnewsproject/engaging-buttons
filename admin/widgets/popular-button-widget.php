@@ -46,7 +46,7 @@ class Enp_Popular_Widget extends WP_Widget {
             return false;
         }
 
-        add_filter('enp_popular_widget_posts_loop_before_html', array($this, 'widget_title'), 10, 2);
+        add_filter('enp_popular_widget_posts_loop_before_html', array($this, 'widget_popular_posts_before'), 10, 2);
         add_filter('enp_popular_widget_post_html', 'enp_default_pop_post_html', 10, 4);
         add_filter('enp_popular_widget_posts_loop_after_html', 'enp_default_pop_posts_loop_after', 10, 2);
 
@@ -57,7 +57,7 @@ class Enp_Popular_Widget extends WP_Widget {
 
     }
 
-    public function widget_title($html, $pop_posts) {
+    public function widget_popular_posts_before($html, $pop_posts) {
         $html .= '<ul class="enp-popular-posts-list-widget enp-popular-posts-list-widget--'.$pop_posts->btn_slug.'">';
         return $html;
     }

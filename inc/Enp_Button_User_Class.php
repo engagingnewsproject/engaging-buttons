@@ -144,8 +144,15 @@ class Enp_Button_User {
 
 
     public function is_btn_active($btn, $args) {
-        // find the requested btn
+
+        if($btn->btn_type === false) {
+            return false;
+        }
+
         $is_active = false;
+
+
+
         if($args['btn_type'] === 'comment') {
             // check if the comments are active
             if($btn->btn_type['comment'] === '1') {
