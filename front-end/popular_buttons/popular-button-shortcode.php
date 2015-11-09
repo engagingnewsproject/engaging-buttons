@@ -36,9 +36,9 @@ function enp_popular_posts($atts) {
 add_shortcode('engaging-posts', 'enp_popular_posts');
 
 
-function enp_popular_posts_HTML($atts) {
+function enp_popular_posts_HTML($atts, $filter_label = '') {
     $posts = enp_get_popular_posts($atts['slug'], $atts['type']);
-    return $posts->popular_loop($atts['how-many']);
+    return $posts->popular_loop($atts['how-many'], $filter_label);
 }
 
 ?>
