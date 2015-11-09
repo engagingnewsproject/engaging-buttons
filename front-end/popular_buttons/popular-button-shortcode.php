@@ -33,7 +33,7 @@ function enp_popular_posts($atts) {
 
     return $posts_html;
 }
-add_shortcode('enp-popular-posts', 'enp_popular_posts');
+add_shortcode('engaging-posts', 'enp_popular_posts');
 
 
 function enp_popular_posts_HTML($atts) {

@@ -306,7 +306,7 @@ class Enp_Button {
     *   }
     *
     */
-    public function get_btns($args) {
+    public function get_btns($args = false) {
         $enp_btns = $this->get_btn_slugs();
 
         $enp_btns_obj = array();

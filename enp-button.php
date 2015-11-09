@@ -29,6 +29,7 @@ include(plugin_dir_path( __FILE__ ) .'inc/Enp_Popular_Button_Class.php');
 $classesDir = array (
     plugin_dir_path( __FILE__ ) .'admin/functions/',
     plugin_dir_path( __FILE__ ) .'admin/settings/',
+    plugin_dir_path( __FILE__ ) .'admin/widgets/',
     plugin_dir_path( __FILE__ ) .'front-end/functions/',
 );
 
