@@ -24,6 +24,7 @@ include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Class.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_Loader.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Button_User_Class.php');
 include(plugin_dir_path( __FILE__ ) .'inc/Enp_Popular_Button_Class.php');
+include(plugin_dir_path( __FILE__ ) .'inc/data-api.php');
 
 //Automatically Load all the PHP files we need
 $classesDir = array (
