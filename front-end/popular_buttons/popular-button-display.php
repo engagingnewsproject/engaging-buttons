@@ -28,7 +28,8 @@ add_filter('enp_popular_posts_loop_wrap', 'enp_default_pop_posts_loop_wrap', 10,
 
 // Adds a section title and the UL to each popular post section
 function enp_default_pop_posts_loop_before($html, $pop_posts){
-    $html = '<h3 class="enp-popular-posts-section-title enp-popular-posts-section-title--'.$pop_posts->btn_slug.'">Most '.$pop_posts->btn_past_tense_name.' Posts</h3>
+
+    $html = '<h3 class="enp-popular-posts-section-title enp-popular-posts-section-title--'.$pop_posts->btn_slug.'">Most '.$pop_posts->btn_past_tense_name.' '.$pop_posts->get_btn_type_name().'</h3>
             <ul class="enp-popular-posts-list enp-popular-posts-list--'.$pop_posts->btn_slug.'">'.$html;
     return $html;
 }

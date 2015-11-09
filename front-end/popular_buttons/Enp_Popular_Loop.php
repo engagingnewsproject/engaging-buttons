@@ -65,5 +65,22 @@ class Enp_Popular_Loop extends Enp_Popular_Buttons {
         }
     }
 
+    /*
+    *   Just for titles and getting the name of the loop post type
+    */
+    public function get_btn_type_name() {
+        $btn_type_name = false;
+
+        // the default
+        if($this->btn_type === 'all_post_types') {
+            $btn_type_name = 'Posts';
+        } else {
+            $pt_obj = get_post_type_object( $this->btn_type );
+            $btn_type_name = $pt_obj->labels->name;
+        }
+
+        return $btn_type_name;
+    }
+
 }
 ?>

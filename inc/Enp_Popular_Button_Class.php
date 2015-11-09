@@ -182,6 +182,7 @@ class Enp_Popular_Buttons {
 
         return ucfirst($pt_name);
     }
+
     /*
     *   If no slug was passed, we need to join all of them into
     *   an array of popular button objects
