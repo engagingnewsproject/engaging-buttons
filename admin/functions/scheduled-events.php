@@ -62,8 +62,13 @@ function enp_create_send_data_cron() {
 add_action( 'enp_send_data', 'enp_send_data_api' );
 
 function enp_send_data_api() {
-    // instantiate the class. This will send everything
-    new Enp_Send_Data_API();
+    $allow_data = get_option('enp_button_allow_data_tracking');
+    // if they want to send the data, send it over to ENP
+    if($allow_data === '1') {
+        // instantiate the class. This will send everything
+        new Enp_Send_Data_API();
+    }
+
 }
 
 function enp_remove_cron_jobs() {
