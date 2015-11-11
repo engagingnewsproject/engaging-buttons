@@ -1,10 +1,14 @@
 <?
-
+/*
+*   Enp_Send_Data_API class
+*   Processes all click metadata and sends it to ENP if the user chooses to allow data collection
+*   since v0.0.9
+*/
+// To do everything, just create a new instance
+// new Enp_Send_Data_API();
 class Enp_Send_Data_API {
 
     protected $site_url;
-    protected $post_type;
-    protected $button_url;
 
     public function __construct() {
         // sets all data as empty string
@@ -162,20 +166,11 @@ class Enp_Send_Data_API {
         curl_close($ch);
 
         // testing
-        var_dump(json_decode($result));
+        // var_dump(json_decode($result));
 
-        /*
-        if we want to process the response
-        $json_result = json_decode($result);
-        var_dump($json_result->data->site_url);*/
+
     }
 
 }
-
-// new Enp_Send_Data_API();
-
-
-
-
 
 ?>
