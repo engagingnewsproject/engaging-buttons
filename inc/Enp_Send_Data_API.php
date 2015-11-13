@@ -5,9 +5,8 @@
 *   since v0.0.9
 */
 // To do everything, just create a new instance
-// new Enp_Send_Data_API();
-class Enp_Send_Data_API {
-
+// new Enp_Send_Data();
+class Enp_Send_Data {
     protected $site_url;
 
     public function __construct() {
@@ -17,16 +16,17 @@ class Enp_Send_Data_API {
         // sets the data
         $this->site_url = site_url();
 
-        $this->set_engaging_data();
+        // if we want to move back to loops by default
+        // $this->send_all_engaging_data();
 
     }
 
     /*
     *
-    *   Sets a default array of all data to send
+    *   Sets a default array of all data to send when batch processing from mysql
     *
     */
-    protected function set_data_defaults($row, $slug) {
+    protected function set_batch_data_defaults($row, $slug) {
         $defaults = array(
                         'site_url' => $this->site_url,
                         'meta_id'  => $row->meta_id,
@@ -41,13 +41,48 @@ class Enp_Send_Data_API {
         return $defaults;
     }
 
+
+    public function send_click_data($data) {
+        global $wpdb;
+
+        $row = $wpdb->get_row( 'SELECT * FROM wp_'.$data['type'].'meta
+                                WHERE '.$data['type'].'_id = "'.$data['button_id'].'"
+                                AND meta_key = "enp_button_'.$data['slug'].'"
+                                LIMIT 1');
+
+        if($data['type'] === 'comment') {
+            $comment_id = $data['button_id'];
+            $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
+            $post_type = 'comment';
+        } else {
+            $post_id = $data['button_id'];
+            $comment_id = '0';
+            $post_type = get_post_type($post_id);
+        }
+
+        $send_data = array(
+                        'site_url' => $this->site_url,
+                        'meta_id'  => $row->meta_id,
+                        'button'   => $data['slug'],
+                        'clicks'   => $row->meta_value,
+                        'post_id'    => $post_id,
+                        'comment_id' => $comment_id,
+                        'post_type'  => $post_type,
+                        'button_url' => $data['button_url']
+                    );
+
+        // send data to web service
+        $this->send_data($send_data);
+
+    }
+
     /*
     *
     *   Main processing function. Gets all active button slugs and
     *
     */
 
-    protected function set_engaging_data() {
+    protected function send_all_engaging_data() {
         $slugs = get_option('enp_button_slugs'); // active slugs
         if($slugs !== false) {
             foreach($slugs as $slug) {
@@ -137,7 +172,7 @@ class Enp_Send_Data_API {
 
     protected function process_and_send_data($row, $data, $slug) {
         // get our default array
-        $data_defaults = $this->set_data_defaults($row, $slug);
+        $data_defaults = $this->set_batch_data_defaults($row, $slug);
 
         // merge our default and our row data
         $merged_data = array_merge($data_defaults, $data);
@@ -146,7 +181,7 @@ class Enp_Send_Data_API {
         $this->send_data($merged_data);
     }
 
-    protected function send_data($data) {
+    public function send_data($data) {
         // encode to json
         $data_json = json_encode($data);
 
@@ -167,7 +202,6 @@ class Enp_Send_Data_API {
         $result = curl_exec($ch);
 
         curl_close($ch);
-
 
     }
 

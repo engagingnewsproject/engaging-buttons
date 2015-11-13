@@ -227,6 +227,32 @@ jQuery( document ).ready( function( $ ) {
                     btn.removeClass('enp-btn--click-wait');
 
 
+                    // open a new ajax request to send data to ENP, if user allows
+                    // TODO: package this into its own function
+                    // enp_sendClickData(pid, btn_slug, btn_type);
+                    $.ajax({
+                        type: 'POST',
+                        url: enp_button_params.ajax_url,
+                        data:  {
+                                'action': 'enp_send_button_count',
+                                'pid': pid,
+                                'slug': btn_slug,
+                                'type': btn_type
+                                },
+                        dataType: 'xml',
+                        success:function(xml) {
+                            // var message = $(xml).find('message').text();
+                            // console.log(message);
+                        },
+                        error:function(json) {
+                            // console.log(json);
+                            // var error = $.parseJSON(json.responseText);
+
+                        }
+                    });
+
+
+
                 }
 
             },
