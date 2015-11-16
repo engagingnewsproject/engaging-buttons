@@ -8,7 +8,7 @@ $btn: #C81C2D;
 $btn_hover: #7B0511;
 $btn_active: lighten($btn, 15%);
 $warning_bg: #FFCDCF;
-$clickCircle: $btn;
+$clickCircle: rgba($btn,.5);
 
 .enp-btns-wrap {
     padding-top: 1em; /* on redirect via slug, this preserves spacing better */
@@ -127,7 +127,7 @@ $clickCircle: $btn;
 
 .enp-btns .enp-btn--click-wait .enp-btn__count:after {
     position: absolute;
-    box-shadow: inset 0 0 0 15px rgba($clickCircle, 0.0);
+    border: 3px solid $clickCircle;
     content: '';
     width: 4.2em;
     height: 4.2em;
@@ -142,7 +142,6 @@ $clickCircle: $btn;
 
 .enp-btns .enp-btn--increased.enp-btn--click-wait .enp-btn__count:after,
 .enp-btns .enp-btn--user-clicked.enp-btn--click-wait .enp-btn__count:after {
-    box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.05);
     animation: decreasingCircle 0.5s ease-out forwards;
 }
 
@@ -150,14 +149,9 @@ $clickCircle: $btn;
 @keyframes expandingCircle {
     0% {
         opacity: 1;
-        transform: scale3d(0.4, 0.4, 1);
+        transform: scale3d(0.5, 0.5, 1);
     }
-    80% {
-        box-shadow: inset 0 0 0 2px rgba($clickCircle, 0.8);
-        opacity: 0.1;
-    }
-    100% {
-        box-shadow: inset 0 0 0 2px rgba($clickCircle, 0.8);
+    to {
         opacity: 0;
         transform: scale3d(1.2, 1.2, 1);
     }
@@ -169,7 +163,6 @@ $clickCircle: $btn;
         opacity: 1;
     }
     100% {
-        box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.8);
         opacity: 0;
         transform: scale3d(0.5, 0.5, 1);
     }
