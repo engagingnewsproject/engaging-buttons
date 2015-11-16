@@ -8,7 +8,7 @@ $btn: #C81C2D;
 $btn_hover: #7B0511;
 $btn_active: lighten($btn, 15%);
 $warning_bg: #FFCDCF;
-$clickCircle: rgba($btn,.5);
+$clickCircle: rgba($btn,.6);
 
 .enp-btns-wrap {
     padding-top: 1em; /* on redirect via slug, this preserves spacing better */
@@ -125,6 +125,10 @@ $clickCircle: rgba($btn,.5);
     content: ')';
 }
 
+.enp-btns .enp-btn--click-wait .enp-btn__count {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
 .enp-btns .enp-btn--click-wait .enp-btn__count:after {
     position: absolute;
     border: 3px solid $clickCircle;
@@ -165,5 +169,15 @@ $clickCircle: rgba($btn,.5);
     100% {
         opacity: 0;
         transform: scale3d(0.5, 0.5, 1);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: .6;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
