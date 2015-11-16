@@ -1,0 +1,178 @@
+/*
+*   Button display styles
+*
+*/
+
+
+$btn: #C81C2D;
+$btn_hover: #7B0511;
+$btn_active: lighten($btn, 15%);
+$warning_bg: #FFCDCF;
+$clickCircle: $btn;
+
+.enp-btns-wrap {
+    padding-top: 1em; /* on redirect via slug, this preserves spacing better */
+    .enp-btns {
+        margin: 0;
+    }
+}
+
+.enp-btns {
+    .enp-btn-wrap {
+        display: inline-block;
+        margin: 0 .6em .8em 0;
+        padding: 0;
+        background: 0;
+    }
+
+    .enp-btn-wrap:last-child {
+        margin-right: 0;
+    }
+
+    .enp-btn {
+        overflow: hidden;
+        background: $btn;
+        padding: .5em .8em .5em .8em;
+        border-radius: 3px;
+        font-size: .85em;
+        line-height: 1.1;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        /* Improves usability and consistency of cursor style between image-type 'input' and others */
+        -webkit-appearance: none;
+        /* Corrects inability to style clickable 'input' types in iOS */
+        -webkit-transition: all .2s;
+        transition: all .2s;
+    }
+
+    .enp-btn:hover {
+        background: $btn_hover;
+        color: #fff;
+    }
+
+    .enp-btn:active {
+        background: $btn_active;
+    }
+
+    .enp-btn--click-wait,
+    .enp-btn--click-wait:active,
+    .enp-btn--click-wait:hover,
+    .enp-btn--require-logged-in,
+    .enp-btn--require-logged-in:hover,
+    .enp-btn--require-logged-in:active {
+        background: $btn_hover;
+        cursor: default;
+    }
+
+    .enp-btn--disabled,
+    .enp-btn--disabled:active,
+    .enp-btn--disabled:hover {
+        background: #ddd;
+        color: #777;
+    }
+
+    .enp-btn--user-clicked,
+    .enp-btn--increased{
+        background: $btn_hover;
+    }
+
+    .enp-btn__count {
+        position: relative;
+        background: rgba(0,0,0,.15);
+        padding: .5em .6em .5em .8em;
+        border-radius: 3px;
+        border-bottom-left-radius: 50%;
+        border-top-left-radius: 50%;
+        left: .8em;
+        margin-left: -.2em;
+    }
+
+    .enp-btn__count--zero {
+        display: none;
+    }
+}
+
+.enp-btn-error-message {
+    font-size: .8em;
+    padding: .8em;
+    color: $btn_hover;
+    background: $warning_bg;
+}
+
+.enp-user-clicked-hint,
+.enp-promote,
+.enp-btn-hint {
+    margin: -.4em 0 .4em;
+    font-size: .8em;
+    color: #666;
+}
+
+.enp-promote {
+    margin-bottom: 2em;
+}
+
+/* Popular List Item Styles */
+.enp-popular-posts-list {
+    margin-left: 1.3em;
+}
+
+.enp-popular-posts-list-btn-count:before {
+    content: '(';
+}
+
+.enp-popular-posts-list-btn-count:after {
+    content: ')';
+}
+
+.enp-btns .enp-btn--click-wait .enp-btn__count {
+    position: relative;
+}
+
+.enp-btns .enp-btn--click-wait .enp-btn__count:after {
+    box-shadow: inset 0 0 0 10px rgba($clickCircle, 0.0);
+    content: '';
+    width: 4em;
+    height: 4em;
+    border-radius: 50%;
+    position: absolute;
+    top: -1em;
+    right: -1em;
+    animation: expandingCircle 0.5s ease-out forwards;
+}
+
+
+@keyframes expandingCircle {
+    0% {
+        opacity: 1;
+        transform: scale3d(0.4, 0.4, 1);
+    }
+    80% {
+        box-shadow: inset 0 0 0 2px rgba($clickCircle, 0.8);
+        opacity: 0.1;
+    }
+    100% {
+        box-shadow: inset 0 0 0 2px rgba($clickCircle, 0.8);
+        opacity: 0;
+        transform: scale3d(1.2, 1.2, 1);
+    }
+}
+
+
+/* Marin */
+.enp-btns .enp-btn--increased.enp-btn--click-wait .enp-btn__count:after {
+    box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.05);
+    animation: decreasingCircle 0.5s ease-out forwards;
+}
+
+
+@keyframes decreasingCircle {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.8);
+        opacity: 0;
+        transform: scale3d(0.5, 0.5, 1);
+    }
+}

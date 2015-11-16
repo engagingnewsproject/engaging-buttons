@@ -65,6 +65,7 @@ jQuery( document ).ready( function( $ ) {
                     $(this).attr( 'data-operator', '-' );
                     // set the click state
                     $(this).addClass('enp-btn--user-clicked');
+                    $(this).removeClass('enp-btn--user-has-not-clicked');
 
                     var btn_name = $('.enp-btn__name', this).text();
                     // push to clicked button array so we can create the message
@@ -223,10 +224,6 @@ jQuery( document ).ready( function( $ ) {
                         btn_group.after(user_clicked_message);
                     }
 
-                    // remove clicked class so they can try again
-                    btn.removeClass('enp-btn--click-wait');
-
-
                     // open a new ajax request to send data to ENP, if user allows
                     // TODO: package this into its own function
                     // enp_sendClickData(pid, btn_slug, btn_type);
@@ -251,9 +248,10 @@ jQuery( document ).ready( function( $ ) {
                         }
                     });
 
-
-
                 }
+
+                // remove clicked class so they can try again
+                btn.removeClass('enp-btn--click-wait');
 
             },
             error:function(json) {
