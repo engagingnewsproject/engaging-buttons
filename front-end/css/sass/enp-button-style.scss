@@ -125,20 +125,25 @@ $clickCircle: $btn;
     content: ')';
 }
 
-.enp-btns .enp-btn--click-wait .enp-btn__count {
-    position: relative;
+.enp-btns .enp-btn--click-wait .enp-btn__count:after {
+    position: absolute;
+    box-shadow: inset 0 0 0 15px rgba($clickCircle, 0.0);
+    content: '';
+    width: 4.2em;
+    height: 4.2em;
+    border-radius: 50%;
+    top: -1em;
+    //bottom: 0;
+    left: -0.9em;
+    right: 0;
+    margin: 0 auto;
+    animation: expandingCircle 0.5s ease-out forwards;
 }
 
-.enp-btns .enp-btn--click-wait .enp-btn__count:after {
-    box-shadow: inset 0 0 0 10px rgba($clickCircle, 0.0);
-    content: '';
-    width: 4em;
-    height: 4em;
-    border-radius: 50%;
-    position: absolute;
-    top: -1em;
-    right: -1em;
-    animation: expandingCircle 0.5s ease-out forwards;
+.enp-btns .enp-btn--increased.enp-btn--click-wait .enp-btn__count:after,
+.enp-btns .enp-btn--user-clicked.enp-btn--click-wait .enp-btn__count:after {
+    box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.05);
+    animation: decreasingCircle 0.5s ease-out forwards;
 }
 
 
@@ -156,13 +161,6 @@ $clickCircle: $btn;
         opacity: 0;
         transform: scale3d(1.2, 1.2, 1);
     }
-}
-
-
-/* Marin */
-.enp-btns .enp-btn--increased.enp-btn--click-wait .enp-btn__count:after {
-    box-shadow: inset 0 0 0 3px rgba($clickCircle, 0.05);
-    animation: decreasingCircle 0.5s ease-out forwards;
 }
 
 
