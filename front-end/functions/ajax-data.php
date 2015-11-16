@@ -248,6 +248,7 @@ function enp_send_button_count() {
         $send = new Enp_Send_Data();
         $send->send_click_data($data);
 
+
         $response->add( array(
             'data'  => 'success',
             'supplemental' => array(

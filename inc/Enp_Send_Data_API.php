@@ -44,11 +44,22 @@ class Enp_Send_Data {
 
     public function send_click_data($data) {
         global $wpdb;
+        try {
+            if(empty($data['type'])) {
+                throw new Exception('Enp_Send_Data: No $data[\'type\'] set in send_click_data.');
+            }
 
-        $row = $wpdb->get_row( 'SELECT * FROM wp_'.$data['type'].'meta
+            $row = $wpdb->get_row( 'SELECT * FROM wp_'.$data['type'].'meta
                                 WHERE '.$data['type'].'_id = "'.$data['button_id'].'"
                                 AND meta_key = "enp_button_'.$data['slug'].'"
                                 LIMIT 1');
+            if($row === null) {
+                 throw new Exception('Enp_Send_Data: Row not found in send_click_data.');
+            }
+        } catch(Exception $e) {
+            $this->send_error($e->getMessage(), $data);
+        }
+
 
         if($data['type'] === 'comment') {
             $comment_id = $data['button_id'];
@@ -72,8 +83,7 @@ class Enp_Send_Data {
                     );
 
         // send data to web service
-        $this->send_data($send_data);
-
+        $send = $this->send_data($send_data);
     }
 
     /*
@@ -183,10 +193,28 @@ class Enp_Send_Data {
         $this->send_data($merged_data);
     }
 
-    public function send_data($data) {
+    /*
+    *
+    *   Error handling
+    *
+    */
+    protected function send_error($error_message, $data) {
+        $error_data = array(
+                            'error'    => $error_message,
+                            'timestamp'=> date("Y-m-d H:i:s")
+                        );
+
+        $error_data = array_merge($error_data, $data);
+        // send the data
+        $this->send_data($error_data);
+    }
+
+    public function send_data($data = false) {
+        if($data === false) {
+            return false;
+        }
         // encode to json
         $data_json = json_encode($data);
-
         // open connection
         $ch = curl_init();
         // local
@@ -201,9 +229,14 @@ class Enp_Send_Data {
             'Content-Length: ' . strlen($data_json))
         );
 
-        $result = curl_exec($ch);
+        $json_result = curl_exec($ch);
 
         curl_close($ch);
+
+        // decode results
+        $result = json_decode($json_result);
+
+        return $result;
 
     }
 
