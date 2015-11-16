@@ -84,12 +84,14 @@ class Enp_Send_Data {
 
     public function send_all_engaging_data() {
         $slugs = get_option('enp_button_slugs'); // active slugs
-        if($slugs !== false) {
+        if($slugs != false) {
             foreach($slugs as $slug) {
                 $this->build_and_send_post_data($slug);
 
                 $this->build_and_send_comment_data($slug);
             }
+        } else {
+            return false;
         }
     }
 
