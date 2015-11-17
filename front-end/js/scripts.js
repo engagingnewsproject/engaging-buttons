@@ -83,25 +83,19 @@ jQuery( document ).ready( function( $ ) {
     $('.enp-btn').click(function(e) {
         e.preventDefault();
 
+        // if user is not logged in & it's required, then disable the button
+        var enp_btn_clickable = enp_button_params.enp_btn_clickable;
 
         if( $(this).hasClass('enp-btn--error') || $(this).hasClass('enp-btn--disabled') || $(this).hasClass('enp-btn--click-wait')) {
-            return; // hey! You're not supposed to click me! Wait a second if you've already clicked
+            return false; // hey! You're not supposed to click me! Wait a second if you've already clicked
+        } else if(enp_btn_clickable == 0) { // false
+            // Button is disabled, return an error message with login links
+            enp_pleaseLoginError(this)
+            return false;
         } else {
             // Delay them from clicking over and over without waiting
             $(this).addClass('enp-btn--click-wait');
         }
-
-
-
-        // if user is not logged in & it's required, then disable the button
-        var enp_btn_clickable = enp_button_params.enp_btn_clickable;
-
-        if(enp_btn_clickable == 0) { // false
-            // Button is disabled, return an error message with login links
-            enp_pleaseLoginError(this)
-            return false;
-        }
-
 
 
         // if it's a post, pass the id/slug to an ajax request to update the post_meta for this post

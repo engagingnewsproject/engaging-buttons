@@ -98,6 +98,7 @@ $clickCircle: rgba($btn,.6);
     padding: .8em;
     color: $btn_hover;
     background: $warning_bg;
+    animation: fadeIn 0.3s ease-out forwards;
 }
 
 .enp-user-clicked-hint,
