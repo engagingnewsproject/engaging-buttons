@@ -56,34 +56,40 @@ class Enp_Send_Data {
             if($row === null) {
                  throw new Exception('Enp_Send_Data: Row not found in send_click_data.');
             }
+
+            // get comment or post data
+            if($data['type'] === 'comment') {
+                $comment_id = $data['button_id'];
+                $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
+
+                if($post_id === null) {
+                    throw new Exception('Enp_Send_Data: $post_id not found by get_var in send_click_data.');
+                }
+
+                $post_type = 'comment';
+            } else {
+                $post_id = $data['button_id'];
+                $comment_id = '0';
+                $post_type = get_post_type($post_id);
+            }
+
+            $send_data = array(
+                            'site_url' => $this->site_url,
+                            'meta_id'  => $row->meta_id,
+                            'button'   => $data['slug'],
+                            'clicks'   => $row->meta_value,
+                            'post_id'    => $post_id,
+                            'comment_id' => $comment_id,
+                            'post_type'  => $post_type,
+                            'button_url' => $data['button_url']
+                        );
+
+            // send data to web service
+            $send = $this->send_data($send_data);
+
         } catch(Exception $e) {
             $this->send_error($e->getMessage(), $data);
         }
-
-
-        if($data['type'] === 'comment') {
-            $comment_id = $data['button_id'];
-            $post_id = $wpdb->get_var('SELECT comment_post_ID FROM wp_comments WHERE comment_ID = "'.$comment_id.'" LIMIT 1');
-            $post_type = 'comment';
-        } else {
-            $post_id = $data['button_id'];
-            $comment_id = '0';
-            $post_type = get_post_type($post_id);
-        }
-
-        $send_data = array(
-                        'site_url' => $this->site_url,
-                        'meta_id'  => $row->meta_id,
-                        'button'   => $data['slug'],
-                        'clicks'   => $row->meta_value,
-                        'post_id'    => $post_id,
-                        'comment_id' => $comment_id,
-                        'post_type'  => $post_type,
-                        'button_url' => $data['button_url']
-                    );
-
-        // send data to web service
-        $send = $this->send_data($send_data);
     }
 
     /*
@@ -198,29 +204,23 @@ class Enp_Send_Data {
     *   Error handling
     *
     */
-    protected function send_error($error_message, $data) {
+    protected function send_error($error_message, $data = array('no data found')) {
         $error_data = array(
                             'error'    => $error_message,
                             'timestamp'=> date("Y-m-d H:i:s")
                         );
-
-        $error_data = array_merge($error_data, $data);
-        // send the data
-        $this->send_data($error_data);
-    }
-
-    public function send_data($data = false) {
-        if($data === false) {
-            return false;
+        if(is_array($data)) {
+            $error_data = array_merge($error_data, $data);
         }
-        // encode to json
-        $data_json = json_encode($data);
-        // open connection
+        // TODO: I would love if there was just one curl connection since this is duplicate code
+        //       But it's too easy to get stuck in a never ending loop of error/post if we reuse the send_data function
+        // send the data
+        $data_json = json_encode($error_data);
         $ch = curl_init();
         // local
-        curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
+        // curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
         // live
-        // curl_setopt($ch, CURLOPT_URL, 'http://fda668417f344263bdb9e66a5904eaf5.engagingnewsproject.org/api.php');
+        curl_setopt($ch, CURLOPT_URL, 'http://fda668417f344263bdb9e66a5904eaf5.engagingnewsproject.org/api.php');
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -229,14 +229,62 @@ class Enp_Send_Data {
             'Content-Length: ' . strlen($data_json))
         );
 
-        $json_result = curl_exec($ch);
+        curl_exec($ch);
 
         curl_close($ch);
+    }
 
-        // decode results
-        $result = json_decode($json_result);
+    public function send_data($data = false) {
+        try {
+            if($data === false) {
+                throw new Exception('Enp_Send_Data: No $data in send_data.');
+            }
+            // encode to json
+            $data_json = json_encode($data);
+            // if our data is not valid, quit
+            if($data_json === false) {
+                throw new Exception('Enp_Send_Data: Couldn\'t encode $data to json in send_data.');
+            }
 
-        return $result;
+            // open connection
+            $ch = curl_init();
+            // local
+            //curl_setopt($ch, CURLOPT_URL, 'http://dev/enp-api/api.php');
+            // live
+            curl_setopt($ch, CURLOPT_URL, 'http://fda668417f344263bdb9e66a5904eaf5.engagingnewsproject.org/api.php');
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_json);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($data_json))
+            );
+
+            $json_result = curl_exec($ch);
+
+            // decode results
+            $result = json_decode($json_result);
+
+            $curl_error = false;
+            // check for errors
+            if(curl_errno($ch)) {
+                $curl_error = curl_error($ch);
+            }
+            // close our connection
+            curl_close($ch);
+
+            // throw error. We can't throw this error before we close the connection,
+            // otherwise we don't have access to the error or we problematically
+            // leave the connection open
+            if($curl_error !== false) {
+                throw new Exception($curl_error);
+            }
+
+            return $result;
+
+        } catch(Exception $e) {
+            $this->send_error($e->getMessage(), $data);
+        }
 
     }
 

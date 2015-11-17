@@ -204,7 +204,6 @@ function enp_process_update_button_count($pid, $btn_slug, $btn_type, $operator, 
     // Send the response back
     $response->send();
 
-
     // Always end with an exit on ajax
     exit();
 }
@@ -247,7 +246,6 @@ function enp_send_button_count() {
 
         $send = new Enp_Send_Data();
         $send->send_click_data($data);
-
 
         $response->add( array(
             'data'  => 'success',
