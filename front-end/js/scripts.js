@@ -391,19 +391,23 @@ jQuery( document ).ready( function( $ ) {
     function enp_UserClickedMessage(clicked_btn_names, btn_type) {
 
         var user_clicked_btns_text = '';
-        var important_text = '';
+        var alt_name_text = '';
 
         if(clicked_btn_names.length) {
             user_clicked_btns_text = '<p class="enp-btn-hint enp-user-clicked-hint">';
 
-            var index = $.inArray("Important", clicked_btn_names);
-            if(index !== -1) { // Important is found
-                important_text = 'This '+btn_type+' is Important to you.';
-                // remove it from the array
-                clicked_btn_names.splice(index, 1);
+            var alt_names = ["Important", "Thoughtful", "Useful"];
+            var alt_names_matches = $.grep(alt_names, function(element) {
+                return $.inArray(element, clicked_btn_names ) !== -1;
+            });
+
+            if(alt_names_matches.length) { // Important is found
+                alt_name_text = 'This '+btn_type+' is '+enp_build_name_text(alt_names_matches)+' to you.';
+                // remove it from the array by just grabbing the ones that don't match
+                clicked_btn_names = clicked_btn_names.filter(function(obj) { return alt_names_matches.indexOf(obj) == -1; });
             }
 
-            // check if the array is still not empty after potentially removing "Important"
+            // check if the array is still not empty after potentially removing the alt names
             if(clicked_btn_names.length) {
                 user_clicked_btns_text = user_clicked_btns_text + 'You ';
 
@@ -412,12 +416,12 @@ jQuery( document ).ready( function( $ ) {
                 user_clicked_btns_text = user_clicked_btns_text + ' this '+btn_type+'.';
             }
 
-            if(user_clicked_btns_text && important_text) {
+            if(user_clicked_btns_text && alt_name_text) {
                 // add a space before the important text;
-                important_text = ' ' + important_text;
+                alt_name_text = ' ' + alt_name_text;
             }
 
-            user_clicked_btns_text =  user_clicked_btns_text + important_text + '</p>';
+            user_clicked_btns_text =  user_clicked_btns_text + alt_name_text + '</p>';
 
         }
 
@@ -444,7 +448,7 @@ jQuery( document ).ready( function( $ ) {
                 } else { // first and last (only one))
                     name_text = name_text + names[i];
                 }
-            } else if($i === 1) { // we're on the first one
+            } else if(j === 1) { // we're on the first one
                     if(names_count > 2) {
                         name_text = name_text + names[i]+', '; // first one, and more to come
                     } else {
