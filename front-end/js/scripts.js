@@ -279,7 +279,8 @@ jQuery( document ).ready( function( $ ) {
         var curr_count = enp_getBtnCount(btn);
         // if curr_count is 0, then remove the class that hides the 0
         if(curr_count === 0) {
-            count.removeClass('enp-btn__count--zero');
+            console.log(curr_count+' wooo');
+            $('.enp-btn__count', btn).removeClass('enp-btn__count--zero');
         }
 
         // add one for the click
@@ -288,27 +289,28 @@ jQuery( document ).ready( function( $ ) {
         } else {
             new_count = curr_count - 1;
         }
+        console.log(new_count);
+        $(btn).attr('data-count', new_count);
+        new_count = enp_formatNumber(new_count);
 
         // replace the text with the new number
-        count.text(new_count);
+        $('.enp-btn__count', btn).html(new_count);
     }
 
 
     // get the current count of a button
     function enp_getBtnCount(btn) {
-        count = $('.enp-btn__count', btn);
-        var curr_count = count.text();
-        // turn it into an integer
-        curr_count = parseInt(curr_count);
-
-        return curr_count;
+        curr_count = $(btn).attr('data-count');
+        return parseInt(curr_count);
     }
 
     // roll back count on error
     function enp_rollBackCount(btn) {
         var new_count = enp_getBtnCount(btn);
         var roll_back_count = new_count - 1;
-        $('.enp-btn__count', btn).text(roll_back_count);
+        $(btn).attr('data-count', roll_back_count);
+        roll_back_count = enp_formatNumber(roll_back_count);
+        $('.enp-btn__count', btn).html(roll_back_count);
     }
 
     function enp_errorMessage(obj, message) {
@@ -462,5 +464,45 @@ jQuery( document ).ready( function( $ ) {
         return name_text;
     }
 
+
+    function enp_formatNumber(val) {
+        var formatted_count;
+        var formatted_count_html;
+
+        if(1000 <= val) {
+            var format_symbol;
+            var format_divide;
+
+            if(1000000 <= val) {
+                format_symbol = 'm';
+                format_divide = 100000;
+            } else {
+                format_symbol = 'k';
+                format_divide = 1000;
+            }
+
+            formatted_count = val/format_divide;
+            formatted_count = Math.floor(formatted_count * 10) / 10; // get our decimal places (ie 2.5)
+            formatted_count = enp_commaSeparateNumber(formatted_count);
+            // removes .0 from end of number, if it's a .0
+            // ex- 12.0 becomes 12
+            //formatted_count = formatted_count + 0;
+            formatted_count_html = formatted_count+'<span class="enp-btn-count-formatter">'+format_symbol+'</span>';
+        } else {
+            formatted_count = val;
+            formatted_count_html = val;
+        }
+
+        console.log(formatted_count);
+
+        return formatted_count_html;
+    }
+
+    function enp_commaSeparateNumber(val){
+        while (/(\d+)(\d{3})/.test(val.toString())){
+          val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+        }
+        return val;
+    }
 
 });

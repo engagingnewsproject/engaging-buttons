@@ -209,14 +209,14 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user)
     $nonce = wp_create_nonce( 'enp_button_'.$type.'_'.$enp_btn->get_btn_slug().'_' . $post_id );
     // Get link to admin page to trash the post and add nonces to it
     $link_data = '<a href="?action=enp_update_button_count&slug='.$enp_btn->get_btn_slug().'&type='.$type.'&pid='. $post_id .'&nonce=' .$nonce . '"
-            id="'.$enp_btn->get_btn_slug().'_'.$type.'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().' enp-btn--'.$type. ($enp_btn_clickable === false ? ' enp-btn--require-logged-in' : '').' '.$click_class.'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-type="'.$type.'" data-btn-slug="'.$enp_btn->get_btn_slug().'" data-operator="'.$operator.'">';
+            id="'.$enp_btn->get_btn_slug().'_'.$type.'_'. $post_id.'" class="enp-btn enp-btn--'.$enp_btn->get_btn_slug().' enp-btn--'.$type. ($enp_btn_clickable === false ? ' enp-btn--require-logged-in' : '').' '.$click_class.'" data-nonce="'. $nonce .'" data-pid="'. $post_id .'" data-btn-type="'.$type.'" data-btn-slug="'.$enp_btn->get_btn_slug().'" data-count="'.$enp_btn->get_btn_count().'" data-operator="'.$operator.'">';
 
     // while hard to read, this format is necessary with no breaks between span tags.
     // otherwise, WordPress's filter will add <br/>'s there. No good.
     $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">'.$link_data.'<span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
                                     '</span><span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_slug().($enp_btn->get_btn_count() > 0 ? '' : ' enp-btn__count--zero').'">'
-                                        .$enp_btn->get_btn_count().'</span></a>
+                                        .$enp_btn->get_formatted_btn_count().'</span></a>
                             </li>';
 
     return $enp_btn_HTML;
