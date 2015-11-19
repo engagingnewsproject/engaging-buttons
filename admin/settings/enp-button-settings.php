@@ -135,12 +135,14 @@ function enp_button_page() { ?>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Button with Block Count
                                 </label>
                                 <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block-inverse" <? checked('count-curve', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
+                                </label>
+                                <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Button with Curved Count
                                 </label>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('count-curve', $enp_btn_style);?>/> Button with Detached Count
                                 </label>
-
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
                         </td>
