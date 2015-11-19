@@ -6,9 +6,10 @@
 @import "colors";
 @import "placeholders";
 @import "base";
-@import "buttons";
 @import "click-animation";
 @import "popular-posts";
+    // different button styles
+    @import "plain-buttons";
     // count curve style
     @import "count-curve";
     // count block style. Depends on count-curve

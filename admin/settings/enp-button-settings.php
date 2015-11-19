@@ -79,7 +79,7 @@ function enp_button_page() { ?>
         $enp_btn_style = get_option('enp_button_style');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
-            $enp_btn_style = 'base';
+            $enp_btn_style = 'plain-buttons';
         }
 
         // build the buttons form
@@ -129,13 +129,13 @@ function enp_button_page() { ?>
                         <td>
                             <fieldset>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="base" <? checked('base', $enp_btn_style);?>/> Base
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-buttons" <? checked('plain-buttons', $enp_btn_style);?>/> Plain Buttons
                                 </label>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Block Count
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Button with Block Count
                                 </label>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Curved Count
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Button with Curved Count
                                 </label>
 
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>

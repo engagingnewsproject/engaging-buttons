@@ -1,5 +1,6 @@
 .count-block,
 .count-curve {
+    @import "buttons";
     .enp-btn__count {
         background: rgba(0,0,0,.15);
         padding: .5em .6em .5em .8em;
