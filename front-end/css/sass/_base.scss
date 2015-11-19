@@ -11,14 +11,23 @@
         margin: 0 .6em .8em 0;
         padding: 0;
         background: 0;
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
-    .enp-btn-wrap:last-child {
-        margin-right: 0;
+    .enp-btn {
+        text-decoration: none;
     }
 
     .enp-btn__count--zero {
         display: none;
+    }
+
+    .enp-btn__count {
+        position: relative;
+        margin-left: 0.6em;
     }
 }
 

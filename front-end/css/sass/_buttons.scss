@@ -26,18 +26,13 @@
     .enp-btn--disabled,
     .enp-btn--disabled:active,
     .enp-btn--disabled:hover {
-        background: #ddd;
-        color: #777;
+        background: $disabled_bg;
+        color: $disabled_color;
     }
 
     .enp-btn--user-clicked,
     .enp-btn--increased{
         background: $btn_hover;
-    }
-
-    .enp-btn__count {
-        position: relative;
-        margin-left: 0.6em;
     }
 
 }
