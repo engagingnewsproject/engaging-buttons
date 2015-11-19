@@ -1,4 +1,4 @@
-.detached-count {
+.plain-count-w-count-bg {
 
     .enp-btn {
         background: none;
@@ -16,12 +16,12 @@
     .enp-btn--require-logged-in:active,
     .enp-btn--user-clicked,
     .enp-btn--increased {
-        .enp-btn__name {
+        .enp-btn__count {
             background: $btn_hover;
             color: #fff;
         }
 
-        .enp-btn__count {
+        .enp-btn__name {
             color: $btn_hover;
         }
 
@@ -29,11 +29,11 @@
 
     .enp-btn:active {
 
-        .enp-btn__name {
+        .enp-btn__count {
             background: $btn_active;
         }
 
-        .enp-btn__count {
+        .enp-btn__name {
             color: $btn_active;
         }
     }
@@ -53,28 +53,31 @@
     .enp-btn--disabled:hover {
         cursor: default;
 
-        .enp-btn__name {
+        .enp-btn__count {
             background: $disabled_bg;
             color: $disabled_color;
         }
 
-        .enp-btn__count {
+        .enp-btn__name {
             color: $disabled_bg;
         }
     }
 
-    .enp-btn__name {
+    .enp-btn__count {
         @extend %btn;
+        font-size: 0.7em;
+        top: -0.15em;
     }
 
-    .enp-btn__count {
+    .enp-btn__name {
         color: $btn;
-        padding: .5em .8em .5em 0;
+        padding: .5em 0;
     }
 
     .enp-btn__count:after {
-        top: -1em;
-        left: -1.8em;
+        top: -1.1em;
+        left: -1.1em;
+        width: 4.5em;
+        height: 4.5em;
     }
-
 }

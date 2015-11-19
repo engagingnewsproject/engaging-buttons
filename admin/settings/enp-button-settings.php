@@ -127,7 +127,7 @@ function enp_button_page() { ?>
                             </div>
                         </th>
                         <td>
-                            <fieldset>
+                            <fieldset><?echo $enp_btn_style;?>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-buttons" <? checked('plain-buttons', $enp_btn_style);?>/> Plain Buttons
                                 </label>
@@ -135,13 +135,16 @@ function enp_button_page() { ?>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Button with Block Count
                                 </label>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block-inverse" <? checked('count-curve', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block-inverse" <? checked('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
                                 </label>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Button with Curved Count
                                 </label>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('count-curve', $enp_btn_style);?>/> Button with Detached Count
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('detached-count', $enp_btn_style);?>/> Button with Detached Count
+                                </label>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-count-w-count-bg" <? checked('plain-count-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
                                 </label>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
