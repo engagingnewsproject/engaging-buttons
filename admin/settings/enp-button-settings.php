@@ -32,6 +32,7 @@ function enp_button_data() {
 
     // style settings
     register_setting( 'enp_button_settings', 'enp_button_style' );
+    register_setting( 'enp_button_settings', 'enp_button_icons' );
 }
 
 // enqueue our scripts
@@ -77,9 +78,16 @@ function enp_button_page() { ?>
 
         // style settings
         $enp_btn_style = get_option('enp_button_style');
+        $enp_btn_icons = get_option('enp_button_icons');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
             $enp_btn_style = 'plain-buttons';
+        }
+
+        if($enp_btn_icons == 1) {
+            $enp_btn_icon_class = 'enp-icon-state';
+        } else {
+            $enp_btn_icon_class = 'no-enp-icon-state';
         }
 
         // build the buttons form
@@ -118,7 +126,7 @@ function enp_button_page() { ?>
                     <tr>
                         <th scope="row">
                             Engaging Button Style Setting
-                            <div class="enp-btns-wrap <? echo $enp_btn_style;?>">
+                            <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?> enp-btn-view-<? echo $enp_btn_style;?>">
                                 <ul class="enp-btns">
                                     <li class="enp-btn-wrap">
                                         <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
@@ -150,6 +158,18 @@ function enp_button_page() { ?>
                             </fieldset>
                         </td>
                     </tr>
+                    <tr>
+                        <th scope="row">
+                        </th>
+                        <td>
+                            <fieldset>
+                                <label for="enp_button_icons">
+                                    <input type="checkbox" class="btn-icon-input" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
+                                </label>
+                            </fieldset>
+                        </td>
+                    </tr>
+
                 </tbody>
             </table>
         </div>

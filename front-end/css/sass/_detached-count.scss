@@ -1,4 +1,4 @@
-.detached-count {
+.enp-btn-view-detached-count {
 
     .enp-btn {
         background: none;
@@ -75,6 +75,11 @@
     .enp-btn__count:after {
         top: -1em;
         left: -1.8em;
+    }
+
+    // icons
+    &.enp-icon-state {
+        @include enpDetachedButtonIcons(#ffffff);
     }
 
 }

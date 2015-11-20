@@ -55,4 +55,9 @@
         background: $btn_hover;
     }
 
+    // add icons
+    &.enp-icon-state {
+        @include enpButtonIcons(#ffffff);
+    }
+
 }

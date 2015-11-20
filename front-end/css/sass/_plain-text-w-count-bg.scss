@@ -1,4 +1,4 @@
-.plain-count-w-count-bg {
+.enp-btn-view-plain-count-w-count-bg {
 
     .enp-btn {
         background: none;
@@ -79,5 +79,31 @@
         left: -1.1em;
         width: 4.5em;
         height: 4.5em;
+    }
+
+    // add icons
+    &.enp-icon-state {
+        @include enpButtonIcons($btn);
+
+        .enp-btn {
+            padding-left: 1.2em;
+
+            &:before {
+                width: 1.05em;
+            }
+
+            //&.enp-btn--user-clicked:hover:before,
+            &:before {
+                top: 0.39em;
+                left: 0;
+            }
+
+            &.enp-btn--user-clicked:before {
+                width: .975em;
+                top: .45em;
+                left: 0;
+            }
+
+        }
     }
 }
