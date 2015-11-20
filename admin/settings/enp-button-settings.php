@@ -127,7 +127,7 @@ function enp_button_page() { ?>
                             </div>
                         </th>
                         <td>
-                            <fieldset><?echo $enp_btn_style;?>
+                            <fieldset>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-buttons" <? checked('plain-buttons', $enp_btn_style);?>/> Plain Buttons
                                 </label>

@@ -1,0 +1,38 @@
+%icon-positions {
+    left: 0.3em;
+    top: .6em;
+    width: 1.2em;
+    height: 1.2em;
+}
+
+.enp-icon-state {
+    .enp-btn {
+        position: relative;
+        padding-left: 1.8em;
+
+        &:before {
+            content: '';
+            position: absolute;
+            @extend %icon-positions;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: top left;
+        }
+
+        &.enp-btn--user-has-not-clicked:before {
+            background-image: add(ffffff);
+        }
+
+        &.enp-btn--user-clicked:before {
+            width: 1.1em;
+            top: .65em;
+            left: .35em;
+            background-image: check(ffffff);
+        }
+
+        &.enp-btn--user-clicked:hover:before {
+            background-image: close(ffffff);
+            @extend %icon-positions;
+        }
+    }
+}

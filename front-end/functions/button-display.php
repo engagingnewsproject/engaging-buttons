@@ -124,7 +124,7 @@ function enp_btns_HTML($args) {
         if(empty($enp_btn_style)) {
             $enp_btn_style = 'base';
         }
-        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap '.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
+        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap enp-icon-state '.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
                             <ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
