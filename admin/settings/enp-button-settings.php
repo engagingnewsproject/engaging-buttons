@@ -154,6 +154,9 @@ function enp_button_page() { ?>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-count-w-count-bg" <? checked('plain-count-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
                                 </label>
+                                <label>
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="ghost" <? checked('ghost', $enp_btn_style);?>/> Ghost
+                                </label>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
                         </td>
