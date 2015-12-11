@@ -2,9 +2,6 @@ The Engaging Button plugin is made by the [Engaging News Project](http://engagin
 
 The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
-This plugin is currently in beta and in active development. It is not ready for use on a production site.
-
-
 Installation
 ===============
 1. Upload to your WordPress plugins directory
@@ -62,14 +59,6 @@ We can do the same kinds of things to access comments, just change the function 
     // specify a slug and button type
     $pop_respect_comments = enp_get_popular_comments('respect', 'page');
     var_dump($pop_respect_comments); // returns object of the most Respected comment_ids and btn_counts from comments on Pages.
-
-
-
-
-
-
-
-
 
 
 Note: When a click on a button is registered, it flags the database that there's been a change in the button click counts. There's a cron that runs every 5 minutes that checks that flag, and, if there has been a click, it rebuilds all the popular button data.
