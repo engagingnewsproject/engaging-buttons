@@ -2,15 +2,29 @@
 
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
-Through [our research on social media buttons](http://dev.engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
+Through [our research on social media buttons](http://engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
 
 **The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
 
 The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
 
+Features
+====================
+![Button options settings panel](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Add-Button-Settings.jpg)
+
+
+- **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
+- **Customize your button design** with one-click by selecting the design that best fits your website.
+- **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
+- (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
+- **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
+
+
 Installation
 ====================
+![Button design settings panel](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Settings-Page.jpg)
+
 1. Upload to your WordPress plugins directory
 2. Active the plugin
 3. Go to Settings > Engaging Buttons
