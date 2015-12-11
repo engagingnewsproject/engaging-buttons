@@ -37,13 +37,13 @@ function enp_button_data() {
 
 // enqueue our scripts
 function enp_enqueue_admin_scripts() {
-    wp_register_style('enp-admin-styles', plugins_url( 'enp-button/admin/css/enp-admin-styles.css'));
+    wp_register_style('enp-admin-styles', plugins_url( 'engaging-buttons/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
 
-    wp_register_style('enp-front-end-button-styles', plugins_url( 'enp-button/front-end/css/enp-button-style.css'));
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
-    wp_register_script('enp-admin-scripts', plugins_url( 'enp-button/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
+    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
 }
 add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );
