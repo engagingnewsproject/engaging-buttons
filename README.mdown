@@ -1,8 +1,10 @@
+![What Engaging buttons look like on a website](http://dev.engagingnewsproject.org/wp-content/uploads/2015/11/Engaging-Buttons-Plugin.jpg)
+
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
 Through [our research on social media buttons](http://dev.engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
 
-**The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
+**The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
 
 The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
@@ -38,8 +40,7 @@ Example: **[engaging-posts slug="respect"]** would output a list of the top 5 "R
 ### type="your_active_post_type"
 Example: **[engaging-posts slug="respect" type="comments"]** would output a list of the top 5 "Respected" comments.
 
-**Accepted type Values**
-Any active post type or comments that you have activated and have chosen in your Engaging Buttons options panel.
+**Accepted type Values**: Any active post type or comments that you have activated and have chosen in your Engaging Buttons options panel.
 Common values:
 - comment
 - page
@@ -47,7 +48,7 @@ Common values:
 - your_custom_post_type_slug
 
 
-### [engaging-posts how-many='2']
+### how-many="2"
 Limits how many post links to display. Default is 5. Minimum is 1, maximum is 20.
 
 **Accepted how-many Values**
