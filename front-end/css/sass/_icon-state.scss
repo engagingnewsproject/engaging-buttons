@@ -84,7 +84,9 @@
 
         &.enp-btn--user-has-not-clicked:hover:before,
         &.enp-btn--user-has-not-clicked.enp-btn--click-wait:hover:before {
-            background-image: add($color_clicked);
+            @media screen and (min-width: $desktop) {
+                background-image: add($color_clicked);
+            }
         }
 
         &.enp-btn--user-clicked:before,
