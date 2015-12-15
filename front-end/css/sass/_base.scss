@@ -33,13 +33,6 @@
 
     .enp-btn {
         text-decoration: none;
-        position: relative;
-
-        // This fixes the no-icon display. I honestly have NO idea why this fixes it. Adding this in makes the right side display correctly. Without it, it gets cut off and becomes corners. - JJ
-        &:before {
-            content: '';
-            position: absolute;
-        }
     }
 
     .enp-btn__count {
