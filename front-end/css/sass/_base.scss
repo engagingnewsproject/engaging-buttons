@@ -10,7 +10,7 @@
 
 
 .enp-btns-wrap {
-    padding-top: 1em; // on redirect via slug, this preserves spacing better
+    padding-top: 1em; /* on redirect via slug, this preserves spacing better */
     box-sizing: border-box;
 
     .enp-btns {
@@ -41,7 +41,6 @@
     .enp-btn__count {
         position: relative;
         margin-left: 0.6em;
-        display: inline-block; // fixes bug in safari iOS and desktop v 9.0.2 where number disappears after clicking a button
     }
 
     .enp-btn-count-formatter {
