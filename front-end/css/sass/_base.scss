@@ -10,7 +10,6 @@
 
 
 .enp-btns-wrap {
-    font-size: 16px; // set default value for consistency in presentation
     padding-top: 1em; // on redirect via slug, this preserves spacing better
     box-sizing: border-box;
 
@@ -35,14 +34,14 @@
         text-decoration: none;
     }
 
+    .enp-btn__count--zero {
+        display: none;
+    }
+
     .enp-btn__count {
         position: relative;
         margin-left: 0.6em;
         display: inline-block; // fixes bug in safari iOS and desktop v 9.0.2 where number disappears after clicking a button
-    }
-
-    .enp-btn__count--zero {
-        display: none;
     }
 
     .enp-btn-count-formatter {
