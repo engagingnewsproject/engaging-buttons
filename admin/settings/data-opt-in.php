@@ -4,7 +4,7 @@ function enp_data_optin_message() {?>
     <div class="updated notice">
         <h3>Thanks for activating the Engaging Buttons plugin!</h3>
         <p><a href="http://engagingnewsproject.org">The Engaging News Project</a> made the Engaging Buttons after we found that <a href="http://engagingnewsproject.org/research/social-media-buttons/">people were more likely to click “Respect” over “Like” in comment sections</a>.</p>
-        <p>Help us improve the Engaging Buttons plugin by sending your click data to the Engaging News Project and help us provide more free, high-quality research.</p>
+        <p>Help us improve the Engaging Buttons plugin by sending your click data to the Engaging News Project. This also helps us provide more free, high-quality research.</p>
         <p>
 
         <form class="enp-button-data-optin" method="post" action="options.php">
