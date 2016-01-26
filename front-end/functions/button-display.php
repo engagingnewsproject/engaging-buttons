@@ -228,7 +228,7 @@ function enp_btn_append_btn_HTML($enp_btn, $args, $enp_btn_clickable, $enp_user)
 
     // while hard to read, this format is necessary with no breaks between span tags.
     // otherwise, WordPress's filter will add <br/>'s there. No good.
-    $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">'.$link_data.'<span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
+    $enp_btn_HTML = '<li id="'.$enp_btn->get_btn_slug().'-wrap" class="enp-btn-wrap enp-btn-wrap--'.$enp_btn->get_btn_slug().'">'.$link_data.'<svg class="enp-icon"><use xlink:href="#'.$click_class.'"></use></svg><span class="enp-btn__name enp-btn__name--'.$enp_btn->get_btn_slug().'">'
                                         .$enp_btn->get_btn_name().
                                     '</span><span class="enp-btn__count enp-btn__count--'.$enp_btn->get_btn_slug().($enp_btn->get_btn_count() > 0 ? '' : ' enp-btn__count--zero').'">'
                                         .$enp_btn->get_formatted_btn_count().'</span></a>
