@@ -31,7 +31,7 @@ jQuery( document ).ready( function( $ ) {
             $('.enp-remove-btn').hide();
         }
         // set the right display name
-        var selected_btn_slug = $('.btn-slug-input:checked', table_obj).val()
+        var selected_btn_slug = $('.btn-slug-input:checked', table_obj).val();
         if(selected_btn_slug !== false){
             enp_setDisplayPopularName(selected_btn_slug ,table_obj);
         }
@@ -76,7 +76,7 @@ jQuery( document ).ready( function( $ ) {
         $('.enp-remove-btn').show();
 
         // check to see if we should allow the creation of another button
-        var new_total_btns = total_btns+1
+        var new_total_btns = total_btns+1;
         if(max_btns <= new_total_btns) {
             $('.enp-add-btn').hide();
         }
@@ -247,18 +247,18 @@ jQuery( document ).ready( function( $ ) {
         // pop last class and remove it
         var new_class = $(this).val();
         enp_removeViewClass();
-        $('.enp-btns-wrap').addClass('enp-btn-view-'+new_class);
+        $('.enp-btn-view').addClass('enp-btn-view-'+new_class);
 
     });
 
     function enp_removeViewClass(){
-        $('.enp-btns-wrap').filter(function (new_class) {
-            var classes = $('.enp-btns-wrap').attr('class').split(' ');
+        $('.enp-btn-view').parent().filter(function (new_class) {
+            var classes = $('.enp-btn-view').attr('class').split(' ');
             for (var i=0; i<classes.length; i++)
             {
                 if (classes[i].slice(0,13) === 'enp-btn-view-')
                 {
-                    $('.enp-btns-wrap').removeClass(classes[i]);
+                    $('.enp-btn-view').removeClass(classes[i]);
                 }
             }
         });

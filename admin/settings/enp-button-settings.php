@@ -40,7 +40,7 @@ function enp_enqueue_admin_scripts() {
     wp_register_style('enp-admin-styles', plugins_url( 'engaging-buttons/admin/css/enp-admin-styles.css'));
     wp_enqueue_style( 'enp-admin-styles');
 
-    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-style.css'));
+    wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-admin-button-styles.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
     wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
@@ -133,13 +133,14 @@ function enp_button_page() { ?>
                     <tr>
                         <th scope="row">
                             Engaging Button Style Setting
-                            <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?> enp-btn-view-<? echo $enp_btn_style;?>">
-                                <ul class="enp-btns">
-                                    <li class="enp-btn-wrap">
-                                        <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><svg class="enp-icon"><use xlink:href="#enp-btn--user-has-not-clicked"></use></svg><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
-                                    </li>
-                                </ul>
-                            </div>
+                            <div class="enp-btn-view enp-btn-view-<? echo $enp_btn_style;?>">
+                                <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?>">
+                                    <ul class="enp-btns">
+                                        <li class="enp-btn-wrap">
+                                            <a href="#" class="enp-btn enp-btn--user-has-not-clicked"><svg class="enp-icon"><use xlink:href="#enp-btn--user-has-not-clicked"></use></svg><span class="enp-btn__name">Respect</span><span class="enp-btn__count">75</span></a>
+                                        </li>
+                                    </ul>
+                                </div>
                         </th>
                         <td>
                             <fieldset>
@@ -159,7 +160,7 @@ function enp_button_page() { ?>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('detached-count', $enp_btn_style);?>/> Button with Detached Count
                                 </label>
                                 <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-count-w-count-bg" <? checked('plain-count-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
+                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-text-w-count-bg" <? checked('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
                                 </label>
                                 <label>
                                     <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="ghost" <? checked('ghost', $enp_btn_style);?>/> Ghost

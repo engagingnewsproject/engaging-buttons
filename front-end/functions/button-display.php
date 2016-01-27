@@ -119,11 +119,7 @@ function enp_btns_HTML($args) {
 
     // check if the first one is full of null values
     if(enp_button_exists($enp_btns[0])) {
-        // get our style choice from the database
-        $enp_btn_style = get_option('enp_button_style');
-        if(empty($enp_btn_style)) {
-            $enp_btn_style = 'enp-btn-view-base';
-        }
+
         // check on icon status
         $enp_btn_icons = get_option('enp_button_icons');
         if($enp_btn_icons == 1) {
@@ -134,7 +130,7 @@ function enp_btns_HTML($args) {
             $display_enp_btn_icons = false;
         }
 
-        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap--disabled enp-btns-wrap '.$enp_btn_icon_class.' enp-btn-view-'.$enp_btn_style.'" data-btn-type="'.$btn_type.'">
+        $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap--disabled enp-btns-wrap '.$enp_btn_icon_class.'" data-btn-type="'.$btn_type.'">
                             <ul class="';
         foreach($classes as $class) {
             $enp_btn_HTML .= $class.' ';
