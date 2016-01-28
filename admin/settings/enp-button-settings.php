@@ -115,14 +115,14 @@ function enp_button_page() { ?>
                         <td>
                             <fieldset>
                                 <label for="enp_button_must_be_logged-in">
-                                    <input type="checkbox" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
+                                    <input type="checkbox" id="enp_button_must_be_logged-in" name="enp_button_must_be_logged_in" <?php checked(true, $btn_must_be_logged_in);?> value="1" /> Users must be logged in to click the button(s)
                                 </label>
                                 <label for="enp_button_allow_data_tracking">
-                                    <input type="checkbox" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
+                                    <input type="checkbox" id="enp_button_allow_data_tracking" name="enp_button_allow_data_tracking" aria-describedby="enp-button-allow-data-tracking-description" <?php checked(true, $btn_allow_data_tracking);?> value="1" /> Allow data collection
                                     <p id="enp-button-allow-data-tracking-description" class="description">This allows <a href="http://engagingnewsproject.org">The Engaging News Project</a>, an academic nonprofit at the University of Texas at Austin, to record data on the buttons so they can continue to provide free, open-source plugins and research. No personal information is recorded.</p>
                                 </label>
                                 <label for="enp_button_promote_enp">
-                                    <input type="checkbox" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
+                                    <input type="checkbox" id="enp_button_promote_enp" name="enp_button_promote_enp" aria-describedby="enp-button-promote-enp-description" <?php checked(true, $btn_promote_enp);?> value="1" /> Display "Respect Button Powered by the Engaging News Project"
                                     <p id="enp-button-promote-enp-description" class="description">Small text displayed beneath the WordPress comments section.</p>
                                 </label>
                             </fieldset>
@@ -137,7 +137,7 @@ function enp_button_page() { ?>
                 <tbody>
                     <tr>
                         <th scope="row">
-                            Engaging Button Style Setting
+                            Engaging Button Styles
                             <div class="enp-btn-view enp-btn-view-<? echo $enp_btn_style;?>">
                                 <div class="enp-btns-wrap <?echo $enp_btn_icon_class;?>">
                                     <ul class="enp-btns">
@@ -166,7 +166,11 @@ function enp_button_page() { ?>
                                     </option>
                                 </select>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
+                                <label for="enp_button_icons">
+                                    <input type="checkbox" class="btn-icon-input" id="enp_button_icons" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
+                                </label>
                             </fieldset>
+
                         </td>
                     </tr>
                     <tr>
@@ -174,9 +178,7 @@ function enp_button_page() { ?>
                         </th>
                         <td>
                             <fieldset>
-                                <label for="enp_button_icons">
-                                    <input type="checkbox" class="btn-icon-input" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
-                                </label>
+
                             </fieldset>
                         </td>
                     </tr>

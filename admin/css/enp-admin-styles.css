@@ -21,6 +21,9 @@
     margin: .3em 0 .6em!important;
 }
 
+.engaging-buttons-options td fieldset select {
+    margin: .3em 0 1em!important;
+}
 
 .icon-remove,
 .icon-add,
