@@ -298,9 +298,6 @@ jQuery( document ).ready( function( $ ) {
         // replace the count
         $('.enp-btn__count', this).text(new_count);
 
-
-
-
         // wait a little bit, then remove the class
         setTimeout(function() {
             console.log('waiting...');
@@ -308,4 +305,211 @@ jQuery( document ).ready( function( $ ) {
         }, 500);
 
     });
+
+    // Colors
+    $(document).on('keyup', '.btn-color-input', function(){
+        setBtnColors();
+    });
+
+    $(document).on('change', '.btn-style-input', function(){
+        setBtnColors();
+    });
+
+    function setBtnColors() {
+        var color = $('.btn-color-input').val();
+        // check value of hex for valid color
+        var isOK = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+
+        if(isOK === true) {
+
+            var btnStyle = $('.btn-style-input').val();
+            // darker color
+            var darkColor = ColorLuminance(color, -0.14);
+            // lighter color
+            var lightColor = ColorLuminance(color, 0.15);
+
+            var rules;
+
+            if(btnStyle === 'detached-count') {
+                rules = [
+                                ["#wpbody-content .enp-btn__name",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-btn__count",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                    ["color", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__name",
+                                    ["background", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__count",
+                                    ["color", lightColor],
+                                ]
+                            ];
+            } else if(btnStyle === 'plain-text-w-count-bg') {
+                rules = [
+                                ["#wpbody-content .enp-btn__name",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn__count",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-icon",
+                                    ["fill", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name",
+                                    ["color", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon",
+                                    ["fill", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__name",
+                                    ["color", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-btn__count",
+                                    ["background", lightColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active .enp-icon",
+                                    ["fill", lightColor],
+                                ]
+                            ];
+            } else if(btnStyle === 'ghost') {
+                rules = [
+                                ["#wpbody-content .enp-btn",
+                                    ["border", "2px solid "+color],
+                                    ["background", "transparent"],
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked",
+                                    ["background", color],
+                                    ["color", "#ffffff"],
+                                ],
+                                ["#wpbody-content .enp-icon",
+                                    ["fill", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon",
+                                    ["fill", "#ffffff"],
+                                ],
+                            ];
+            } else {
+                rules = [
+                                ["#wpbody-content .enp-btn",
+                                    ["background", color],
+                                ],
+                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked",
+                                    ["background", darkColor],
+                                ],
+                                ["#wpbody-content .enp-btn:active",
+                                    ["background", lightColor],
+                                ]
+                            ];
+                if (btnStyle === 'count-block-inverse') {
+                    // append one more rule
+                    rules.push(
+                                ["#wpbody-content .enp-btn__count",
+                                    ["color", color],
+                                ],
+                                ["#wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                    ["color", darkColor],
+                                ]
+                            );
+                }
+            }
+            // delete the existing dynamic sheet
+            deleteSheet();
+            // create a new one
+            var sheet = createSheet();
+            // add the styles to the newly created sheet
+            addStylesheetRules(sheet, rules);
+
+        } else if(color === '') {
+            // delete the existing dynamic sheet
+            deleteSheet();
+        }
+    }
+
+    setBtnColors();
+
+    function deleteSheet() {
+        if($('style[title="btnColor"]').length) {
+            $('style[title="btnColor"]').remove();
+        }
+
+    }
+
+    function createSheet() {
+    	// Create the <style> tag
+    	var style = document.createElement("style");
+
+    	// Add a media (and/or media query) here if you'd like!
+    	style.setAttribute("title", "btnColor");
+    	// style.setAttribute("media", "only screen and (max-width : 1024px)")
+
+    	// WebKit hack :(
+    	style.appendChild(document.createTextNode(""));
+
+    	// Add the <style> element to the page
+    	document.head.appendChild(style);
+
+    	return style.sheet;
+    }
+
+    /*
+    addStylesheetRules([
+      ['h2', // Also accepts a second argument as an array of arrays instead
+        ['color', 'red'],
+        ['background-color', 'green', true] // 'true' for !important rules
+      ],
+      ['.myClass',
+        ['background-color', 'yellow']
+      ]
+    ]);
+    */
+    function addStylesheetRules (styleSheet, rules) {
+
+      for (var i = 0, rl = rules.length; i < rl; i++) {
+        var j = 1, rule = rules[i], selector = rules[i][0], propStr = '';
+        // If the second argument of a rule is an array of arrays, correct our variables.
+        if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
+          rule = rule[1];
+          j = 0;
+        }
+
+        for (var pl = rule.length; j < pl; j++) {
+          var prop = rule[j];
+          propStr += prop[0] + ':' + prop[1] + (prop[2] ? ' !important' : '') + ';\n';
+        }
+
+        // Insert CSS Rule
+        styleSheet.insertRule(selector + '{' + propStr + '}', styleSheet.cssRules.length);
+      }
+  }
+
+  function ColorLuminance(hex, lum) {
+    	// validate hex string
+    	hex = String(hex).replace(/[^0-9a-f]/gi, '');
+    	if (hex.length < 6) {
+    		hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+    	}
+    	lum = lum || 0;
+
+    	// convert to decimal and change luminosity
+    	var rgb = "#", c, i;
+    	for (i = 0; i < 3; i++) {
+    		c = parseInt(hex.substr(i*2,2), 16);
+    		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+    		rgb += ("00"+c).substr(c.length);
+    	}
+
+    	return rgb;
+    }
+
 });

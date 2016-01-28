@@ -36,6 +36,7 @@ function enp_button_data() {
     // style settings
     register_setting( 'enp_button_settings', 'enp_button_style' );
     register_setting( 'enp_button_settings', 'enp_button_icons' );
+    register_setting( 'enp_button_settings', 'enp_button_color' );
 }
 
 // enqueue our scripts
@@ -89,6 +90,7 @@ function enp_button_page() { ?>
         // style settings
         $enp_btn_style = get_option('enp_button_style');
         $enp_btn_icons = get_option('enp_button_icons');
+        $enp_btn_color = get_option('enp_button_color');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
             $enp_btn_style = 'ghost';
@@ -149,6 +151,7 @@ function enp_button_page() { ?>
                         </th>
                         <td>
                             <fieldset>
+                                <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                                 <select class="btn-style-input" name="enp_button_style" aria-describedby="enp-button-style-description">
                                     <option value="ghost" <? selected('ghost', $enp_btn_style);?>/> Ghost
                                     </option>
@@ -165,20 +168,25 @@ function enp_button_page() { ?>
                                     <option value="plain-text-w-count-bg" <? selected('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
                                     </option>
                                 </select>
-                                <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
+
                                 <label for="enp_button_icons">
                                     <input type="checkbox" class="btn-icon-input" id="enp_button_icons" name="enp_button_icons" <?php checked(true, $enp_btn_icons);?> value="1" /> Display Icons with Buttons
                                 </label>
+
+
                             </fieldset>
 
                         </td>
                     </tr>
                     <tr>
                         <th scope="row">
+                            <label for="enp_button_color">
+                                Button Color
+                            </label>
                         </th>
                         <td>
                             <fieldset>
-
+                                <input type="text" maxlength="7" class="btn-color-input" id="enp_button_color" name="enp_button_color" value="<?php echo $enp_btn_color;?>" />
                             </fieldset>
                         </td>
                     </tr>
