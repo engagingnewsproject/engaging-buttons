@@ -149,27 +149,22 @@ function enp_button_page() { ?>
                         </th>
                         <td>
                             <fieldset>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-buttons" <? checked('plain-buttons', $enp_btn_style);?>/> Plain Buttons
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block" <? checked('count-block', $enp_btn_style);?>/> Button with Block Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-block-inverse" <? checked('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="count-curve" <? checked('count-curve', $enp_btn_style);?>/> Button with Curved Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="detached-count" <? checked('detached-count', $enp_btn_style);?>/> Button with Detached Count
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="plain-text-w-count-bg" <? checked('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
-                                </label>
-                                <label>
-                                    <input class="btn-style-input" type="radio" name="enp_button_style" aria-describedby="enp-button-style-description" value="ghost" <? checked('ghost', $enp_btn_style);?>/> Ghost
-                                </label>
+                                <select class="btn-style-input" name="enp_button_style" aria-describedby="enp-button-style-description">
+                                    <option value="ghost" <? selected('ghost', $enp_btn_style);?>/> Ghost
+                                    </option>
+                                    <option value="plain-buttons" <? selected('plain-buttons', $enp_btn_style);?>/> Plain Buttons
+                                    </option>
+                                    <option value="count-block" <? selected('count-block', $enp_btn_style);?>/> Button with Block Count
+                                    </option>
+                                    <option value="count-block-inverse" <? selected('count-block-inverse', $enp_btn_style);?>/> Button with Block Count (Lighter Count Background)
+                                    </option>
+                                    <option value="count-curve" <? selected('count-curve', $enp_btn_style);?>/> Button with Curved Count
+                                    </option>
+                                    <option value="detached-count" <? selected('detached-count', $enp_btn_style);?>/> Button with Detached Count
+                                    </option>
+                                    <option value="plain-text-w-count-bg" <? selected('plain-text-w-count-bg', $enp_btn_style);?>/> Plain Text with Count Background
+                                    </option>
+                                </select>
                                 <p id="enp-button-style-description" class="description">Choose your preferred button style.</p>
                             </fieldset>
                         </td>
