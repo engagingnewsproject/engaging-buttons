@@ -94,7 +94,7 @@ function enp_button_page() { ?>
             $enp_btn_style = 'ghost';
         }
 
-        if($enp_btn_icons == 0) {
+        if($enp_btn_icons === '0') {
             $enp_btn_icon_class = 'no-enp-icon-state';
             $enp_btn_icons = false;
         } else {
