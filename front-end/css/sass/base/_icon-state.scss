@@ -9,7 +9,7 @@
 
 @mixin enpButtonIcons($color) {
 
-    .enp-btn {
+    &.enp-icon-state .enp-btn {
         position: relative;
         padding-left: 1.8em;
 
@@ -28,7 +28,7 @@
 
 @mixin enpDetachedButtonIcons($color) {
 
-    .enp-btn {
+    &.enp-icon-state .enp-btn {
         position: relative;
     }
 
@@ -55,7 +55,7 @@
 
 @mixin enpGhostButtonIcons($color_not_clicked, $color_clicked) {
 
-    .enp-btn {
+    &.enp-icon-state .enp-btn {
         position: relative;
         padding-left: 1.8em;
     }
