@@ -230,6 +230,13 @@ function registeredContentTypes() {
 
 }
 
+function set_enp_button_icons($value) {
+    if(empty($value)) {
+        $value = 0;
+    }
+    return $value;
+}
+
 
 function set_enp_button_allow_data_tracking($value) {
     if(empty($value)) {

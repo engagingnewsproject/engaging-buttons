@@ -17,6 +17,9 @@ add_filter( 'pre_update_option_enp_buttons', 'set_enp_buttons_values', 10, 2 );
 // If they don't want data reporting, give them a little, "please, please, PLEASE add reporting!" notification
 add_filter( 'pre_update_option_enp_button_allow_data_tracking', 'set_enp_button_allow_data_tracking', 10, 2 );
 
+// Set Icon State to FALSE if empty
+add_filter( 'pre_update_option_enp_button_icons', 'set_enp_button_icons', 10, 2 );
+
 
 // Create settings fields.
 add_action( 'admin_init', 'enp_button_data' );
@@ -88,13 +91,15 @@ function enp_button_page() { ?>
         $enp_btn_icons = get_option('enp_button_icons');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
-            $enp_btn_style = 'plain-buttons';
+            $enp_btn_style = 'ghost';
         }
 
-        if($enp_btn_icons == 1) {
-            $enp_btn_icon_class = 'enp-icon-state';
-        } else {
+        if($enp_btn_icons == 0) {
             $enp_btn_icon_class = 'no-enp-icon-state';
+            $enp_btn_icons = false;
+        } else {
+            $enp_btn_icon_class = 'enp-icon-state';
+            $enp_btn_icons = true;
         }
 
         // build the buttons form

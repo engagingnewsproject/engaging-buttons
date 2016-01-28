@@ -122,12 +122,12 @@ function enp_btns_HTML($args) {
 
         // check on icon status
         $enp_btn_icons = get_option('enp_button_icons');
-        if($enp_btn_icons == 1) {
-            $enp_btn_icon_class = 'enp-icon-state';
-            $display_enp_btn_icons = true;
-        } else {
+        if($enp_btn_icons == 0) {
             $enp_btn_icon_class = 'no-enp-icon-state';
             $display_enp_btn_icons = false;
+        } else {
+            $enp_btn_icon_class = 'enp-icon-state';
+            $display_enp_btn_icons = true;
         }
 
         $enp_btn_HTML = '<div id="enp-btns-wrap-'.$btn_type.'-'.$args['post_id'].'" class="enp-btns-wrap--disabled enp-btns-wrap '.$enp_btn_icon_class.'" data-btn-type="'.$btn_type.'">
