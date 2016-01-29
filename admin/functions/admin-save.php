@@ -263,4 +263,37 @@ function set_enp_button_allow_data_tracking($value) {
     return $value;
 }
 
+
+function set_enp_button_color($value) {
+    $hex = false;
+    // validate the hex value
+    if(enp_validate_color($value) === true) {
+        $hex = $value;
+    }
+
+    return $hex;
+}
+
+function set_enp_button_color_clicked($value) {
+    $hex = enp_hex_check_and_return_color($value, -0.25);
+
+    return $hex;
+}
+
+function set_enp_button_color_active($value) {
+    $hex = enp_hex_check_and_return_color($value, 0.15);
+
+    return $hex;
+}
+
+function set_enp_button_color_css($value) {
+    if(empty($value)) {
+        // checks to see if there's a button style wanted,
+        // and creates the stylesheet options if so
+        $value = enp_create_button_css();
+    }
+
+    return $value;
+}
+
 ?>

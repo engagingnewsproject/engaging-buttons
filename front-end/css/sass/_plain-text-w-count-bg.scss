@@ -46,6 +46,9 @@
     .enp-btn--require-logged-in:hover,
     .enp-btn--require-logged-in:active {
         cursor: default;
+        .enp-btn__count {
+            cursor: default;
+        }
     }
 
     .enp-btn--disabled,
@@ -87,19 +90,20 @@
         .enp-btn {
             padding-left: 1.2em;
             position: relative;
-
-            .enp-icon {
-                position: absolute;
-                width: 1.15em;
-                height: 1.15em;
-                fill: $btn;
-                top: .4em;
-                left: 0;
-            }
-        }
-
-        .enp-btn--user-clicked .enp-icon{
-            fill: $btn_hover;
         }
     }
+
+    .enp-icon {
+        position: absolute;
+        width: 1.15em;
+        height: 1.15em;
+        fill: $btn;
+        top: .4em;
+        left: 0;
+    }
+
+    .enp-btn--user-clicked .enp-icon {
+        fill: $btn_hover;
+    }
+
 }

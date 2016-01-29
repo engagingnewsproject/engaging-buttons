@@ -20,6 +20,15 @@ add_filter( 'pre_update_option_enp_button_allow_data_tracking', 'set_enp_button_
 // Set Icon State to FALSE if empty
 add_filter( 'pre_update_option_enp_button_icons', 'set_enp_button_icons', 10, 2 );
 
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color', 'set_enp_button_color', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_clicked', 'set_enp_button_color_clicked', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_active', 'set_enp_button_color_active', 10, 2 );
+// Color manipulation and styles saving
+add_filter( 'pre_update_option_enp_button_color_css', 'set_enp_button_color_css', 10, 2 );
+
 
 // Create settings fields.
 add_action( 'admin_init', 'enp_button_data' );
@@ -37,6 +46,9 @@ function enp_button_data() {
     register_setting( 'enp_button_settings', 'enp_button_style' );
     register_setting( 'enp_button_settings', 'enp_button_icons' );
     register_setting( 'enp_button_settings', 'enp_button_color' );
+    register_setting( 'enp_button_settings', 'enp_button_color_clicked' );
+    register_setting( 'enp_button_settings', 'enp_button_color_active' );
+    register_setting( 'enp_button_settings', 'enp_button_color_css' );
 }
 
 // enqueue our scripts
@@ -187,8 +199,20 @@ function enp_button_page() { ?>
                         <td>
                             <fieldset>
                                 <input type="text" maxlength="7" class="btn-color-input" id="enp_button_color" name="enp_button_color" value="<?php echo $enp_btn_color;?>" />
+                                <input type="hidden" maxlength="7" class="btn-color-clicked-input" name="enp_button_color_clicked" value="<?php echo $enp_btn_color_clicked;?>" />
+                                <input type="hidden" maxlength="7" class="btn-color-active-input" name="enp_button_color_active" value="<?php echo $enp_btn_color_active;?>" />
                             </fieldset>
+
                         </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Advanced CSS</th>
+                        <td>
+                            <button class="advanced-css-control">Show Advanced CSS</button>
+                            <div class="advanced-css">
+                                <label for="enp-css">This is the CSS that will be added to your site. If you want to change it more, copy/paste this CSS into your theme's CSS file and edit away!</label>
+                                <textarea name="enp_button_color_css" class="wide-fat enp-css" id="enp-css" wrap="off" rows="15" readonly></textarea></td>
+                            </div>
                     </tr>
 
                 </tbody>

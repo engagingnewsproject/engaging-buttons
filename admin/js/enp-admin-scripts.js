@@ -5,6 +5,18 @@
  */
 
 jQuery( document ).ready( function( $ ) {
+    // Advanced CSS selections
+    $('.advanced-css').hide();
+    $('.advanced-css-control').show();
+    $('.advanced-css-control').click(function(e) {
+        e.preventDefault();
+        $(this).remove();
+        $('.advanced-css').fadeIn();
+    });
+
+    $(".enp-css").focus(function() {
+        $(this).select();
+    });
 
     //add/remove btn html
     var addBtnHtml = '<div class="enp-add-btn-wrap"><a class="enp-add-btn"><svg class="icon-add"><use xlink:href="#icon-add"></use></svg> Add Another Button</a></div>';
@@ -324,9 +336,13 @@ jQuery( document ).ready( function( $ ) {
 
             var btnStyle = $('.btn-style-input').val();
             // darker color
-            var darkColor = ColorLuminance(color, -0.14);
+            var darkColor = ColorLuminance(color, -0.25);
+            // write it to the input
+            $('.btn-color-clicked-input').val(darkColor);
             // lighter color
             var lightColor = ColorLuminance(color, 0.15);
+            // write it to the input
+            $('.btn-color-active-input').val(lightColor);
 
             var rules;
 
@@ -338,10 +354,10 @@ jQuery( document ).ready( function( $ ) {
                                 ["#wpbody-content .enp-btn__count",
                                     ["color", color],
                                 ],
-                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name",
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name, #wpbody-content .enp-btn--click-wait .enp-btn__name, #wpbody-content .enp-btn--click-wait:active .enp-btn__name, #wpbody-content .enp-btn--click-wait:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__name",
                                     ["background", darkColor],
                                 ],
-                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count, #wpbody-content .enp-btn--click-wait .enp-btn__count, #wpbody-content .enp-btn--click-wait:active .enp-btn__count, #wpbody-content .enp-btn--click-wait:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__count",
                                     ["color", darkColor],
                                 ],
                                 ["#wpbody-content .enp-btn:active .enp-btn__name",
@@ -362,13 +378,13 @@ jQuery( document ).ready( function( $ ) {
                                 ["#wpbody-content .enp-icon",
                                     ["fill", color],
                                 ],
-                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name",
+                                ["#wpbody-content .enp-btn:hover .enp-btn__name, #wpbody-content .enp-btn--user-clicked .enp-btn__name, #wpbody-content .enp-btn--click-wait .enp-btn__name, #wpbody-content .enp-btn--click-wait:active .enp-btn__name, #wpbody-content .enp-btn--click-wait:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__name, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__name",
                                     ["color", darkColor],
                                 ],
-                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count",
+                                ["#wpbody-content .enp-btn:hover .enp-btn__count, #wpbody-content .enp-btn--user-clicked .enp-btn__count, #wpbody-content .enp-btn--click-wait .enp-btn__count, #wpbody-content .enp-btn--click-wait:active .enp-btn__count, #wpbody-content .enp-btn--click-wait:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:hover .enp-btn__count, #wpbody-content .enp-btn--require-logged-in:active .enp-btn__count",
                                     ["background", darkColor],
                                 ],
-                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon",
+                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon, #wpbody-content .enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait:active .enp-icon, #wpbody-content .enp-btn--click-wait:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in .enp-icon, #wpbody-content .enp-btn--require-logged-in:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in:active .enp-icon",
                                     ["fill", darkColor],
                                 ],
                                 ["#wpbody-content .enp-btn:active .enp-btn__name",
@@ -383,28 +399,65 @@ jQuery( document ).ready( function( $ ) {
                             ];
             } else if(btnStyle === 'ghost') {
                 rules = [
-                                ["#wpbody-content .enp-btn",
-                                    ["border", "2px solid "+color],
-                                    ["background", "transparent"],
-                                    ["color", color],
-                                ],
-                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked",
-                                    ["background", color],
-                                    ["color", "#ffffff"],
-                                ],
-                                ["#wpbody-content .enp-icon",
-                                    ["fill", color],
-                                ],
-                                ["#wpbody-content .enp-btn:hover .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon",
-                                    ["fill", "#ffffff"],
-                                ],
-                            ];
+                            ["#wpbody-content .enp-btn, #wpbody-content .enp-btn--require-logged-in, #wpbody-content .enp-btn--require-logged-in:active",
+                                ["color", color],
+                                ["border", "2px solid "+color],
+                                ["background", "transparent"],
+                            ],
+                            ["#wpbody-content .enp-btn:focus, #wpbody-content .enp-btn--user-clicked:focus",
+                                ["border", "2px solid "+color],
+                            ],
+                            ["#wpbody-content .enp-btn:active, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover, #wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--increased",
+                                ["color", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-btn:active",
+                                ["background", lightColor],
+                                ["border", "2px solid "+lightColor],
+                            ],
+                            ["#wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--increased, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover",
+                                ["background", color],
+                                ["border", "2px solid "+color],
+                                ["color", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-btn:active .enp-icon, #wpbody-content .enp-btn--user-clicked .enp-icon, #wpbody-content .enp-btn--user-clicked.enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait .enp-icon, #wpbody-content .enp-btn--click-wait:active .enp-icon, #wpbody-content .enp-btn--click-wait:hover .enp-icon",
+                                ["fill", "#ffffff"],
+                            ],
+                            ["#wpbody-content .enp-icon, #wpbody-content .enp-btn--require-logged-in .enp-icon, #wpbody-content .enp-btn--require-logged-in:hover .enp-icon, #wpbody-content .enp-btn--require-logged-in:active .enp-icon",
+                                ["fill", color],
+                            ],
+                        ];
+                            // Ghost has some extra media query rules we have to add to our stylesheet for saving
+
+
+                var ghost_desktop_rules = [
+                                            ["#wpbody-content .enp-btn:hover",
+                                                ["color", "#ffffff"],
+                                                ["background", color],
+                                                ["border", "2px solid "+color],
+                                            ],
+                                            ["#wpbody-content .enp-btn--require-logged-in:hover",
+                                                ["color", color],
+                                                ["background", "transparent"],
+                                            ],
+                                            ["#wpbody-content .enp-btn:hover .enp-icon",
+                                                ["fill", "#ffffff"],
+                                            ],
+                                            ["#wpbody-content .enp-btn--require-logged-in:hover .enp-icon",
+                                                ["fill", color],
+                                            ]
+                                        ];
+
+                var ghost_mobile_rules = [
+                                            ["#wpbody-content .enp-btn:hover",
+                                                ["border", "2px solid "+color],
+                                            ],
+                                        ];
             } else {
                 rules = [
                                 ["#wpbody-content .enp-btn",
                                     ["background", color],
                                 ],
-                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked",
+                                ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover, #wpbody-content .enp-btn--require-logged-in, #wpbody-content .enp-btn--require-logged-in:hover, #wpbody-content .enp-btn--require-logged-in:active",
                                     ["background", darkColor],
                                 ],
                                 ["#wpbody-content .enp-btn:active",
@@ -430,9 +483,29 @@ jQuery( document ).ready( function( $ ) {
             // add the styles to the newly created sheet
             addStylesheetRules(sheet, rules);
 
+            // clear the textarea
+            $('#enp-css').val('');
+
+            var css_rules = textStylesheetRules(rules);
+
+            // if we're on ghost, add a little extra first
+            if(btnStyle === 'ghost') {
+                css_rules += addMediaQueries('min-width: 800px', ghost_desktop_rules);
+                css_rules += addMediaQueries('max-width: 799px', ghost_mobile_rules);
+            }
+
+            // add the rules to a textarea
+            $('#enp-css').val(css_rules);
+
+
+
+
+
         } else if(color === '') {
             // delete the existing dynamic sheet
             deleteSheet();
+            // clear the textarea
+            $('#enp-css').val('');
         }
     }
 
@@ -449,9 +522,7 @@ jQuery( document ).ready( function( $ ) {
     	// Create the <style> tag
     	var style = document.createElement("style");
 
-    	// Add a media (and/or media query) here if you'd like!
     	style.setAttribute("title", "btnColor");
-    	// style.setAttribute("media", "only screen and (max-width : 1024px)")
 
     	// WebKit hack :(
     	style.appendChild(document.createTextNode(""));
@@ -492,6 +563,44 @@ jQuery( document ).ready( function( $ ) {
         styleSheet.insertRule(selector + '{' + propStr + '}', styleSheet.cssRules.length);
       }
   }
+
+  function textStylesheetRules(rules) {
+    var sheet_rules = '';
+
+    for (var i = 0, rl = rules.length; i < rl; i++) {
+      var j = 1, rule = rules[i], selector = rules[i][0], propStr = '\n';
+      // replaces all instances of #wpbody-content to .enp-btns-wrap
+      selector = selector.replace(/#wpbody-content/g, ".enp-btns-wrap");
+
+      // If the second argument of a rule is an array of arrays, correct our variables.
+      if (Object.prototype.toString.call(rule[1][0]) === '[object Array]') {
+        rule = rule[1];
+        j = 0;
+      }
+
+      for (var pl = rule.length; j < pl; j++) {
+        var prop = rule[j];
+        propStr += '\t'+prop[0] + ': ' + prop[1] + (prop[2] ? ' !important' : '') + ';\n';
+      }
+
+      //
+      // Insert CSS Rule
+      sheet_rules += selector + ' {' + propStr + '}\n\n';
+    }
+    return sheet_rules;
+}
+
+function addMediaQueries(query, rules) {
+
+    var media_query = '@media screen and ('+query+') {\n';
+
+    media_query += textStylesheetRules(rules);
+
+    media_query += '}\n\n';
+
+    return media_query;
+
+}
 
   function ColorLuminance(hex, lum) {
     	// validate hex string

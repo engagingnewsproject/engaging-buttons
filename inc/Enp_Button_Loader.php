@@ -92,8 +92,17 @@ class Enp_Button_Loader {
         wp_register_style( 'enp-button-style', $style_path, array(), $version);
         wp_enqueue_style( 'enp-button-style' );
 
+        // add custom button color CSS, if necessary
+        $enp_button_css = get_option('enp_button_color_css');
+        if($enp_button_css !== false && !empty($enp_button_css) ) {
+            wp_add_inline_style( 'enp-button-style', $enp_button_css );
+        }
+
+
         wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
+
+
 
         // in JavaScript, object properties are accessed as enp_button_params.ajax_url, enp_button_params.attr_name
         // This writes the params to the document

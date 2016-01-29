@@ -1,12 +1,16 @@
 .enp-btns-wrap { // override most themes CSS selectors
-    .enp-btn {
+
+    .enp-btn,
+    .enp-btn--require-logged-in,
+    .enp-btn--require-logged-in:active {
         @extend %btn;
         color: $btn;
         border: 2px solid $btn;
         background: transparent;
     }
 
-    .enp-btn:focus {
+    .enp-btn:focus,
+    .enp-btn--user-clicked:focus {
         border: 2px solid $btn;
     }
 
@@ -14,9 +18,6 @@
     .enp-btn--click-wait,
     .enp-btn--click-wait:active,
     .enp-btn--click-wait:hover,
-    .enp-btn--require-logged-in,
-    .enp-btn--require-logged-in:hover,
-    .enp-btn--require-logged-in:active,
     .enp-btn--user-clicked,
     .enp-btn--increased {
         color: #fff;
@@ -27,18 +28,11 @@
         border: 2px solid $btn_active;
     }
 
-    .enp-btn--user-clicked:focus {
-            border: 2px solid $btn_hover;
-    }
-
     .enp-btn--click-wait,
     .enp-btn--click-wait:active,
     .enp-btn--click-wait:hover,
     .enp-btn--require-logged-in,
-    .enp-btn--require-logged-in:hover,
     .enp-btn--require-logged-in:active {
-        background: $btn_hover;
-        border: 2px solid $btn_hover;
         cursor: default;
     }
 
@@ -51,31 +45,74 @@
     }
 
     .enp-btn--user-clicked,
-    .enp-btn--increased{
-        background: $btn_hover;
-        border: 2px solid $btn_hover;
+    .enp-btn--increased,
+    .enp-btn--click-wait,
+    .enp-btn--click-wait:active,
+    .enp-btn--click-wait:hover {
+        background: $btn;
+        border: 2px solid $btn;
+        color: #ffffff;
     }
 
     // add icons
-    &.enp-icon-state {
-        @include enpGhostButtonIcons($btn, #ffffff);
+    &.enp-icon-state .enp-btn {
+        position: relative;
+        padding-left: 1.8em;
     }
+
+    .enp-btn--user-has-not-clicked .enp-icon {
+        transition: all .1s;
+    }
+
+    .enp-btn:active .enp-icon,
+    .enp-btn--user-clicked .enp-icon,
+    .enp-btn--user-clicked.enp-btn--click-wait .enp-icon,
+    .enp-btn--click-wait .enp-icon,
+    .enp-btn--click-wait:active .enp-icon,
+    .enp-btn--click-wait:hover .enp-icon {
+        fill: #ffffff;
+    }
+
+    .enp-icon,
+    .enp-btn--require-logged-in .enp-icon,
+    .enp-btn--require-logged-in:hover .enp-icon,
+    .enp-btn--require-logged-in:active .enp-icon {
+        @extend %icon-position;
+        left: 0.325em;
+        fill: $btn;
+    }
+
 }
 
 // only apply for large screens because touch events retain hover state after click, which is confusing
 // this isn't an ideal fix, but will be better for most
 @media screen and (min-width: $desktop) {
-    .enp-btns-wrap .enp-btn:hover {
-        color: #fff;
-        background: $btn_hover;
-        border: 2px solid $btn_hover;
-    }
+    .enp-btns-wrap {
+        .enp-btn:hover {
+            color: #fff;
+            background: $btn;
+            border: 2px solid $btn;
+        }
 
+        .enp-btn--require-logged-in:hover {
+            color: $btn;
+            background: transparent;
+        }
+
+        .enp-btn:hover .enp-icon {
+            fill: #ffffff;
+        }
+
+        .enp-btn--require-logged-in:hover .enp-icon {
+            fill: $btn;
+        }
+
+    }
 }
 
 @media screen and (max-width: $desktop - 1px) {
     .enp-btns-wrap .enp-btn:hover {
-        border: 2px solid $btn_hover;
+        border: 2px solid $btn;
     }
 
 }
