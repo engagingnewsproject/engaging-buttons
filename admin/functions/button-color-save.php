@@ -36,7 +36,7 @@ function enp_create_button_css($button_style = false) {
                 	background: transparent;
                 }
 
-                .enp-btns-wrap .enp-btn:focus, .enp-btns-wrap .enp-btn--user-clicked:focus {
+                .enp-btns-wrap .enp-btn:hover, .enp-btns-wrap .enp-btn:focus, .enp-btns-wrap .enp-btn--user-clicked:focus {
                 	border: 2px solid '.$button_color.';
                 }
 
@@ -61,33 +61,6 @@ function enp_create_button_css($button_style = false) {
 
                 .enp-btns-wrap .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-icon {
                 	fill: '.$button_color.';
-                }
-
-                @media screen and (min-width: 800px) {
-                    .enp-btns-wrap .enp-btn:hover {
-                    	color: #ffffff;
-                    	background: '.$button_color.';
-                    	border: 2px solid '.$button_color.';
-                    }
-
-                    .enp-btns-wrap .enp-btn--require-logged-in:hover {
-                    	color: '.$button_color.';
-                    	background: transparent;
-                    }
-
-                    .enp-btns-wrap .enp-btn:hover .enp-icon {
-                    	fill: #ffffff;
-                    }
-
-                    .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-icon {
-                    	fill: '.$button_color.';
-                    }
-                }
-
-                @media screen and (max-width: 799px) {
-                    .enp-btns-wrap .enp-btn:hover {
-                    	border: 2px solid '.$button_color.';
-                    }
                 }
                 ';
 

@@ -355,11 +355,11 @@ jQuery( document ).ready( function( $ ) {
             // darker color
             var darkColor = ColorLuminance(color, -0.25);
             // write it to the input
-            // $('.btn-color-clicked-input').val(darkColor);
+            $('.btn-color-clicked-input').val(darkColor);
             // lighter color
             var lightColor = ColorLuminance(color, 0.15);
             // write it to the input
-            // $('.btn-color-active-input').val(lightColor);
+            $('.btn-color-active-input').val(lightColor);
 
             var rules;
 
@@ -421,7 +421,7 @@ jQuery( document ).ready( function( $ ) {
                                 ["border", "2px solid "+color],
                                 ["background", "transparent"],
                             ],
-                            ["#wpbody-content .enp-btn:focus, #wpbody-content .enp-btn--user-clicked:focus",
+                            ["#wpbody-content .enp-btn:hover, #wpbody-content .enp-btn:focus, #wpbody-content .enp-btn--user-clicked:focus",
                                 ["border", "2px solid "+color],
                             ],
                             ["#wpbody-content .enp-btn:active, #wpbody-content .enp-btn--click-wait, #wpbody-content .enp-btn--click-wait:active, #wpbody-content .enp-btn--click-wait:hover, #wpbody-content .enp-btn--user-clicked, #wpbody-content .enp-btn--increased",
@@ -443,32 +443,6 @@ jQuery( document ).ready( function( $ ) {
                                 ["fill", color],
                             ],
                         ];
-                            // Ghost has some extra media query rules we have to add to our stylesheet for saving
-
-
-                ghost_desktop_rules = [
-                                        ["#wpbody-content .enp-btn:hover",
-                                            ["color", "#ffffff"],
-                                            ["background", color],
-                                            ["border", "2px solid "+color],
-                                        ],
-                                        ["#wpbody-content .enp-btn--require-logged-in:hover",
-                                            ["color", color],
-                                            ["background", "transparent"],
-                                        ],
-                                        ["#wpbody-content .enp-btn:hover .enp-icon",
-                                            ["fill", "#ffffff"],
-                                        ],
-                                        ["#wpbody-content .enp-btn--require-logged-in:hover .enp-icon",
-                                            ["fill", color],
-                                        ]
-                                    ];
-
-                ghost_mobile_rules = [
-                                        ["#wpbody-content .enp-btn:hover",
-                                            ["border", "2px solid "+color],
-                                        ],
-                                    ];
             } else {
                 rules = [
                                 ["#wpbody-content .enp-btn",
@@ -504,12 +478,6 @@ jQuery( document ).ready( function( $ ) {
             $('#enp-css').val('');
 
             var css_rules = textStylesheetRules(rules);
-
-            // if we're on ghost, add a little extra first
-            if(btnStyle === 'ghost') {
-                css_rules += addMediaQueries('min-width: 800px', ghost_desktop_rules);
-                css_rules += addMediaQueries('max-width: 799px', ghost_mobile_rules);
-            }
 
             // add the rules to a textarea
             $('#enp-css').val(css_rules);
@@ -607,17 +575,6 @@ jQuery( document ).ready( function( $ ) {
     return sheet_rules;
 }
 
-function addMediaQueries(query, rules) {
-
-    var media_query = '@media screen and ('+query+') {\n';
-
-    media_query += textStylesheetRules(rules);
-
-    media_query += '}\n\n';
-
-    return media_query;
-
-}
 
   function ColorLuminance(hex, lum) {
     	// validate hex string
