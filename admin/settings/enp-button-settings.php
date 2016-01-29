@@ -213,7 +213,7 @@ function enp_button_page() { ?>
                     <tr>
                         <th scope="row">Advanced CSS</th>
                         <td>
-                            <button class="advanced-css-control">Show Advanced CSS</button>
+                            <button class="advanced-css-control button-secondary">Show Advanced CSS</button>
                             <div class="advanced-css">
                                 <label for="enp-css">This is the CSS that will be added to your site. If you want to change it more, copy/paste this CSS into your theme's CSS file and edit away!</label>
                                 <textarea name="enp_button_color_css" class="wide-fat enp-css" id="enp-css" wrap="off" rows="15" readonly></textarea></td>
