@@ -59,7 +59,10 @@ function enp_enqueue_admin_scripts() {
     wp_register_style('enp-front-end-button-styles', plugins_url( 'engaging-buttons/front-end/css/enp-button-admin-button-styles.css'));
     wp_enqueue_style( 'enp-front-end-button-styles');
 
-    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery' ), false, true );
+    // Add the color picker css file
+    wp_enqueue_style( 'wp-color-picker' );
+
+    wp_register_script('enp-admin-scripts', plugins_url( 'engaging-buttons/admin/js/enp-admin-scripts.js'), array( 'jquery', 'wp-color-picker' ), false, true );
     wp_enqueue_script( 'enp-admin-scripts');
 }
 add_action( 'admin_enqueue_scripts', 'enp_enqueue_admin_scripts' );

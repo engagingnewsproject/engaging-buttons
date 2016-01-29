@@ -319,6 +319,18 @@ jQuery( document ).ready( function( $ ) {
     });
 
     // Colors
+
+    // add the colorpicker
+    $('.btn-color-input').wpColorPicker({
+        change: function (event, ui) {
+            var chosen_color = ui.color.toString();
+            setBtnColors(chosen_color);
+        },
+        clear: function () {
+            setBtnColors();
+        }
+    });
+
     $(document).on('keyup', '.btn-color-input', function(){
         setBtnColors();
     });
@@ -327,8 +339,11 @@ jQuery( document ).ready( function( $ ) {
         setBtnColors();
     });
 
-    function setBtnColors() {
-        var color = $('.btn-color-input').val();
+    function setBtnColors(color) {
+        if(color === undefined) {
+            color = $('.btn-color-input').val();
+        }
+
         // check value of hex for valid color
         var isOK = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
         var ghost_desktop_rules;
