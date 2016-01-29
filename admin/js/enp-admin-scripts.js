@@ -331,6 +331,8 @@ jQuery( document ).ready( function( $ ) {
         var color = $('.btn-color-input').val();
         // check value of hex for valid color
         var isOK = /(^#[0-9A-F]{6}$)|(^#[0-9A-F]{3}$)/i.test(color);
+        var ghost_desktop_rules;
+        var ghost_mobile_rules;
 
         if(isOK === true) {
 
@@ -338,11 +340,11 @@ jQuery( document ).ready( function( $ ) {
             // darker color
             var darkColor = ColorLuminance(color, -0.25);
             // write it to the input
-            $('.btn-color-clicked-input').val(darkColor);
+            // $('.btn-color-clicked-input').val(darkColor);
             // lighter color
             var lightColor = ColorLuminance(color, 0.15);
             // write it to the input
-            $('.btn-color-active-input').val(lightColor);
+            // $('.btn-color-active-input').val(lightColor);
 
             var rules;
 
@@ -429,29 +431,29 @@ jQuery( document ).ready( function( $ ) {
                             // Ghost has some extra media query rules we have to add to our stylesheet for saving
 
 
-                var ghost_desktop_rules = [
-                                            ["#wpbody-content .enp-btn:hover",
-                                                ["color", "#ffffff"],
-                                                ["background", color],
-                                                ["border", "2px solid "+color],
-                                            ],
-                                            ["#wpbody-content .enp-btn--require-logged-in:hover",
-                                                ["color", color],
-                                                ["background", "transparent"],
-                                            ],
-                                            ["#wpbody-content .enp-btn:hover .enp-icon",
-                                                ["fill", "#ffffff"],
-                                            ],
-                                            ["#wpbody-content .enp-btn--require-logged-in:hover .enp-icon",
-                                                ["fill", color],
-                                            ]
-                                        ];
+                ghost_desktop_rules = [
+                                        ["#wpbody-content .enp-btn:hover",
+                                            ["color", "#ffffff"],
+                                            ["background", color],
+                                            ["border", "2px solid "+color],
+                                        ],
+                                        ["#wpbody-content .enp-btn--require-logged-in:hover",
+                                            ["color", color],
+                                            ["background", "transparent"],
+                                        ],
+                                        ["#wpbody-content .enp-btn:hover .enp-icon",
+                                            ["fill", "#ffffff"],
+                                        ],
+                                        ["#wpbody-content .enp-btn--require-logged-in:hover .enp-icon",
+                                            ["fill", color],
+                                        ]
+                                    ];
 
-                var ghost_mobile_rules = [
-                                            ["#wpbody-content .enp-btn:hover",
-                                                ["border", "2px solid "+color],
-                                            ],
-                                        ];
+                ghost_mobile_rules = [
+                                        ["#wpbody-content .enp-btn:hover",
+                                            ["border", "2px solid "+color],
+                                        ],
+                                    ];
             } else {
                 rules = [
                                 ["#wpbody-content .enp-btn",

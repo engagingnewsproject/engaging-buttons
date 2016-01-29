@@ -29,45 +29,158 @@ function enp_create_button_css($button_style = false) {
     }
 
     if($button_style === 'ghost') {
-        $css = '.enp-btns-wrap .enp-btn {
-                    background: transparent;
-                    color: '.$button_color.';
+        $css = '
+                .enp-btns-wrap .enp-btn, .enp-btns-wrap .enp-btn--require-logged-in, .enp-btns-wrap .enp-btn--require-logged-in:active {
+                	color: '.$button_color.';
+                	border: 2px solid '.$button_color.';
+                	background: transparent;
                 }
 
-                .enp-btns-wrap .enp-btn,
-                .enp-btns-wrap .enp-btn:focus,
-                .enp-btns-wrap .enp-btn:hover,
-                .enp-btns-wrap .enp-btn--user-clicked {
-                    border: 2px solid '.$button_color.';
+                .enp-btns-wrap .enp-btn:focus, .enp-btns-wrap .enp-btn--user-clicked:focus {
+                	border: 2px solid '.$button_color.';
                 }
 
-                .enp-btns-wrap .enp-btn:hover,
-                .enp-btns-wrap .enp-btn--user-clicked {
-                    background: '.$button_color.';
-                    color: #ffffff;
+                .enp-btns-wrap .enp-btn:active, .enp-btns-wrap .enp-btn--click-wait, .enp-btns-wrap .enp-btn--click-wait:active, .enp-btns-wrap .enp-btn--click-wait:hover, .enp-btns-wrap .enp-btn--user-clicked, .enp-btns-wrap .enp-btn--increased {
+                	color: #ffffff;
                 }
 
-                .enp-btns-wrap.enp-icon-state .enp-icon {
-                    fill: '.$button_color.';
-                }
-
-                .enp-btns-wrap .enp-btn:hover .enp-icon,
-                .enp-btns-wrap .enp-btn--user-clicked .enp-icon {
-                    fill: #ffffff;
-                }
-                ';
-    } else {
-        $css = '.enp-btns-wrap .enp-btn {
-                    background: '.$button_color.';
-                }
-                .enp-btns-wrap .enp-btn:hover,
-                .enp-btns-wrap .enp-btn--user-clicked {
-                    background: '.$clicked_color.';
-                }
                 .enp-btns-wrap .enp-btn:active {
-                    background: '.$active_color.';
+                	background: #ff11dd;
+                	border: 2px solid #ff11dd;
+                }
+
+                .enp-btns-wrap .enp-btn--user-clicked, .enp-btns-wrap .enp-btn--increased, .enp-btns-wrap .enp-btn--click-wait, .enp-btns-wrap .enp-btn--click-wait:active, .enp-btns-wrap .enp-btn--click-wait:hover {
+                	background: '.$button_color.';
+                	border: 2px solid '.$button_color.';
+                	color: #ffffff;
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-icon, .enp-btns-wrap .enp-btn--user-clicked .enp-icon, .enp-btns-wrap .enp-btn--user-clicked.enp-btn--click-wait .enp-icon, .enp-btns-wrap .enp-btn--click-wait .enp-icon, .enp-btns-wrap .enp-btn--click-wait:active .enp-icon, .enp-btns-wrap .enp-btn--click-wait:hover .enp-icon {
+                	fill: #ffffff;
+                }
+
+                .enp-btns-wrap .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-icon {
+                	fill: '.$button_color.';
+                }
+
+                @media screen and (min-width: 800px) {
+                    .enp-btns-wrap .enp-btn:hover {
+                    	color: #ffffff;
+                    	background: '.$button_color.';
+                    	border: 2px solid '.$button_color.';
+                    }
+
+                    .enp-btns-wrap .enp-btn--require-logged-in:hover {
+                    	color: '.$button_color.';
+                    	background: transparent;
+                    }
+
+                    .enp-btns-wrap .enp-btn:hover .enp-icon {
+                    	fill: #ffffff;
+                    }
+
+                    .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-icon {
+                    	fill: '.$button_color.';
+                    }
+                }
+
+                @media screen and (max-width: 799px) {
+                    .enp-btns-wrap .enp-btn:hover {
+                    	border: 2px solid '.$button_color.';
+                    }
                 }
                 ';
+
+    } elseif ($button_style === 'detached-count') {
+        $css = '.enp-btns-wrap .enp-btn__name {
+                	background: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-btn__count {
+                	color: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover .enp-btn__name, .enp-btns-wrap .enp-btn--user-clicked .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait:active .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait:hover .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-btn__name {
+                	background: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover .enp-btn__count, .enp-btns-wrap .enp-btn--user-clicked .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait:active .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait:hover .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-btn__count {
+                	color: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-btn__name {
+                	background: '.$active_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-btn__count {
+                	color: '.$active_color.';
+                }
+                ';
+
+    } elseif ($button_style === 'plain-text-w-count-bg') {
+        $css = '.enp-btns-wrap .enp-btn__name {
+                	color: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-btn__count {
+                	background: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-icon {
+                	fill: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover .enp-btn__name, .enp-btns-wrap .enp-btn--user-clicked .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait:active .enp-btn__name, .enp-btns-wrap .enp-btn--click-wait:hover .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-btn__name, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-btn__name {
+                	color: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover .enp-btn__count, .enp-btns-wrap .enp-btn--user-clicked .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait:active .enp-btn__count, .enp-btns-wrap .enp-btn--click-wait:hover .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-btn__count, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-btn__count {
+                	background: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover .enp-icon, .enp-btns-wrap .enp-btn--user-clicked .enp-icon, .enp-btns-wrap .enp-btn--click-wait .enp-icon, .enp-btns-wrap .enp-btn--click-wait:active .enp-icon, .enp-btns-wrap .enp-btn--click-wait:hover .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:hover .enp-icon, .enp-btns-wrap .enp-btn--require-logged-in:active .enp-icon {
+                	fill: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-btn__name {
+                	color: '.$active_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-btn__count {
+                	background: '.$active_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active .enp-icon {
+                	fill: '.$active_color.';
+                }
+                ';
+
+    } else {
+        // plain, block count, curve count
+        $css = '.enp-btns-wrap .enp-btn {
+                	background: '.$button_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:hover, .enp-btns-wrap .enp-btn--user-clicked, .enp-btns-wrap .enp-btn--click-wait, .enp-btns-wrap .enp-btn--click-wait:active, .enp-btns-wrap .enp-btn--click-wait:hover, .enp-btns-wrap .enp-btn--require-logged-in, .enp-btns-wrap .enp-btn--require-logged-in:hover, .enp-btns-wrap .enp-btn--require-logged-in:active {
+                	background: '.$clicked_color.';
+                }
+
+                .enp-btns-wrap .enp-btn:active {
+                	background: '.$active_color.';
+                }
+                ';
+
+        if($button_style === 'count-block-inverse') {
+            // we have to add a few more in there
+            $css .= '.enp-btns-wrap .enp-btn__count {
+                    	color: '.$button_color.';
+                    }
+
+                    .enp-btns-wrap .enp-btn--user-clicked .enp-btn__count {
+                    	color: '.$clicked_color.';
+                    }
+                    ';
+        }
     }
 
     return $css;

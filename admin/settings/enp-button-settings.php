@@ -103,6 +103,8 @@ function enp_button_page() { ?>
         $enp_btn_style = get_option('enp_button_style');
         $enp_btn_icons = get_option('enp_button_icons');
         $enp_btn_color = get_option('enp_button_color');
+        $enp_btn_color_clicked = get_option('enp_button_color_clicked');
+        $enp_btn_color_active = get_option('enp_button_color_active');
 
         if(empty($enp_btn_style) || $enp_btn_style === false) {
             $enp_btn_style = 'ghost';
