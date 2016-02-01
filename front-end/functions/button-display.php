@@ -104,7 +104,7 @@ function enp_btns_HTML($args) {
     }
 
     // classes array for outputting in our HTML
-    $classes = ["enp-btns"];
+    $classes = array("enp-btns");
 
     if($args['btn_type'] === 'comment') {
         $btn_type = 'comment';
