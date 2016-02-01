@@ -79,7 +79,7 @@ class Enp_Button_Loader {
     *
     */
     public function enp_btn_register_scripts() {
-        $version = '1.0.2';
+        $version = '1.0.3';
 
         // get our style choice from the database
         $enp_btn_style = get_option('enp_button_style');
