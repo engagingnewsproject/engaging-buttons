@@ -99,7 +99,7 @@ class Enp_Button_Loader {
         }
 
 
-        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.js' ), array( 'jquery' ), $version, true);
+        wp_register_script( 'enp-button-scripts', plugins_url( 'engaging-buttons/front-end/js/scripts.min.js' ), array( 'jquery' ), $version, true);
         wp_enqueue_script( 'enp-button-scripts' );
 
 
