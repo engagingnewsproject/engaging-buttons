@@ -84,9 +84,9 @@ class Enp_Button_Loader {
         // get our style choice from the database
         $enp_btn_style = get_option('enp_button_style');
         if(!empty($enp_btn_style)) {
-            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-'.$enp_btn_style.'.css' );
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-'.$enp_btn_style.'.min.css' );
         } else {
-            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-plain-styles.css' );
+            $style_path = plugins_url( 'engaging-buttons/front-end/css/enp-button-plain-styles.min.css' );
         }
 
         wp_register_style( 'enp-button-style', $style_path, array(), $version);

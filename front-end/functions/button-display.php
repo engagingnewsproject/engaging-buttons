@@ -377,7 +377,6 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
 
     }
 
-
     // Return Array of buttons being displayed
     $enp_btn_name_text = '';
     if(!empty($enp_btn_names)) {
@@ -403,8 +402,15 @@ function promote_enp_HTML($enp_btn_names = false, $return = false) {
     }
 }
 
-
+/*
+* @param array of strings of the button names
+* @return string of English formatted text for a
+*         list of button names (ex: 'Respect, Important, and Useful')
+*/
 function enp_build_name_text($names) {
+    // Remove any empty or null values from the $names array
+    $names = array_filter($names);
+    // count the names in the array to see if we need to add comments
     $names_count = count($names);
     $name_text = '';
     $i = 1;
