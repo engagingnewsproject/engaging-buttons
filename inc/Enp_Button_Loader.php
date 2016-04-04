@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 *   ENP_Button_Loader Class
 *   For loading assets needed to run the Engaging Button

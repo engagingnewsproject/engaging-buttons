@@ -1,4 +1,4 @@
-<?
+<?php
 // The optin message
 function enp_data_optin_message() {?>
     <div class="updated notice">
@@ -16,9 +16,9 @@ function enp_data_optin_message() {?>
             <?php submit_button('Yes, send button data to help improve the Engaging Buttons plugin'); ?>
         </form>
 
-        <p><a href="<? echo admin_url( 'options-general.php?page=enp_button_page');?>">No thanks, just take me to the settings page.</a></p>
+        <p><a href="<?php echo admin_url( 'options-general.php?page=enp_button_page');?>">No thanks, just take me to the settings page.</a></p>
     </div>
-<?
+<?php
 }
 
 // create the settings for the opt-in and redirect options
