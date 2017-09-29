@@ -150,3 +150,8 @@ We can do the same kinds of things to access comments, just change the function 
 When a click on a button is registered, it flags the database that there's been a change in the button click counts. There's a wp_scheduler (basically a cron) that runs every 5 minutes that checks that flag, and, if there has been a click, it rebuilds all the popular button data.
 
 Future versions may include a setting option to set this to rebuild instantly on click, or at a length of time you specify (every 1 minute, 600 minutes, etc).
+
+
+Thanks!
+===========================
+[BrowserStack](https://www.browserstack.com) has allowed us to test Engaging Buttons easily across browsers and devices.
