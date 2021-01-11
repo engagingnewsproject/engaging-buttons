@@ -6,7 +6,7 @@ Through [our research on social media buttons](https://engagingnewsproject.org/r
 
 **The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
 
-The Engaging Buttons plugin is made by the [Engaging News Project](http://engagingnewsproject.org). The Engaging News Project (ENP) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
+The Engaging Buttons plugin is made by the [Center for Media Engagement](http://mediaengagement.org/). The Center for Media Engagement (CME) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
 
 Features
@@ -17,7 +17,7 @@ Features
 - **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
 - **Customize your button design** with one-click by selecting the design that best fits your website.
 - **Easily display your Top Posts** with the Engaging Button widget, shortcode, or with one click from the settings page.
-- (Optional) Send click data back to the Engaging News Project so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
+- (Optional) Send click data back to the Center for Media Engagement so we can continue to provide free, research-based, high-quality plugins and update the plugin with high-engagement words.
 - **Customizable by developers** via CSS and PHP (WordPress filters and hooks).
 
 
@@ -29,7 +29,7 @@ Installation
 2. Active the plugin
 3. Go to Settings > Engaging Buttons
 4. Create your button(s), where you want the button(s) displayed, and other settings.
-5. (optional) Contribute your button click data! ENP is a non-profit that created this plugin for free, and by contributing the button data, ENP can improve its research and outcomes.
+5. (optional) Contribute your button click data! CME is a non-profit that created this plugin for free, and by contributing the button data, ENP can improve its research and outcomes.
 
 
 
