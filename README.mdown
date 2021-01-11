@@ -2,9 +2,9 @@
 
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
-Through [our research on social media buttons](https://engagingnewsproject.org/research/social-media-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
+Through [our research on social media buttons](https://mediaengagement.org/research/engagement-buttons/), we found that **people were more likely to click “Respect” over “Like”** in comment sections, and significantly more likely to click “Respect” when the view expressed differed from their own.
 
-**The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and lots more!) on your website.**
+**The Engaging Buttons WordPress plugin allows you to easily set-up and configure alternative buttons to “Like” (and more) on your website.**
 
 The Engaging Buttons plugin is made by the [Center for Media Engagement](http://mediaengagement.org/). The Center for Media Engagement (CME) provides research-based techniques for engaging online audiences in commercially viable and democratically beneficial ways.
 
