@@ -1,4 +1,4 @@
-![What Engaging buttons look like on a website](https://engagingnewsproject.org/wp-content/uploads/2016/01/Engaging-Buttons-Plugin.jpg)
+![What Engaging buttons look like on a website](https://mediaengagement.org/wp-content/uploads/2016/01/Engaging-Buttons-Plugin.jpg)
 
 It’s easy to click “Like” on a heartwarming story about a local hero. But what about a fair, but counter-attitudinal, post in a comment section? That may make it a little more challenging to “Like.”
 
@@ -11,7 +11,7 @@ The Engaging Buttons plugin is made by the [Center for Media Engagement](http://
 
 Features
 ====================
-![Button options settings panel](https://engagingnewsproject.org/wp-content/uploads/2016/01/Engaging-Buttons-Add-Button-Settings.jpg)
+![Button options settings panel](https://mediaengagement.org/wp-content/uploads/2016/01/Engaging-Buttons-Add-Button-Settings.jpg)
 
 
 - **Create buttons** for your website: Respect, Recommend, Important, Useful, and/or Thoughtful
@@ -23,13 +23,13 @@ Features
 
 Installation
 ====================
-![Button design settings panel](https://engagingnewsproject.org/wp-content/uploads/2016/01/Engaging-Buttons-Settings-Page.jpg)
+![Button design settings panel](https://mediaengagement.org/wp-content/uploads/2016/01/Engaging-Buttons-Settings-Page.jpg)
 
 1. Upload to your WordPress plugins directory
 2. Active the plugin
 3. Go to Settings > Engaging Buttons
 4. Create your button(s), where you want the button(s) displayed, and other settings.
-5. (optional) Contribute your button click data! CME is a non-profit that created this plugin for free, and by contributing the button data, ENP can improve its research and outcomes.
+5. (optional) Contribute your button click data! CME is a non-profit that created this plugin for free, and by contributing the button data, CME can improve its research and outcomes.
 
 
 
